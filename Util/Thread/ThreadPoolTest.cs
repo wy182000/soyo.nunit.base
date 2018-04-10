@@ -50,7 +50,7 @@ namespace UnitTest.Base.Util {
       var failed = false;
       pool.Post(() => { failed = true; pool.Stop(); }, 1000);
 
-      Thread.Wait(() => checkCount >= 10, 100);
+      Thread.Wait(() => checkCount >= 10, 1000);
       Assert.IsFalse(failed);
       Assert.AreEqual(checkCount, 10);
     }
