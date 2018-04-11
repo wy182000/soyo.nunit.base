@@ -42,7 +42,7 @@ namespace UnitTest.Base.Module {
     [OneTimeSetUp]
     public void Init() {
       Thread.Initialize();
-      MessageQueue.Initialize();
+      Mailbox.Initialize();
     }
 
     [OneTimeTearDown]
@@ -74,9 +74,9 @@ namespace UnitTest.Base.Module {
       name = moduleConfig.name;
       config.Apply();
 
-      var handle = Module.FindName(name);
+      var handle = Module.Find(name);
       Assert.Less(0, handle);
-      var module = Module.GetModule(handle);
+      var module = Module.Get(handle) as Module;
       Assert.IsNotNull(module);
       Assert.AreEqual(handle, module.Handle);
 
@@ -102,7 +102,7 @@ namespace UnitTest.Base.Module {
       Assert.Less(0, ModuleCheck.update);
       Assert.AreEqual(ModuleCheck.checkValue, (1 + checkCount) * checkCount / 2);
 
-      Module.RemoveModule(handle);
+      Mailbox.Remove(handle);
       Thread.Wait(() => ModuleCheck.terminated, 1000);
 
       Assert.IsTrue(ModuleCheck.terminated);

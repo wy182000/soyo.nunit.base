@@ -9,11 +9,11 @@ using NUnit.Framework;
 namespace UnitTest.Base.Util {
   [TestFixture]
   [Category("Soyo.Base.Util")]
-  internal class MessageQueueTest {
+  internal class MailboxTest {
     [OneTimeSetUp]
     public void Init() {
       Thread.Initialize();
-      MessageQueue.Initialize();
+      Mailbox.Initialize();
     }
 
     [OneTimeTearDown]
@@ -25,18 +25,18 @@ namespace UnitTest.Base.Util {
     public void Test() {
       var checkCount = 10000;
       var queueCount = 10;
-      var queueSet = new List<MessageQueue>(queueCount);
+      var queueSet = new List<Mailbox>(queueCount);
       for (int i = 0; i < queueCount; i++) {
-        var messageQueue = new MessageQueue();
+        var mailbox = new Mailbox();
         var checkSet = new HashSet<int>();
-        messageQueue.State = checkSet;
-        messageQueue.Action = (message, state) => {
+        mailbox.State = checkSet;
+        mailbox.ReadAction = (message, state) => {
           var value = (int)message;
           var set = (HashSet<int>)state;
           var ret = set.Add(value);
           Assert.IsTrue(ret);
         };
-        queueSet.Add(messageQueue);
+        queueSet.Add(mailbox);
       }
 
       var threadPool = new ThreadPool();
@@ -44,7 +44,7 @@ namespace UnitTest.Base.Util {
         for (int n = 0; n < checkCount; n++) {
           var queue = queueSet[i];
           var value = n;
-          threadPool.Post(() => queue.Push(value));
+          threadPool.Post(() => queue.Send(value));
         }
       }
 
