@@ -19,7 +19,7 @@ namespace UnitTest.Base.Log.Util {
       Assert.AreEqual(2, listTraceListener.Count);
     }
 
-    [Test]
+    [Test, Ignore("trace write ignore on .net core")]
     public void EmitInternalMessages() {
       TraceListenerCounter listTraceListener = new TraceListenerCounter();
       Trace.Listeners.Clear();
