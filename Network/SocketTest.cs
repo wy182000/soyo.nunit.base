@@ -6,7 +6,7 @@ using Soyo.Base.Network;
 
 using NUnit.Framework;
 
-namespace UnitTest.Base {
+namespace UnitTest.Base.Network {
   [TestFixture]
   [Category("Soyo.Base")]
   internal class SocketTest {

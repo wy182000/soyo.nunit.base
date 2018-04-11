@@ -68,7 +68,7 @@ namespace UnitTest.Base.Util {
       Assert.IsNotNull(scheduler);
       if (checkCount >= 10) {
         Assert.AreEqual(checkCount, 10);
-        scheduler.Stop();
+        scheduler.Stop(true);
       } else {
         scheduler.Post(postUpdateFunc, scheduler, true);
       }

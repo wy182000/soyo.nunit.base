@@ -4,7 +4,8 @@ using Soyo.Base.Module;
 
 using NUnit.Framework;
 
-namespace UnitTest.Base {
+namespace UnitTest.Base.Module {
+  using Module = Soyo.Base.Module.Module;
   public class ModuleCheck : ModuleBase {
     public static bool initialized = false;
     public static bool terminated = false;
@@ -54,7 +55,7 @@ namespace UnitTest.Base {
       {
         ""type"": ""Soyo.Base.ModuleConfig"",
         ""harbor"": 1,
-        ""module"": ""UnitTest.Base.ModuleCheck"",
+        ""module"": ""UnitTest.Base.Module.ModuleCheck"",
         ""name"": ""ModuleCheck"",
         ""profile"": true
       }";
