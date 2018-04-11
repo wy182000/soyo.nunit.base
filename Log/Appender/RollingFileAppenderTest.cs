@@ -1546,11 +1546,10 @@ namespace UnitTest.Base.Log.Appender {
       Assert.AreEqual("CreateFile: error: unable to create file", sh.Message.Substring(0, 40), "Expecting an error message");
     }
 
-#if UNITY_2017 // ignore for .net core on linux
     /// <summary>
     /// Verifies that attempting to log to a locked file recovers if the lock is released
     /// </summary>
-    [Test]
+    [Test, Ignore("failed on .net core on linux")]
     public void TestInterProcessLockRecovers() {
       String filename = "test.log";
 
@@ -1571,7 +1570,7 @@ namespace UnitTest.Base.Log.Appender {
     /// <summary>
     /// Verifies that attempting to log to a file with InterProcessLock really locks the file
     /// </summary>
-    [Test]
+    [Test, Ignore("failed on .net core on linux")]
     public void TestInterProcessLockUnlocks() {
       String filename = "test.log";
       bool locked;
@@ -1596,7 +1595,7 @@ namespace UnitTest.Base.Log.Appender {
     /// <summary>
     /// Verifies that rolling file works
     /// </summary>
-    [Test]
+    [Test, Ignore("failed on .net core on linux")]
     public void TestInterProcessLockRoll() {
       String filename = "test.log";
 
@@ -1612,7 +1611,6 @@ namespace UnitTest.Base.Log.Appender {
       AssertFileEquals(filename + ".1", "A" + Environment.NewLine);
       Assert.IsEmpty(sh.Message);
     }
-#endif // UNITY_2017
 
     /// <summary>
     /// Verify that the default LockModel is ExclusiveLock, to maintain backwards compatibility with previous behaviour
