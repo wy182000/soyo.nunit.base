@@ -27,7 +27,6 @@ namespace UnitTest.Base.Util {
       Assert.IsNotNull(pool);
       if (checkCount >= 10) {
         Assert.AreEqual(checkCount, 10);
-        pool.Stop();
       } else {
         pool.Post(postUpdateFunc, pool, true);
       }
@@ -48,11 +47,12 @@ namespace UnitTest.Base.Util {
       pool.Post(postAddFunc, pool);
 
       var failed = false;
-      pool.Post(() => { failed = true; pool.Stop(); }, 1000);
+      pool.Post(() => { failed = true; }, 1000);
 
       Thread.Wait(() => checkCount >= 10, 1000);
       Assert.IsFalse(failed);
       Assert.AreEqual(checkCount, 10);
+      pool.Stop();
     }
 
     [Test]

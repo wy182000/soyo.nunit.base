@@ -93,7 +93,8 @@ namespace UnitTest.Base.Maths {
       Assert.IsFalse(Mathf.Equals(v1, new Vector2(1.00001f, 2.000009f)));
       Assert.IsFalse(Mathf.Equals(v1, new Vector2(1.000009f, 2.00001f)));
 
-      Assert.AreEqual(Vector2.Angle(v1, v2), 0.124354646f);
+      //Assert.AreEqual(Vector2.Angle(v1, v2), 0.124354646f);
+      Assert.IsTrue(Mathf.Equals(Vector2.Angle(v1, v2), 0.12435f));
 
       Assert.AreEqual(Vector2.Cross(v1, v2), 1f);
 

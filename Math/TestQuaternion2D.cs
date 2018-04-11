@@ -95,7 +95,8 @@ namespace UnitTest.Base.Maths {
       Assert.AreEqual(Quaternion2D.Normalize(q1), new Quaternion2D(2 / l, 4 / l));
 
       Assert.AreEqual(Quaternion2D.Angle(q1, q2), 0f);
-      Assert.AreEqual(Quaternion2D.Angle(q1.normalized, q2.normalized), 0.153542951f);
+      //Assert.AreEqual(Quaternion2D.Angle(q1.normalized, q2.normalized), 0.153542951f);
+      Assert.IsTrue(Mathf.Equals(Quaternion2D.Angle(q1.normalized, q2.normalized), 0.15354f));
 
       Assert.AreEqual(Quaternion2D.Dot(q1, q2), 26);
 

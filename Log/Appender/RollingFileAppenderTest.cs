@@ -1441,8 +1441,11 @@ namespace UnitTest.Base.Log.Appender {
         fs.Write(Encoding.ASCII.GetBytes("Test"), 0, 4);
         fs.Close();
       } catch (IOException e1) {
-				Assert.AreEqual("Sharing violation on path ", e1.Message.Substring(0, 26), "Unexpected exception");
-        //Assert.AreEqual("The process cannot access the file ", e1.Message.Substring(0, 35), "Unexpected exception");
+#if UNITY_2017
+        Assert.AreEqual("Sharing violation on path ", e1.Message.Substring(0, 26), "Unexpected exception");
+#else
+        Assert.AreEqual("The process cannot access the file ", e1.Message.Substring(0, 35), "Unexpected exception");
+#endif
         locked = true;
       }
 

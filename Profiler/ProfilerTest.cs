@@ -7,13 +7,13 @@ namespace UnitTest.Base.Profiler {
   [Category("Soyo.Base")]
   internal class ProfilerTest {
     private static bool enableDefault;
-    [SetUp]
+    [OneTimeSetUp]
     public void Init() {
       enableDefault = ProfilerManger.Enable;
       ProfilerManger.Enable = true;
     }
 
-    [TearDown]
+    [OneTimeTearDown]
     public void Term() {
       ProfilerManger.Enable = enableDefault;
     }
