@@ -27,7 +27,7 @@ namespace UnitTest.Base.Util {
       var queueCount = 10;
       var queueSet = new List<Mailbox>(queueCount);
       for (int i = 0; i < queueCount; i++) {
-        var mailbox = new Mailbox();
+        var mailbox = Mailbox.Create();
         var checkSet = new HashSet<int>();
         mailbox.State = checkSet;
         mailbox.ReadAction = (message, state) => {

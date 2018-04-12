@@ -12,9 +12,9 @@ namespace UnitTest.Base.Module {
     public static long update = 0;
     public static int checkValue = 0;
 
-    protected override void onAction(ModuleMessage task, object state) {
+    protected override void onAction(Mail task, object state) {
       base.onAction(task, state);
-      Assert.AreEqual(task.Type, ModuleMessageType.Text);
+      Assert.AreEqual(task.Type, MailType.Text);
       var value = (int)task.Data;
       Assert.Less(0, value);
       checkValue += value;
@@ -85,13 +85,13 @@ namespace UnitTest.Base.Module {
         var value = i;
         switch (i % 3) {
           case 0:
-            Thread.WorkThread.Post(() => Module.Send("."+name, ModuleMessageType.Text, value, 0, 0));
+            Thread.WorkThread.Post(() => Module.Send("."+name, MailType.Text, value, 0, 0));
             break;
           case 1:
-            Thread.WorkThread.Post(() => Module.Send(":"+handle, ModuleMessageType.Text, value, 0, 0));
+            Thread.WorkThread.Post(() => Module.Send(":"+handle, MailType.Text, value, 0, 0));
             break;
           case 2:
-            Thread.WorkThread.Post(() => Module.Send(handle, ModuleMessageType.Text, value, 0, 0));
+            Thread.WorkThread.Post(() => Module.Send(handle, MailType.Text, value, 0, 0));
             break;
         }
       }
