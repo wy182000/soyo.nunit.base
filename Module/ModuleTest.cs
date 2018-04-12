@@ -12,16 +12,21 @@ namespace UnitTest.Base.Module {
     public static long update = 0;
     public static int checkValue = 0;
 
-    protected override void onAction(Mail task, object state) {
-      base.onAction(task, state);
-      Assert.AreEqual(task.Type, MailType.Text);
-      var value = (int)task.Data;
+    protected override bool onAction(object obj, object state) {
+      bool rc = base.onAction(obj, state);
+      Assert.IsFalse(rc);
+      var mail = obj as Mail;
+      Assert.IsNotNull(mail);
+      Assert.AreEqual(mail.Type, MailType.Text);
+      var value = (int)mail.Data;
       Assert.Less(0, value);
       checkValue += value;
+      return true;
     }
 
     protected override bool onInitialize(Module module, object state) {
       initialized = true;
+      UpdateAction = onUpdate;
       return base.onInitialize(module, state);
     }
 
@@ -30,9 +35,8 @@ namespace UnitTest.Base.Module {
       base.onTerminate();
     }
 
-    protected override void onUpdate(object state) {
+    protected void onUpdate(object state) {
       update++;
-      base.onUpdate(state);
     }
   }
 
