@@ -12,16 +12,10 @@ namespace UnitTest.Base.Module {
     public static long update = 0;
     public static int checkValue = 0;
 
-    protected override bool onAction(object obj, object state) {
-      bool rc = base.onAction(obj, state);
-      Assert.IsFalse(rc);
-      var mail = obj as Mail;
-      Assert.IsNotNull(mail);
-      Assert.AreEqual(mail.Type, MailType.Text);
-      var value = (int)mail.Data;
+    protected override void processText(object text, object state) {
+      var value = (int)text;
       Assert.Less(0, value);
       checkValue += value;
-      return true;
     }
 
     protected override bool onInitialize(Module module, object state) {

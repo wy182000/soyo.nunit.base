@@ -49,7 +49,7 @@ namespace UnitTest.Base.Log.Appender {
       return () => {
         var logger = LogManager.GetLogger(repository, "LoggerThread");
         for (var i = 0; i < cLogEntriesPerThread; i++) {
-          logger.InfoFormat("Logging message {0}", i);
+          logger.Info("Logging message " + i);
         }
         Interlocked.Decrement(ref cThreadsRunning);
       };
