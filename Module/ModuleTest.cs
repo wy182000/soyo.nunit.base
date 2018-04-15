@@ -12,16 +12,16 @@ namespace UnitTest.Base.Module {
     public static long update = 0;
     public static int checkValue = 0;
 
-    protected override void processText(object text, object state) {
+    protected override void processText(object text, Mail mail) {
       var value = (int)text;
       Assert.Less(0, value);
       checkValue += value;
     }
 
-    protected override bool onInitialize(Module module, object state) {
+    protected override bool onInitialize(Module module, ModuleConfig config) {
       initialized = true;
       UpdateAction = onUpdate;
-      return base.onInitialize(module, state);
+      return base.onInitialize(module, config);
     }
 
     protected override void onTerminate() {
