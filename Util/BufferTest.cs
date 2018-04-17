@@ -603,7 +603,7 @@ namespace UnitTest.Base.Util {
         Assert.AreEqual(4, result);
         length += result;
       }
-      Assert.AreEqual(length, buff.Length);
+      Assert.AreEqual(length, buff.BufferSize);
 
       int pos1 = length / 2;
 
@@ -702,7 +702,7 @@ namespace UnitTest.Base.Util {
 
           block = new BlockBuffer();
           pushBuffer.SeekSet(0);
-          Assert.AreEqual(pushBuffer.Length, pushBuffer.ReadBlock(block));
+          Assert.AreEqual(pushBuffer.BufferSize, pushBuffer.ReadBlock(block));
 
           Assert.AreEqual(push_size * 4, buff.WriteBlock(block, push_size * 4));
           size += push_size;
