@@ -603,7 +603,7 @@ namespace UnitTest.Base.Util {
         Assert.AreEqual(4, result);
         length += result;
       }
-      Assert.AreEqual(length, buff.BufferSize);
+      Assert.AreEqual(length, buff.Size);
 
       int pos1 = length / 2;
 
@@ -702,7 +702,7 @@ namespace UnitTest.Base.Util {
 
           block = new BlockBuffer();
           pushBuffer.SeekSet(0);
-          Assert.AreEqual(pushBuffer.BufferSize, pushBuffer.ReadBlock(block));
+          Assert.AreEqual(pushBuffer.Size, pushBuffer.ReadBlock(block));
 
           Assert.AreEqual(push_size * 4, buff.WriteBlock(block, push_size * 4));
           size += push_size;
@@ -784,7 +784,7 @@ namespace UnitTest.Base.Util {
       Assert.IsNotNull(reader);
       Assert.IsNotNull(data);
       int count = 0;
-      while (reader.Position < reader.Length) {
+      while (reader.Position < reader.Size) {
         int index = (int)reader.ReadVarint32();
         object value = null;
         switch (index) {
@@ -847,7 +847,7 @@ namespace UnitTest.Base.Util {
       writer.WriteBlock(block, size);
       var blockWrite = writer.ToBlock();
       reader = new BlockBufferReader(blockWrite);
-      Assert.AreEqual(reader.Length, size);
+      Assert.AreEqual(reader.Size, size);
       var checkBlock = new BlockBuffer();
       Assert.AreEqual(reader.ReadBlock(checkBlock), size);
       Assert.IsTrue(reader.IsEnd);
