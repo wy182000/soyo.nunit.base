@@ -49,6 +49,7 @@ namespace Soyo.Proto {
               case 39: value.byteArrayListValue = input.Merge(value.byteArrayListValue); break;
               case 40: value.boolValue = input.Merge(value.boolValue); break;
               case 41: value.boolNullValue = input.Merge(value.boolNullValue); break;
+              case 42: value.uintUintDictionary = input.Merge(value.uintUintDictionary); break;
               default: input.SkipField(); break;
           }
       }
@@ -98,6 +99,7 @@ namespace Soyo.Proto {
       output.WriteArray(39, value.byteArrayListValue);
       output.Write(40, value.boolValue);
       if (value.boolNullValue != null) output.Write(41, value.boolNullValue);
+      output.WriteDictionary(42, value.uintUintDictionary);
       output.WriteClassEnd();
     }
     public void WriteDiff(ProtoWriter output, int fieldId, Soyo.Proto.ProtoTestBase value, Soyo.Proto.ProtoTestBase basevalue) {
@@ -112,37 +114,38 @@ namespace Soyo.Proto {
       if (value.ulongValue != basevalue.ulongValue) output.Write(8, value.ulongValue);
       if (value.floatValue != basevalue.floatValue) output.Write(9, value.floatValue);
       if (value.doubleValue != basevalue.doubleValue) output.Write(10, value.doubleValue);
-      output.Write(11, (int)value.enumValue);
-      if (value.stringValue != basevalue.stringValue) output.Write(12, value.stringValue);
+      if (value.enumValue != basevalue.enumValue) output.Write(11, (int)value.enumValue);
+      if (value.stringValue != basevalue.stringValue && value.stringValue != null) output.Write(12, value.stringValue);
       if (value.bufferValue != basevalue.bufferValue) output.Write(13, value.bufferValue);
-      if (value.byteArrayValue != basevalue.byteArrayValue) output.Write(14, value.byteArrayValue);
-      if (value.byteNullValue != basevalue.byteNullValue) output.Write(15, value.byteNullValue);
-      if (value.sbyteNullValue != basevalue.sbyteNullValue) output.Write(16, value.sbyteNullValue);
-      if (value.shortNullValue != basevalue.shortNullValue) output.Write(17, value.shortNullValue);
-      if (value.ushortNullValue != basevalue.ushortNullValue) output.Write(18, value.ushortNullValue);
-      if (value.intNullValue != basevalue.intNullValue) output.Write(19, value.intNullValue);
-      if (value.uintNullValue != basevalue.uintNullValue) output.Write(20, value.uintNullValue);
-      if (value.longNullValue != basevalue.longNullValue) output.Write(21, value.longNullValue);
-      if (value.ulongNullValue != basevalue.ulongNullValue) output.Write(22, value.ulongNullValue);
-      if (value.floatNullValue != basevalue.floatNullValue) output.Write(23, value.floatNullValue);
-      if (value.doubleNullValue != basevalue.doubleNullValue) output.Write(24, value.doubleNullValue);
-      if (value.bufferNullValue != basevalue.bufferNullValue) output.Write(25, value.bufferNullValue);
-      if (value.boolListValue != basevalue.boolListValue) output.Write(26, value.boolListValue);
-      if (value.byteListValue != basevalue.byteListValue) output.Write(27, value.byteListValue);
-      if (value.sbyteListValue != basevalue.sbyteListValue) output.Write(28, value.sbyteListValue);
-      if (value.shortListValue != basevalue.shortListValue) output.Write(29, value.shortListValue);
-      if (value.ushortListValue != basevalue.ushortListValue) output.Write(30, value.ushortListValue);
-      if (value.intListValue != basevalue.intListValue) output.Write(31, value.intListValue);
-      if (value.uintListValue != basevalue.uintListValue) output.Write(32, value.uintListValue);
-      if (value.longListValue != basevalue.longListValue) output.Write(33, value.longListValue);
-      if (value.ulongListValue != basevalue.ulongListValue) output.Write(34, value.ulongListValue);
-      if (value.floatListValue != basevalue.floatListValue) output.Write(35, value.floatListValue);
-      if (value.doubleListValue != basevalue.doubleListValue) output.Write(36, value.doubleListValue);
-      if (value.stringListValue != basevalue.stringListValue) output.Write(37, value.stringListValue);
-      if (value.bufferListValue != basevalue.bufferListValue) output.Write(38, value.bufferListValue);
-      if (value.byteArrayListValue != basevalue.byteArrayListValue) output.Write(39, value.byteArrayListValue);
+      if (value.byteArrayValue != basevalue.byteArrayValue && value.byteArrayValue != null) output.Write(14, value.byteArrayValue);
+      if (value.byteNullValue != basevalue.byteNullValue && value.byteNullValue != null) output.Write(15, value.byteNullValue);
+      if (value.sbyteNullValue != basevalue.sbyteNullValue && value.sbyteNullValue != null) output.Write(16, value.sbyteNullValue);
+      if (value.shortNullValue != basevalue.shortNullValue && value.shortNullValue != null) output.Write(17, value.shortNullValue);
+      if (value.ushortNullValue != basevalue.ushortNullValue && value.ushortNullValue != null) output.Write(18, value.ushortNullValue);
+      if (value.intNullValue != basevalue.intNullValue && value.intNullValue != null) output.Write(19, value.intNullValue);
+      if (value.uintNullValue != basevalue.uintNullValue && value.uintNullValue != null) output.Write(20, value.uintNullValue);
+      if (value.longNullValue != basevalue.longNullValue && value.longNullValue != null) output.Write(21, value.longNullValue);
+      if (value.ulongNullValue != basevalue.ulongNullValue && value.ulongNullValue != null) output.Write(22, value.ulongNullValue);
+      if (value.floatNullValue != basevalue.floatNullValue && value.floatNullValue != null) output.Write(23, value.floatNullValue);
+      if (value.doubleNullValue != basevalue.doubleNullValue && value.doubleNullValue != null) output.Write(24, value.doubleNullValue);
+      if (value.bufferNullValue != basevalue.bufferNullValue && value.bufferNullValue != null) output.Write(25, value.bufferNullValue);
+      if (value.boolListValue != basevalue.boolListValue) output.WriteArray(26, value.boolListValue);
+      if (value.byteListValue != basevalue.byteListValue) output.WriteArray(27, value.byteListValue);
+      if (value.sbyteListValue != basevalue.sbyteListValue) output.WriteArray(28, value.sbyteListValue);
+      if (value.shortListValue != basevalue.shortListValue) output.WriteArray(29, value.shortListValue);
+      if (value.ushortListValue != basevalue.ushortListValue) output.WriteArray(30, value.ushortListValue);
+      if (value.intListValue != basevalue.intListValue) output.WriteArray(31, value.intListValue);
+      if (value.uintListValue != basevalue.uintListValue) output.WriteArray(32, value.uintListValue);
+      if (value.longListValue != basevalue.longListValue) output.WriteArray(33, value.longListValue);
+      if (value.ulongListValue != basevalue.ulongListValue) output.WriteArray(34, value.ulongListValue);
+      if (value.floatListValue != basevalue.floatListValue) output.WriteArray(35, value.floatListValue);
+      if (value.doubleListValue != basevalue.doubleListValue) output.WriteArray(36, value.doubleListValue);
+      if (value.stringListValue != basevalue.stringListValue) output.WriteArray(37, value.stringListValue);
+      if (value.bufferListValue != basevalue.bufferListValue) output.WriteArray(38, value.bufferListValue);
+      if (value.byteArrayListValue != basevalue.byteArrayListValue) output.WriteArray(39, value.byteArrayListValue);
       if (value.boolValue != basevalue.boolValue) output.Write(40, value.boolValue);
-      if (value.boolNullValue != basevalue.boolNullValue) output.Write(41, value.boolNullValue);
+      if (value.boolNullValue != basevalue.boolNullValue && value.boolNullValue != null) output.Write(41, value.boolNullValue);
+      if (value.uintUintDictionary != basevalue.uintUintDictionary) output.WriteDictionary(42, value.uintUintDictionary);
       output.WriteClassEnd();
     }
     public int Size(Soyo.Proto.ProtoTestBase value) {
@@ -188,6 +191,7 @@ namespace Soyo.Proto {
       size += ProtoSerializer.ArraySize(value.byteArrayListValue);
       size += ProtoSerializer.Size(value.boolValue);
       size += ProtoSerializer.Size(value.boolNullValue);
+      size += ProtoSerializer.DictionarySize(value.uintUintDictionary);
       return size;
     }
     public Soyo.Proto.ProtoTestBase DeepCopy(Soyo.Proto.ProtoTestBase dst, Soyo.Proto.ProtoTestBase src) {
@@ -232,6 +236,7 @@ namespace Soyo.Proto {
       dst.byteArrayListValue = ProtoSerializer.DeepCopy(dst.byteArrayListValue, src.byteArrayListValue);
       dst.boolValue = src.boolValue;
       dst.boolNullValue = src.boolNullValue;
+      dst.uintUintDictionary = ProtoSerializer.DeepCopy(dst.uintUintDictionary, src.uintUintDictionary);
       return dst;
     }
   }
@@ -258,7 +263,7 @@ namespace Soyo.Proto {
     public void WriteDiff(ProtoWriter output, int fieldId, Soyo.Proto.ProtoTestClass value, Soyo.Proto.ProtoTestClass basevalue) {
       output.WriteClassBegin(fieldId);
       if (value.id != basevalue.id) output.Write(1, value.id);
-      if (value.items != basevalue.items) output.Write(2, value.items);
+      if (value.items != basevalue.items) output.WriteArray(2, value.items);
       output.WriteClassEnd();
     }
     public int Size(Soyo.Proto.ProtoTestClass value) {

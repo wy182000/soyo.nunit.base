@@ -194,6 +194,15 @@ namespace UnitTest.Base.Util {
           data.bufferListValue.Add(tmp);
         }
       }
+
+      data.uintUintDictionary = Rand.Default.Range(0, 2) > 0 ? new Dictionary<uint, uint>() : null;
+      if (data.uintUintDictionary != null) {
+        int count = Rand.Default.RandInt(checkCount);
+        for (int i = 0; i < count; i++) {
+          data.uintUintDictionary[Rand.Default.RandUint()] = Rand.Default.RandUint();
+        }
+      }
+
       return data;
     }
 
@@ -309,6 +318,13 @@ namespace UnitTest.Base.Util {
         Assert.AreEqual(src.byteArrayListValue[i]?.Length, dest.byteArrayListValue[i]?.Length);
         for (int j = 0; j < src.byteArrayListValue[i]?.Length; j++) {
           Assert.AreEqual(src.byteArrayListValue[i][j], dest.byteArrayListValue[i][j]);
+        }
+      }
+
+      Assert.AreEqual(src.uintUintDictionary?.Count ?? 0, dest.uintUintDictionary?.Count ?? 0);
+      if ((src.uintUintDictionary?.Count ?? 0) > 0) {
+        foreach (var entry in src.uintUintDictionary) {
+          Assert.AreEqual(entry.Value, dest.uintUintDictionary[entry.Key]);
         }
       }
     }

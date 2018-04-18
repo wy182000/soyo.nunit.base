@@ -50,6 +50,7 @@ namespace Soyo.Proto {
     [ProtoId(39)] public List<byte[]> byteArrayListValue;
     [ProtoId(40)] public bool boolValue;
     [ProtoId(41)] public bool? boolNullValue;
+    [ProtoId(42)] public Dictionary<uint, uint> uintUintDictionary;
   }
 
   [ProtoSerializable]
