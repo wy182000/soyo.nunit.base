@@ -501,7 +501,7 @@ namespace UnitTest.Base.Util {
       }
 
       Assert.IsFalse(block.IsEmpty);
-      Assert.AreEqual(block.Size, checkCount);
+      Assert.AreEqual(block.Count, checkCount);
 
       var array = block.ToArray();
       Assert.IsNotNull(array);
@@ -531,7 +531,7 @@ namespace UnitTest.Base.Util {
       block = (BlockBuffer)tempBlock.Clone();
       int checkOffset = 10;
       block.AdvanceOffset(checkOffset);
-      Assert.AreEqual(block.Size, checkCount - checkOffset);
+      Assert.AreEqual(block.Count, checkCount - checkOffset);
 
       array = block.ToArray();
       Assert.IsNotNull(array);
@@ -542,7 +542,7 @@ namespace UnitTest.Base.Util {
 
       block = (BlockBuffer)tempBlock.Clone();
       block.AdvanceSize(checkOffset);
-      Assert.AreEqual(block.Size, checkCount - checkOffset);
+      Assert.AreEqual(block.Count, checkCount - checkOffset);
 
       array = block.ToArray();
       Assert.IsNotNull(array);
@@ -553,7 +553,7 @@ namespace UnitTest.Base.Util {
 
       block = (BlockBuffer)tempBlock.Clone();
       block.Resize(checkCount - checkOffset);
-      Assert.AreEqual(block.Size, checkCount - checkOffset);
+      Assert.AreEqual(block.Count, checkCount - checkOffset);
 
       array = block.ToArray();
       Assert.IsNotNull(array);
@@ -576,7 +576,7 @@ namespace UnitTest.Base.Util {
       }
 
       block = (BlockBuffer)block.Clone();
-      Assert.AreEqual(block.Size, checkCount);
+      Assert.AreEqual(block.Count, checkCount);
 
       array = block.ToArray();
       Assert.IsNotNull(array);

@@ -221,18 +221,18 @@ namespace UnitTest.Base.Network {
 
       Message empty = new Message(0);
       Assert.IsTrue(empty.IsBuffer);
-      Assert.AreEqual(empty.Size, 0);
+      Assert.AreEqual(empty.Count, 0);
 
       rc = server.TrySend(ref empty, 1000);
       Assert.IsTrue(rc);
       Assert.IsTrue(empty.IsBuffer);
-      Assert.AreEqual(empty.Size, 0);
+      Assert.AreEqual(empty.Count, 0);
 
       Message emptyRecv;
       rc = client.TryRecv(out emptyRecv, 1000);
       Assert.IsTrue(rc);
       Assert.IsTrue(emptyRecv.IsBuffer);
-      Assert.AreEqual(emptyRecv.Size, 0);
+      Assert.AreEqual(emptyRecv.Count, 0);
 
       var checkData = generateCheckData();
 
