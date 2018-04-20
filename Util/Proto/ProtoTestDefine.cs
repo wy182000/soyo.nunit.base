@@ -13,10 +13,10 @@ namespace Soyo.Proto {
     [ProtoId(2)] public sbyte sbyteValue;
     [ProtoId(3)] public short shortValue;
     [ProtoId(4)] public ushort ushortValue;
-    [ProtoId(5)] public int intValue;
-    [ProtoId(6)] public uint uintValue;
-    [ProtoId(7)] public long longValue;
-    [ProtoId(8)] public ulong ulongValue;
+    [ProtoId(5)][ProtoSign] public int intValue;
+    [ProtoId(6)][ProtoFixed] public uint uintValue;
+    [ProtoId(7)][ProtoSign] public long longValue;
+    [ProtoId(8)][ProtoFixed] public ulong ulongValue;
     [ProtoId(9)] public float floatValue;
     [ProtoId(10)] public double doubleValue;
     [ProtoId(11)] public EnumTest enumValue;
