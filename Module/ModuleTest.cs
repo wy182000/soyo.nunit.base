@@ -40,7 +40,6 @@ namespace UnitTest.Base.Module {
     [OneTimeSetUp]
     public void Init() {
       Thread.Initialize();
-      Mailbox.Initialize();
     }
 
     [OneTimeTearDown]

@@ -115,20 +115,21 @@ namespace UnitTest.Base.Util.Collection {
 
     [Test]
     public void TestApi() {
-      ypipe = new CachePipe<int>(128);
+      ypipe = new CachePipe<int>();
 
       int valueResult;
       valueResult = ypipe.Peek();
       Assert.AreEqual(valueResult, default(int));
 
       int value = 1;
-      ypipe.Write(ref value);
+      var rc = ypipe.Write(ref value);
+      Assert.IsTrue(rc);
       Assert.AreEqual(ypipe.Count, 1);
 
       valueResult = ypipe.Peek();
       Assert.AreEqual(valueResult, value);
 
-      var rc = ypipe.CheckRead();
+      rc = ypipe.CheckRead();
       Assert.IsTrue(rc);
 
       rc = ypipe.Unwrite(out valueResult);
@@ -152,7 +153,8 @@ namespace UnitTest.Base.Util.Collection {
       rc = ypipe.Read(out valueResult);
       Assert.IsFalse(rc);
 
-      ypipe.Write(ref value);
+      rc = ypipe.Write(ref value);
+      Assert.IsFalse(rc);
       rc = ypipe.CheckRead();
       Assert.IsFalse(rc);
       rc = ypipe.Read(out valueResult);
@@ -162,7 +164,8 @@ namespace UnitTest.Base.Util.Collection {
       Assert.IsTrue(rc);
       Assert.AreEqual(valueResult, value);
 
-      ypipe.WriteEnd(ref value);
+      rc = ypipe.WriteEnd(ref value);
+      Assert.IsTrue(rc);
       rc = ypipe.CheckRead();
       Assert.IsTrue(rc);
 
@@ -173,8 +176,10 @@ namespace UnitTest.Base.Util.Collection {
       ypipe.Clear();
       Assert.AreEqual(ypipe.Count, 0);
 
-      ypipe.Write(ref value);
-      ypipe.Write(ref value);
+      rc = ypipe.Write(ref value);
+      Assert.IsTrue(rc);
+      rc = ypipe.Write(ref value);
+      Assert.IsTrue(rc);
 
       var array = ypipe.ReadAll();
       Assert.AreEqual(array.Length, 2);

@@ -13,7 +13,6 @@ namespace UnitTest.Base.Util {
     [OneTimeSetUp]
     public void Init() {
       Thread.Initialize();
-      Mailbox.Initialize();
     }
 
     [OneTimeTearDown]
