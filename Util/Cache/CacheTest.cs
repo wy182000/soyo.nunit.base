@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 
 using Soyo.Base;
 
@@ -49,6 +48,16 @@ namespace UnitTest.Base.Util.Cache {
 
     private static readonly int check_data_size = check_data.Length; // size = 2496 + 1
 
+    [OneTimeSetUp]
+    public void Initialize() {
+      Thread.Initialize();
+    }
+
+    [OneTimeTearDown]
+    public void Terminate() {
+      Thread.Terminate();
+    }
+
     [SetUp]
     public void Init() {
       Rand.Default.Seed = Clock.CurrentSeconds;
@@ -65,6 +74,7 @@ namespace UnitTest.Base.Util.Cache {
     public void TestCachAPI() {
       var cache = new Cache<string, string>();
       Assert.IsNotNull(cache);
+      cache.LockEnable = false;
 
       cache.ExpireHandler += expire_callback;
 
@@ -159,6 +169,7 @@ namespace UnitTest.Base.Util.Cache {
     public void TestCacheGetSet() {
       var cache = new Cache<string, string>();
       Assert.IsNotNull(cache);
+      cache.LockEnable = false;
 
       int data_size;
       int[] data_size_set = new int[cache_data_count];
@@ -184,6 +195,8 @@ namespace UnitTest.Base.Util.Cache {
     }
 
     volatile static int[] data_size_set = new int[cache_data_count * thread_count];
+    static int getCount = 0;
+    static int setCount = 0;
 
     // thread add data
     void thread_add_data(object state) {
@@ -226,6 +239,7 @@ namespace UnitTest.Base.Util.Cache {
         Assert.AreEqual(data, check_data.Substring(0, data_size_set[cache_data_count * index + i]));
 
         ret = cache.Set(cache_data_count * index + i, check_data.Substring(0, data_size_set[cache_data_count * index + i]), ref cas);
+        Atomic.Inc(ref setCount);
         Assert.IsTrue(ret);
       }
     }
@@ -246,6 +260,7 @@ namespace UnitTest.Base.Util.Cache {
         int index = Rand.Default.RandInt(cache_data_count * checkCount);
 
         bool ret = cache.Get(index, out data);
+        Atomic.Inc(ref getCount);
         Assert.IsTrue(ret);
         Assert.AreEqual(data, check_data.Substring(0, data_size_set[index]));
       }
@@ -253,10 +268,11 @@ namespace UnitTest.Base.Util.Cache {
 
     [Test]
     public void TestCacheSingeThread() {
+      getCount = 0;
+      setCount = 0;
       var cache = new Cache<int, string>();
       Assert.IsNotNull(cache);
-
-      cache.LockFree = true;
+      cache.LockEnable = false;
 
       thread_add_data(new object[] { cache, 0 });
       thread_cas_data(new object[] { cache, 0 });
@@ -268,40 +284,33 @@ namespace UnitTest.Base.Util.Cache {
 
     [Test]
     public void TestCacheMultiThread() {
+      getCount = 0;
+      setCount = 0;
       var cache = new Cache<int, string>();
       Assert.IsNotNull(cache);
-
-      List<System.Threading.Thread> threadList = new List<System.Threading.Thread>();
-      for (int i = 0; i < thread_count; i++) {
-        var thread = new System.Threading.Thread(this.thread_add_data);
-        Assert.IsNotNull(thread, "value should not be null");
-        threadList.Add(thread);
-        thread.Start(new object[] { cache, i });
-      }
-
-      for (int i = 0; i < threadList.Count; i++) {
-        threadList[i].Join();
-      }
-
-      threadList.Clear();
+      cache.LockEnable = true;
 
       for (int i = 0; i < thread_count; i++) {
-        var thread = new System.Threading.Thread(this.thread_cas_data);
-        Assert.IsNotNull(thread, "value should not be null");
-        threadList.Add(thread);
-        thread.Start(new object[] { cache, i });
+        var value = i;
+        Thread.WorkThread.Post(() => thread_add_data(new object[] { cache, value }));
+      }
+
+      var ret = Thread.Wait(() => cache.Count == thread_count * cache_data_count, 1000);
+      Assert.IsTrue(ret);
+
+      for (int i = 0; i < thread_count; i++) {
+        var value = i;
+        Thread.WorkThread.Post(() => thread_cas_data(new object[] { cache, value }));
       }
 
       for (int i = 0; i < thread_count; i++) {
-        var thread = new System.Threading.Thread(this.thread_get_data);
-        Assert.IsNotNull(thread, "value should not be null");
-        threadList.Add(thread);
-        thread.Start(new object[] { cache, thread_count });
+        var value = i;
+        Thread.WorkThread.Post(() => thread_get_data(new object[] { cache, value + 1 }));
       }
 
-      for (int i = 0; i < threadList.Count; i++) {
-        threadList[i].Join();
-      }
+      ret = Thread.Wait(() => setCount == thread_count * cache_data_count
+      && getCount == thread_count * get_data_count, 1000);
+      Assert.IsTrue(ret);
 
       // stats
       cache.StatsPrint();

@@ -30,12 +30,41 @@ namespace UnitTest.Base.Util.Collection {
       }
     }
 
+    private static void WriteThreadSafeFunc(object state) {
+      int index = (int)state;
+      for (int i = 0; i < CheckCount; i++) {
+        int value = (int)CheckCount * index + i;
+        lock (ypipe.WriteRoot) {
+          ypipe.Write(ref value);
+        }
+      }
+    }
+
     private static void ReadThreadFunc(object state) {
       int count = 0;
       while (value < Result && count < CheckCount) {
         int element;
         while (ypipe.Read(out element)) {
           Atomic.Add(ref value, element);
+        }
+        Soyo.Base.Thread.Sleep(1);
+        count++;
+      }
+    }
+
+    private static void ReadThreadSafeFunc(object state) {
+      int count = 0;
+      while (value < Result && count < CheckCount) {
+        int element;
+        bool ret = false;
+        lock (ypipe.ReadRoot) {
+          ret = ypipe.Read(out element);
+        }
+        while (ret) {
+          Atomic.Add(ref value, element);
+          lock (ypipe.ReadRoot) {
+            ret = ypipe.Read(out element);
+          }
         }
         Soyo.Base.Thread.Sleep(1);
         count++;
@@ -63,16 +92,107 @@ namespace UnitTest.Base.Util.Collection {
       }
     }
 
+    private static void ThreadSafeCheck() {
+      List<System.Threading.Thread> threadList = new List<System.Threading.Thread>();
+      for (int i = 0; i < ThreadCount; i++) {
+        var thread = new System.Threading.Thread(WriteThreadSafeFunc);
+        Assert.IsNotNull(thread, "value should not be null");
+        threadList.Add(thread);
+        thread.Start(i);
+      }
+
+      for (int i = 0; i < ThreadCount; i++) {
+        var thread = new System.Threading.Thread(ReadThreadSafeFunc);
+        Assert.IsNotNull(thread, "value should not be null");
+        threadList.Add(thread);
+        thread.Start();
+      }
+
+      for (int i = 0; i < threadList.Count; i++) {
+        threadList[i].Join();
+      }
+    }
+
+    [Test]
+    public void TestApi() {
+      ypipe = new CachePipe<int>(128);
+
+      int valueResult;
+      valueResult = ypipe.Peek();
+      Assert.AreEqual(valueResult, default(int));
+
+      int value = 1;
+      ypipe.Write(ref value);
+      Assert.AreEqual(ypipe.Count, 1);
+
+      valueResult = ypipe.Peek();
+      Assert.AreEqual(valueResult, value);
+
+      var rc = ypipe.CheckRead();
+      Assert.IsTrue(rc);
+
+      rc = ypipe.Unwrite(out valueResult);
+      Assert.IsFalse(rc);
+      Assert.AreEqual(valueResult, default(int));
+
+      rc = ypipe.Read(out valueResult);
+      Assert.IsTrue(rc);
+      Assert.AreEqual(valueResult, value);
+
+      rc = ypipe.CheckRead();
+      Assert.IsFalse(rc);
+
+      rc = ypipe.Read(out valueResult);
+      Assert.IsFalse(rc);
+      Assert.AreEqual(valueResult, default(int));
+
+      ypipe.WriteBegin(ref value);
+      rc = ypipe.CheckRead();
+      Assert.IsFalse(rc);
+      rc = ypipe.Read(out valueResult);
+      Assert.IsFalse(rc);
+
+      ypipe.Write(ref value);
+      rc = ypipe.CheckRead();
+      Assert.IsFalse(rc);
+      rc = ypipe.Read(out valueResult);
+      Assert.IsFalse(rc);
+
+      rc = ypipe.Unwrite(out valueResult);
+      Assert.IsTrue(rc);
+      Assert.AreEqual(valueResult, value);
+
+      ypipe.WriteEnd(ref value);
+      rc = ypipe.CheckRead();
+      Assert.IsTrue(rc);
+
+      rc = ypipe.Unwrite(out valueResult);
+      Assert.IsFalse(rc);
+      Assert.AreEqual(valueResult, default(int));
+
+      ypipe.Clear();
+      Assert.AreEqual(ypipe.Count, 0);
+
+      ypipe.Write(ref value);
+      ypipe.Write(ref value);
+
+      var array = ypipe.ReadAll();
+      Assert.AreEqual(array.Length, 2);
+      for (int i = 0; i < array.Length; i++) {
+        Assert.AreEqual(array[i], value);
+      }
+
+      Assert.AreEqual(ypipe.Count, 0);
+    }
+
     [Test]
     public void Test() {
       Init(1);
-      ypipe.LockEnable = false;
       WriteThreadFunc(0);
       ReadThreadFunc(0);
       Assert.AreEqual(value, Result, "value should be equal to result.");
 
       Init(1);
-      ypipe.LockEnable = false;
       WriteThreadFunc(0);
       var result = ypipe.ReadAll();
       Assert.IsNotNull(result, "result should not be null.");
@@ -82,11 +202,9 @@ namespace UnitTest.Base.Util.Collection {
       Assert.AreEqual(value, Result, "value should be equal to result.");
     }
 
-
     [Test]
     public void TestNoLockThreadSafe() {
       Init(1);
-      ypipe.LockEnable = false;
       ThreadCheck();
       Assert.AreEqual(value, Result, "value should be equal to result.");
     }
@@ -94,8 +212,7 @@ namespace UnitTest.Base.Util.Collection {
     [Test]
     public void TestThreadSafe() {
       Init(10);
-      ypipe.LockEnable = true;
-      ThreadCheck();
+      ThreadSafeCheck();
 
       Assert.AreEqual(value, Result, "value should be equal to result.");
     }

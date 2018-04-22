@@ -30,6 +30,16 @@ namespace UnitTest.Base.Util.Collection {
       }
     }
 
+    private static void PushBackThreadSafeFunc(object state) {
+      int index = (int)state;
+      for (int i = 0; i < CheckCount; i++) {
+        int value = (int)CheckCount * index + i;
+        lock (yqueue.BackRoot) {
+          yqueue.PushBack(ref value);
+        }
+      }
+    }
+
     private static void PopFrontThreadFunc(object state) {
       int count = 0;
       while (value < Result && count < CheckCount) {
@@ -42,12 +52,50 @@ namespace UnitTest.Base.Util.Collection {
       }
     }
 
+    private static void PopFrontThreadSafeFunc(object state) {
+      int count = 0;
+      while (value < Result && count < CheckCount) {
+        int element;
+        bool ret = false;
+        lock (yqueue.FrontRoot) {
+          ret = yqueue.PopFront(out element);
+        }
+        while (ret) {
+          Atomic.Add(ref value, element);
+          lock (yqueue.FrontRoot) {
+            ret = yqueue.PopFront(out element);
+          }
+        }
+        Soyo.Base.Thread.Sleep(1);
+        count++;
+      }
+    }
+
     private static void PopBackThreadFunc(object state) {
       int count = 0;
       while (value < Result && count < CheckCount) {
         int element;
         while (yqueue.PopBack(out element)) {
           Atomic.Add(ref value, element);
+        }
+        Soyo.Base.Thread.Sleep(1);
+        count++;
+      }
+    }
+
+    private static void PopBackThreadSafeFunc(object state) {
+      int count = 0;
+      while (value < Result && count < CheckCount) {
+        int element;
+        bool ret = false;
+        lock (yqueue.BackRoot) {
+          ret = yqueue.PopBack(out element);
+        }
+        while (ret ) {
+          Atomic.Add(ref value, element);
+          lock (yqueue.BackRoot) {
+            ret = yqueue.PopBack(out element);
+          }
         }
         Soyo.Base.Thread.Sleep(1);
         count++;
@@ -86,22 +134,51 @@ namespace UnitTest.Base.Util.Collection {
       }
     }
 
+    private static void ThreadSafeCheck(bool popFront, bool popBack) {
+      List<System.Threading.Thread> threadList = new List<System.Threading.Thread>();
+      for (int i = 0; i < ThreadCount; i++) {
+        var thread = new System.Threading.Thread(PushBackThreadSafeFunc);
+        Assert.IsNotNull(thread, "value should not be null");
+        threadList.Add(thread);
+        thread.Start(i);
+      }
+
+      if (popFront) {
+        for (int i = 0; i < ThreadCount; i++) {
+          var thread = new System.Threading.Thread(PopFrontThreadSafeFunc);
+          Assert.IsNotNull(thread, "value should not be null");
+          threadList.Add(thread);
+          thread.Start();
+        }
+      }
+
+      if (popBack) {
+        for (int i = 0; i < ThreadCount; i++) {
+          var thread = new System.Threading.Thread(PopBackThreadSafeFunc);
+          Assert.IsNotNull(thread, "value should not be null");
+          threadList.Add(thread);
+          thread.Start();
+        }
+      }
+
+      for (int i = 0; i < threadList.Count; i++) {
+        threadList[i].Join();
+      }
+    }
+
     [Test]
     public void Test() {
       Init(1);
-      yqueue.LockEnable = false;
       PushBackThreadFunc(0);
       PopFrontThreadFunc(0);
       Assert.AreEqual(value, Result, "value should be equal to result.");
 
       Init(1);
-      yqueue.LockEnable = false;
       PushBackThreadFunc(0);
       PopBackThreadFunc(0);
       Assert.AreEqual(value, Result, "value should be equal to result.");
 
       Init(1);
-      yqueue.LockEnable = false;
       PushBackThreadFunc(0);
       var result = yqueue.PopAll();
       Assert.IsNotNull(result, "result should not be null.");
@@ -115,7 +192,6 @@ namespace UnitTest.Base.Util.Collection {
     [Test]
     public void TestNoLockThreadSafe() {
       Init(1);
-      yqueue.LockEnable = false;
       ThreadCheck(true, false);
       Assert.AreEqual(value, Result, "value should be equal to result.");
     }
@@ -123,8 +199,7 @@ namespace UnitTest.Base.Util.Collection {
     [Test]
     public void TestThreadSafe() {
       Init(10);
-      yqueue.LockEnable = true;
-      ThreadCheck(true, true);
+      ThreadSafeCheck(true, true);
 
       Assert.AreEqual(value, Result, "value should be equal to result.");
     }

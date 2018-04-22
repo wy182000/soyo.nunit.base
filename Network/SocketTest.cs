@@ -213,6 +213,8 @@ namespace UnitTest.Base.Network {
       bool rc = server.Bind("127.0.0.1:" + port);
       Assert.IsTrue(rc);
 
+      Thread.Sleep(10);
+
       var client = SocketBase.Create(SocketType.Pair);
       rc = client.Connect("127.0.0.1:" + port);
       Assert.IsTrue(rc);
@@ -222,6 +224,9 @@ namespace UnitTest.Base.Network {
       Message empty = new Message(0);
       Assert.IsTrue(empty.IsBuffer);
       Assert.AreEqual(empty.Count, 0);
+
+      rc = Thread.Wait(() => server.ConnectionCount == 1, -1);
+      Assert.IsTrue(rc);
 
       rc = server.TrySend(ref empty, 1000);
       Assert.IsTrue(rc);
@@ -293,6 +298,9 @@ namespace UnitTest.Base.Network {
       port++;
 
       var checkData = generateCheckData();
+
+      rc = Thread.Wait(() => server.ConnectionCount == 1, 1000);
+      Assert.IsTrue(rc);
 
       var threadSend = Thread.CreateThread("SocketSend");
       var threadRecv = Thread.CreateThread("SocketRecv");
