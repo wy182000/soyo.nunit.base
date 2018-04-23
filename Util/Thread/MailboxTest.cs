@@ -29,12 +29,12 @@ namespace UnitTest.Base.Util {
         var mailbox = Mailbox.Create();
         var checkSet = new HashSet<int>();
         mailbox.State = checkSet;
-        mailbox.ReadAction = (message, state) => {
+        mailbox.HookDoMailBefore.Add((message, state) => {
           var value = (int)message;
           var set = (HashSet<int>)state;
           var ret = set.Add(value);
           Assert.IsTrue(ret);
-        };
+        });
         queueSet.Add(mailbox);
       }
 
