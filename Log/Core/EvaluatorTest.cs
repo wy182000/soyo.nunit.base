@@ -1,6 +1,6 @@
 ﻿using System;
 using Soyo.Base.Text;
-using Soyo.Base.Log.Core;
+using Soyo.Base.Log;
 using UnitTest.Base.Log.Appender;
 using NUnit.Framework;
 
@@ -9,11 +9,11 @@ namespace UnitTest.Base.Log.Core {
   public class EvaluatorTest {
     private AppenderLoggerBufferForward m_bufferingForwardingAppender;
     private CountingAppender m_countingAppender;
-    private Soyo.Base.Log.Repository.Hierarchy.Hierarchy m_hierarchy;
+    private Soyo.Base.Log.Hierarchy m_hierarchy;
 
     [SetUp]
     public void SetupRepository() {
-      m_hierarchy = new Soyo.Base.Log.Repository.Hierarchy.Hierarchy();
+      m_hierarchy = new Soyo.Base.Log.Hierarchy();
 
       m_countingAppender = new CountingAppender();
       m_countingAppender.Activate();
@@ -33,7 +33,7 @@ namespace UnitTest.Base.Log.Core {
     public void TestLevelEvaluator() {
       m_bufferingForwardingAppender.Trigger = new TriggerLoggerLevel(Level.Info);
       m_bufferingForwardingAppender.Activate();
-      Soyo.Base.Log.Config.BasicConfigurator.Configure(m_hierarchy, m_bufferingForwardingAppender);
+      Soyo.Base.Log.BasicConfigurator.Config(m_hierarchy, m_bufferingForwardingAppender);
 
       ILogger logger = m_hierarchy.GetLogger("TestLevelEvaluator");
 
@@ -49,7 +49,7 @@ namespace UnitTest.Base.Log.Core {
     public void TestExceptionEvaluator() {
       m_bufferingForwardingAppender.Trigger = new TriggerLoggerException(typeof(ApplicationException), true);
       m_bufferingForwardingAppender.Activate();
-      Soyo.Base.Log.Config.BasicConfigurator.Configure(m_hierarchy, m_bufferingForwardingAppender);
+      Soyo.Base.Log.BasicConfigurator.Config(m_hierarchy, m_bufferingForwardingAppender);
 
       ILogger logger = m_hierarchy.GetLogger("TestExceptionEvaluator");
 
@@ -65,7 +65,7 @@ namespace UnitTest.Base.Log.Core {
     public void TestExceptionEvaluatorTriggerOnSubClass() {
       m_bufferingForwardingAppender.Trigger = new TriggerLoggerException(typeof(Exception), true);
       m_bufferingForwardingAppender.Activate();
-      Soyo.Base.Log.Config.BasicConfigurator.Configure(m_hierarchy, m_bufferingForwardingAppender);
+      Soyo.Base.Log.BasicConfigurator.Config(m_hierarchy, m_bufferingForwardingAppender);
 
       ILogger logger = m_hierarchy.GetLogger("TestExceptionEvaluatorTriggerOnSubClass");
 
@@ -81,7 +81,7 @@ namespace UnitTest.Base.Log.Core {
     public void TestExceptionEvaluatorNoTriggerOnSubClass() {
       m_bufferingForwardingAppender.Trigger = new TriggerLoggerException(typeof(Exception), false);
       m_bufferingForwardingAppender.Activate();
-      Soyo.Base.Log.Config.BasicConfigurator.Configure(m_hierarchy, m_bufferingForwardingAppender);
+      Soyo.Base.Log.BasicConfigurator.Config(m_hierarchy, m_bufferingForwardingAppender);
 
       ILogger logger = m_hierarchy.GetLogger("TestExceptionEvaluatorNoTriggerOnSubClass");
 
@@ -98,7 +98,7 @@ namespace UnitTest.Base.Log.Core {
       // warning: String is not a subclass of Exception
       m_bufferingForwardingAppender.Trigger = new TriggerLoggerException(typeof(String), false);
       m_bufferingForwardingAppender.Activate();
-      Soyo.Base.Log.Config.BasicConfigurator.Configure(m_hierarchy, m_bufferingForwardingAppender);
+      Soyo.Base.Log.BasicConfigurator.Config(m_hierarchy, m_bufferingForwardingAppender);
 
       ILogger logger = m_hierarchy.GetLogger("TestExceptionEvaluatorNoTriggerOnSubClass");
 

@@ -1,6 +1,5 @@
 ﻿using Soyo.Base;
 using Soyo.Base.Log;
-using Soyo.Base.Log.Repository;
 
 using System;
 using System.Reflection;
@@ -14,7 +13,7 @@ namespace UnitTest.Base.Log {
     }
 
     public static object CreateInstance(string targetType) {
-      return CreateInstance(Soyo.Base.Log.Util.SystemInfo.GetTypeFromString(targetType, true, true));
+      return CreateInstance(Soyo.Base.Log.SystemInfo.GetTypeFromString(targetType, true, true));
     }
 
     public static object CreateInstance(Type targetType) {
@@ -86,7 +85,7 @@ namespace UnitTest.Base.Log {
       return LogManager.GetLogger(name);
     }
 
-    internal static ILoggerRepository GetRepository() {
+    internal static IRepository GetRepository() {
       return LogManager.GetRepository();
     }
   }

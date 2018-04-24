@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Xml;
 using Soyo.Base.Text;
 using Soyo.Base.Log;
-using Soyo.Base.Log.Config;
-using Soyo.Base.Log.Core;
-using Soyo.Base.Log.Repository;
 using NUnit.Framework;
 
 namespace UnitTest.Base.Log.Filter {
@@ -36,7 +33,7 @@ namespace UnitTest.Base.Log.Filter {
             </Soyo.Base.Log>");
       #endregion
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
       XmlConfigurator.Configure(rep, log4netConfig["Soyo.Base.Log"]);
 
       IAppender[] appenders = LogManager.GetRepository(rep.Name).GetAppenders();

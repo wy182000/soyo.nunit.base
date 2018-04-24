@@ -4,8 +4,6 @@ using System.Threading;
 using Soyo.Base;
 using Soyo.Base.Text;
 using Soyo.Base.Log;
-using Soyo.Base.Log.Config;
-using Soyo.Base.Log.Repository;
 using UnitTest.Base.Log.Appender;
 
 using NUnit.Framework;
@@ -29,13 +27,13 @@ namespace UnitTest.Base.Log.Context {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = new LayoutPattern("%property{" + Utils.PROPERTY_KEY + "}");
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
 
       ILog log1 = LogManager.GetLogger(rep.Name, "TestThreadProperiesPattern");
 
       log1.Info("TestMessage");
-      Assert.AreEqual(Soyo.Base.Log.Util.SystemInfo.NullText, stringAppender.GetString(), "Test no thread properties value set");
+      Assert.AreEqual(TextDefault.NullText, stringAppender.GetString(), "Test no thread properties value set");
       stringAppender.Reset();
 
       ThreadContext.PropertySet[Utils.PROPERTY_KEY] = "val1";
@@ -47,7 +45,7 @@ namespace UnitTest.Base.Log.Context {
       ThreadContext.PropertySet.Remove(Utils.PROPERTY_KEY);
 
       log1.Info("TestMessage");
-      Assert.AreEqual(Soyo.Base.Log.Util.SystemInfo.NullText, stringAppender.GetString(), "Test thread properties value removed");
+      Assert.AreEqual(TextDefault.NullText, stringAppender.GetString(), "Test thread properties value removed");
       stringAppender.Reset();
     }
 
@@ -56,13 +54,13 @@ namespace UnitTest.Base.Log.Context {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = new LayoutPattern("%property{" + Utils.PROPERTY_KEY + "}");
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
 
       ILog log1 = LogManager.GetLogger(rep.Name, "TestThreadStackPattern");
 
       log1.Info("TestMessage");
-      Assert.AreEqual(Soyo.Base.Log.Util.SystemInfo.NullText, stringAppender.GetString(), "Test no thread stack value set");
+      Assert.AreEqual(TextDefault.NullText, stringAppender.GetString(), "Test no thread stack value set");
       stringAppender.Reset();
 
       using (ThreadContext.Stacks[Utils.PROPERTY_KEY].Push("val1")) {
@@ -72,7 +70,7 @@ namespace UnitTest.Base.Log.Context {
       }
 
       log1.Info("TestMessage");
-      Assert.AreEqual(Soyo.Base.Log.Util.SystemInfo.NullText, stringAppender.GetString(), "Test thread stack value removed");
+      Assert.AreEqual(TextDefault.NullText, stringAppender.GetString(), "Test thread stack value removed");
       stringAppender.Reset();
     }
 
@@ -81,13 +79,13 @@ namespace UnitTest.Base.Log.Context {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = new LayoutPattern("%property{" + Utils.PROPERTY_KEY + "}");
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
 
       ILog log1 = LogManager.GetLogger(rep.Name, "TestThreadStackPattern");
 
       log1.Info("TestMessage");
-      Assert.AreEqual(Soyo.Base.Log.Util.SystemInfo.NullText, stringAppender.GetString(), "Test no thread stack value set");
+      Assert.AreEqual(TextDefault.NullText, stringAppender.GetString(), "Test no thread stack value set");
       stringAppender.Reset();
 
       using (ThreadContext.Stacks[Utils.PROPERTY_KEY].Push("val1")) {
@@ -103,7 +101,7 @@ namespace UnitTest.Base.Log.Context {
       }
 
       log1.Info("TestMessage");
-      Assert.AreEqual(Soyo.Base.Log.Util.SystemInfo.NullText, stringAppender.GetString(), "Test thread stack value removed");
+      Assert.AreEqual(TextDefault.NullText, stringAppender.GetString(), "Test thread stack value removed");
       stringAppender.Reset();
     }
 
@@ -112,23 +110,23 @@ namespace UnitTest.Base.Log.Context {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = new LayoutPattern("%property{" + Utils.PROPERTY_KEY + "}");
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
 
       ILog log1 = LogManager.GetLogger(rep.Name, "TestThreadStackPattern");
 
       log1.Info("TestMessage");
-      Assert.AreEqual(Soyo.Base.Log.Util.SystemInfo.NullText, stringAppender.GetString(), "Test no thread stack value set");
+      Assert.AreEqual(TextDefault.NullText, stringAppender.GetString(), "Test no thread stack value set");
       stringAppender.Reset();
 
       using (ThreadContext.Stacks[Utils.PROPERTY_KEY].Push(null)) {
         log1.Info("TestMessage");
-        Assert.AreEqual(Soyo.Base.Log.Util.SystemInfo.NullText, stringAppender.GetString(), "Test thread stack value set");
+        Assert.AreEqual(TextDefault.NullText, stringAppender.GetString(), "Test thread stack value set");
         stringAppender.Reset();
       }
 
       log1.Info("TestMessage");
-      Assert.AreEqual(Soyo.Base.Log.Util.SystemInfo.NullText, stringAppender.GetString(), "Test thread stack value removed");
+      Assert.AreEqual(TextDefault.NullText, stringAppender.GetString(), "Test thread stack value removed");
       stringAppender.Reset();
     }
 
@@ -137,13 +135,13 @@ namespace UnitTest.Base.Log.Context {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = new LayoutPattern("%property{" + Utils.PROPERTY_KEY + "}");
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
 
       ILog log1 = LogManager.GetLogger(rep.Name, "TestThreadStackPattern");
 
       log1.Info("TestMessage");
-      Assert.AreEqual(Soyo.Base.Log.Util.SystemInfo.NullText, stringAppender.GetString(), "Test no thread stack value set");
+      Assert.AreEqual(TextDefault.NullText, stringAppender.GetString(), "Test no thread stack value set");
       stringAppender.Reset();
 
       using (ThreadContext.Stacks[Utils.PROPERTY_KEY].Push("val1")) {
@@ -159,7 +157,7 @@ namespace UnitTest.Base.Log.Context {
       }
 
       log1.Info("TestMessage");
-      Assert.AreEqual(Soyo.Base.Log.Util.SystemInfo.NullText, stringAppender.GetString(), "Test thread stack value removed");
+      Assert.AreEqual(TextDefault.NullText, stringAppender.GetString(), "Test thread stack value removed");
       stringAppender.Reset();
     }
 
@@ -170,8 +168,8 @@ namespace UnitTest.Base.Log.Context {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = new LayoutPattern("%property{DateTimeTodayToString}");
 
-      ILoggerRepository rep = LogManager.CreateRepository(TestBackgroundThreadContextPropertyRepository = "TestBackgroundThreadContextPropertyRepository" + Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(TestBackgroundThreadContextPropertyRepository = "TestBackgroundThreadContextPropertyRepository" + Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
 
       System.Threading.Thread thread = new System.Threading.Thread(new ThreadStart(ExecuteBackgroundThread));
       thread.Start();
@@ -185,7 +183,7 @@ namespace UnitTest.Base.Log.Context {
 
       log.Info("TestMessage");
 
-      Soyo.Base.Log.Repository.Hierarchy.Hierarchy hierarchyLoggingRepository = (Soyo.Base.Log.Repository.Hierarchy.Hierarchy)log.Logger.Repository;
+      Soyo.Base.Log.Hierarchy hierarchyLoggingRepository = (Soyo.Base.Log.Hierarchy)log.Logger.Repository;
       StringAppender stringAppender = (StringAppender)hierarchyLoggingRepository.Root.Appenders[0];
 
       Assert.AreEqual(DateTime.Today.ToString(), stringAppender.GetString());

@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Soyo.Base.Log.Util;
+using Soyo.Base.Log;
 
 using NUnit.Framework;
 
@@ -11,13 +11,13 @@ namespace UnitTest.Base.Log.Util {
     [Test]
     public void MaskXmlInvalidCharactersAllowsJapaneseCharacters() {
       string kome = "\u203B";
-      Assert.AreEqual(kome, Transform.MaskXmlInvalidCharacters(kome, "?"));
+      Assert.AreEqual(kome, XmlTransform.MaskInvalidCharacters(kome, "?"));
     }
 
     [Test]
     public void MaskXmlInvalidCharactersMasks0Char() {
       string c = "\u0000";
-      Assert.AreEqual("?", Transform.MaskXmlInvalidCharacters(c, "?"));
+      Assert.AreEqual("?", XmlTransform.MaskInvalidCharacters(c, "?"));
     }
   }
 }

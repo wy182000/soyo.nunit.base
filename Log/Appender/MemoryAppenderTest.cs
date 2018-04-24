@@ -4,8 +4,6 @@ using System.Threading;
 using NUnit.Framework;
 using Soyo.Base.Text;
 using Soyo.Base.Log;
-using Soyo.Base.Log.Config;
-using Soyo.Base.Log.Repository;
 
 namespace UnitTest.Base.Log.Appender {
   [TestFixture]
@@ -17,12 +15,12 @@ namespace UnitTest.Base.Log.Appender {
 
     [Test]
     public void TestThreadSafety() {
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
       var memoryAppender = new AppenderMemory();
       var patternLayout = new LayoutPattern();
       memoryAppender.Layout = patternLayout;
       memoryAppender.Activate();
-      BasicConfigurator.Configure(rep, memoryAppender);
+      BasicConfigurator.Config(rep, memoryAppender);
 
       cThreadsRunning = cThreadsMax;
       var threads = Enumerable.Range(0, cThreadsMax)

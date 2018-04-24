@@ -3,11 +3,7 @@ using System.IO;
 using System.Xml;
 
 using Soyo.Base.Log;
-using Soyo.Base.Log.Config;
-using Soyo.Base.Log.Core;
-using Soyo.Base.Log.Repository;
 using UnitTest.Base.Log.Appender;
-using Soyo.Base.Log.Util;
 using Soyo.Base.Text;
 using NUnit.Framework;
 
@@ -42,7 +38,7 @@ namespace UnitTest.Base.Log.Util {
                   </root>  
                 </Soyo.Base.Log>");
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
       XmlConfigurator.Configure(rep, log4netConfig["Soyo.Base.Log"]);
 
       ILog log = LogManager.GetLogger(rep.Name, "PatternLayoutConverterProperties");
@@ -87,7 +83,7 @@ namespace UnitTest.Base.Log.Util {
                   </root>  
                 </Soyo.Base.Log>");
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
       XmlConfigurator.Configure(rep, log4netConfig["Soyo.Base.Log"]);
 
       ILog log = LogManager.GetLogger(rep.Name, "PatternConverterProperties");

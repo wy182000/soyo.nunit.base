@@ -5,7 +5,6 @@ using System.Text;
 using Soyo.Base;
 using Soyo.Base.Text;
 using Soyo.Base.Log;
-using Soyo.Base.Log.Core;
 
 using NUnit.Framework;
 
@@ -54,9 +53,9 @@ namespace UnitTest.Base.Log.Appender {
     /// </summary>
     private void ResetLogger() {
       // Regular users should not use the clear method lightly!
-      Utils.GetRepository().ResetConfiguration();
-      Utils.GetRepository().Shutdown();
-      ((Soyo.Base.Log.Repository.Hierarchy.Hierarchy)Utils.GetRepository()).Clear();
+      Utils.GetRepository().ResetConfig();
+      Utils.GetRepository().Terminate();
+      ((Soyo.Base.Log.Hierarchy)Utils.GetRepository()).Clear();
     }
 
     /// <summary>
@@ -94,7 +93,7 @@ namespace UnitTest.Base.Log.Appender {
     /// <param name="appender">The appender to use</param>
     /// <returns>A configured ILogger</returns>
     private ILogger CreateLogger(AppenderSmtpPickup appender) {
-      Soyo.Base.Log.Repository.Hierarchy.Hierarchy h = (Soyo.Base.Log.Repository.Hierarchy.Hierarchy)LogManager.CreateRepository("TestRepository");
+      Soyo.Base.Log.Hierarchy h = (Soyo.Base.Log.Hierarchy)LogManager.CreateRepository("TestRepository");
 
       LayoutPattern layout = new LayoutPattern();
       layout.Pattern = "%m%n";
@@ -104,7 +103,7 @@ namespace UnitTest.Base.Log.Appender {
       appender.Activate();
 
       h.Root.AddAppender(appender);
-      h.Configured = true;
+      h.Initialized = true;
 
       ILogger log = h.GetLogger("Logger");
       return log;
@@ -126,10 +125,10 @@ namespace UnitTest.Base.Log.Appender {
     /// Destroys the logger hierarchy created by <see cref="SmtpPickupDirAppenderTest.CreateLogger"/>
     /// </summary>
     private static void DestroyLogger() {
-      Soyo.Base.Log.Repository.Hierarchy.Hierarchy h = (Soyo.Base.Log.Repository.Hierarchy.Hierarchy)LogManager.GetRepository("TestRepository");
-      h.ResetConfiguration();
+      Soyo.Base.Log.Hierarchy h = (Soyo.Base.Log.Hierarchy)LogManager.GetRepository("TestRepository");
+      h.ResetConfig();
       //Replace the repository selector so that we can recreate the hierarchy with the same name if necessary
-      LoggerManager.RepositorySelector = new CompactRepositorySelector(typeof(Soyo.Base.Log.Repository.Hierarchy.Hierarchy));
+      LoggerManager.RepositorySelector = new CompactRepositorySelector(typeof(Soyo.Base.Log.Hierarchy));
     }
 
     /// <summary>

@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 
 using Soyo.Base.Log;
-using Soyo.Base.Log.Core;
-using Soyo.Base.Log.Repository.Hierarchy;
 using UnitTest.Base.Log.Appender;
 
 using NUnit.Framework;
@@ -35,9 +33,9 @@ namespace UnitTest.Base.Log.Hierarchy {
     [TearDown]
     public void TearDown() {
       // Regular users should not use the clear method lightly!
-      Utils.GetRepository().ResetConfiguration();
-      Utils.GetRepository().Shutdown();
-      ((Soyo.Base.Log.Repository.Hierarchy.Hierarchy)Utils.GetRepository()).Clear();
+      Utils.GetRepository().ResetConfig();
+      Utils.GetRepository().Terminate();
+      ((Soyo.Base.Log.Hierarchy)Utils.GetRepository()).Clear();
     }
 
     /// <summary>
@@ -151,7 +149,7 @@ namespace UnitTest.Base.Log.Hierarchy {
     /// </summary>
     [Test]
     public void TestAdditivity3() {
-      Logger root = ((Soyo.Base.Log.Repository.Hierarchy.Hierarchy)Utils.GetRepository()).Root;
+      Logger root = ((Soyo.Base.Log.Hierarchy)Utils.GetRepository()).Root;
       Logger a = (Logger)Utils.GetLogger("a").Logger;
       Logger ab = (Logger)Utils.GetLogger("a.b").Logger;
       Logger abc = (Logger)Utils.GetLogger("a.b.c").Logger;
@@ -194,12 +192,12 @@ namespace UnitTest.Base.Log.Hierarchy {
     [Test]
     public void TestDisable1() {
       CountingAppender caRoot = new CountingAppender();
-      Logger root = ((Soyo.Base.Log.Repository.Hierarchy.Hierarchy)Utils.GetRepository()).Root;
+      Logger root = ((Soyo.Base.Log.Hierarchy)Utils.GetRepository()).Root;
       root.AddAppender(caRoot);
 
-      Soyo.Base.Log.Repository.Hierarchy.Hierarchy h = ((Soyo.Base.Log.Repository.Hierarchy.Hierarchy)Utils.GetRepository());
+      Soyo.Base.Log.Hierarchy h = ((Soyo.Base.Log.Hierarchy)Utils.GetRepository());
       h.Threshold = Level.Info;
-      h.Configured = true;
+      h.Initialized = true;
 
       Assert.AreEqual(caRoot.Counter, 0);
 
@@ -264,7 +262,7 @@ namespace UnitTest.Base.Log.Hierarchy {
     /// </summary>
     [Test]
     public void TestHierarchy1() {
-      Soyo.Base.Log.Repository.Hierarchy.Hierarchy h = new Soyo.Base.Log.Repository.Hierarchy.Hierarchy();
+      Soyo.Base.Log.Hierarchy h = new Soyo.Base.Log.Hierarchy();
       h.Root.Level = Level.Error;
 
       Logger a0 = (Logger)h.GetLogger("a");

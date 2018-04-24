@@ -4,10 +4,6 @@ using System.Xml;
 
 using Soyo.Base.Log;
 using Soyo.Base.Text;
-using Soyo.Base.Log.Config;
-using Soyo.Base.Log.Core;
-using Soyo.Base.Log.Repository;
-using Soyo.Base.Log.Util;
 using NUnit.Framework;
 
 namespace UnitTest.Base.Log.LoggerRepository {
@@ -16,8 +12,8 @@ namespace UnitTest.Base.Log.LoggerRepository {
     [Test]
     public void ConfigurationMessagesTest() {
       try {
-        LogLog.EmitInternalMessages = false;
-        LogLog.InternalDebugging = true;
+        Soyo.Base.Log.Log.InternalMessage = false;
+        Soyo.Base.Log.Log.InternalDebug = true;
 
         XmlDocument log4netConfig = new XmlDocument();
         log4netConfig.LoadXml(@"
@@ -35,22 +31,22 @@ namespace UnitTest.Base.Log.LoggerRepository {
                   </root>  
                 </Soyo.Base.Log>");
 
-        ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-        rep.ConfigurationChanged += new LoggerRepositoryConfigurationChangedEventHandler(rep_ConfigurationChanged);
+        IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+        rep.ChangeConfigEvent += new ChangeConfigEventHandler(rep_ConfigurationChanged);
 
         ICollection configurationMessages = XmlConfigurator.Configure(rep, log4netConfig["Soyo.Base.Log"]);
 
         Assert.IsTrue(configurationMessages.Count > 0);
       } finally {
-        LogLog.EmitInternalMessages = true;
-        LogLog.InternalDebugging = false;
+        Soyo.Base.Log.Log.InternalMessage = true;
+        Soyo.Base.Log.Log.InternalDebug = false;
       }
     }
 
     static void rep_ConfigurationChanged(object sender, EventArgs e) {
-      ConfigurationChangedEventArgs configChanged = (ConfigurationChangedEventArgs)e;
+      ChangeConfigEventArgs configChanged = (ChangeConfigEventArgs)e;
 
-      Assert.IsTrue(configChanged.ConfigurationMessages.Count > 0);
+      Assert.IsTrue(configChanged.Message.Count > 0);
     }
   }
 
@@ -58,17 +54,17 @@ namespace UnitTest.Base.Log.LoggerRepository {
     private readonly static Type declaringType = typeof(LogLogAppender);
 
     public override void Activate() {
-      LogLog.Debug(declaringType, "Debug - Activating options...");
-      LogLog.Warn(declaringType, "Warn - Activating options...");
-      LogLog.Error(declaringType, "Error - Activating options...");
+      Soyo.Base.Log.Log.Debug(declaringType, "Debug - Activating options...");
+      Soyo.Base.Log.Log.Warn(declaringType, "Warn - Activating options...");
+      Soyo.Base.Log.Log.Error(declaringType, "Error - Activating options...");
 
       base.Activate();
     }
 
     protected override void append(IRender render, object loggingEvent) {
-      LogLog.Debug(declaringType, "Debug - Appending...");
-      LogLog.Warn(declaringType, "Warn - Appending...");
-      LogLog.Error(declaringType, "Error - Appending...");
+      Soyo.Base.Log.Log.Debug(declaringType, "Debug - Appending...");
+      Soyo.Base.Log.Log.Warn(declaringType, "Warn - Appending...");
+      Soyo.Base.Log.Log.Error(declaringType, "Error - Appending...");
     }
   }
 }

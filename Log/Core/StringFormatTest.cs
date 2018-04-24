@@ -3,11 +3,7 @@ using System.Globalization;
 
 using Soyo.Base.Text;
 using Soyo.Base.Log;
-using Soyo.Base.Log.Config;
-using Soyo.Base.Log.Core;
-using Soyo.Base.Log.Repository;
 using UnitTest.Base.Log.Appender;
-using UnitTest.Base.Log.Layout;
 
 using NUnit.Framework;
 
@@ -43,8 +39,8 @@ namespace UnitTest.Base.Log.Core {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = new LayoutPattern("%message");
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
 
       ILog log1 = LogManager.GetLogger(rep.Name, "TestFormatString");
 
@@ -99,8 +95,8 @@ namespace UnitTest.Base.Log.Core {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
 
       ILog log1 = LogManager.GetLogger(rep.Name, "TestLogFormatApi_Debug");
 
@@ -157,8 +153,8 @@ namespace UnitTest.Base.Log.Core {
       stringAppender.Threshold = Level.Info;
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
 
       ILog log1 = LogManager.GetLogger(rep.Name, "TestLogFormatApi_Debug");
 
@@ -215,8 +211,8 @@ namespace UnitTest.Base.Log.Core {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
 
       ILog log1 = LogManager.GetLogger(rep.Name, "TestLogFormatApi_Info");
 
@@ -273,8 +269,8 @@ namespace UnitTest.Base.Log.Core {
       stringAppender.Threshold = Level.Warn;
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
 
       ILog log1 = LogManager.GetLogger(rep.Name, "TestLogFormatApi_Info");
 
@@ -331,8 +327,8 @@ namespace UnitTest.Base.Log.Core {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
 
       ILog log1 = LogManager.GetLogger(rep.Name, "TestLogFormatApi_Warn");
 
@@ -389,8 +385,8 @@ namespace UnitTest.Base.Log.Core {
       stringAppender.Threshold = Level.Error;
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
 
       ILog log1 = LogManager.GetLogger(rep.Name, "TestLogFormatApi_Warn");
 
@@ -447,8 +443,8 @@ namespace UnitTest.Base.Log.Core {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
 
       ILog log1 = LogManager.GetLogger(rep.Name, "TestLogFormatApi_Error");
 
@@ -505,8 +501,8 @@ namespace UnitTest.Base.Log.Core {
       stringAppender.Threshold = Level.Fatal;
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
 
       ILog log1 = LogManager.GetLogger(rep.Name, "TestLogFormatApi_Error");
 
@@ -563,8 +559,8 @@ namespace UnitTest.Base.Log.Core {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
 
       ILog log1 = LogManager.GetLogger(rep.Name, "TestLogFormatApi_Fatal");
 
@@ -621,8 +617,8 @@ namespace UnitTest.Base.Log.Core {
       stringAppender.Threshold = Level.Off;
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
 
       ILog log1 = LogManager.GetLogger(rep.Name, "TestLogFormatApi_Fatal");
 

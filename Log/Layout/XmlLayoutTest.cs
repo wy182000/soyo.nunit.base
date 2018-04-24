@@ -5,11 +5,7 @@ using System.Xml;
 using Soyo.Base;
 using Soyo.Base.Text;
 using Soyo.Base.Log;
-using Soyo.Base.Log.Config;
-using Soyo.Base.Log.Core;
-using Soyo.Base.Log.Repository;
 using UnitTest.Base.Log.Appender;
-using Soyo.Base.Log.Util;
 
 using NUnit.Framework;
 using System.Globalization;
@@ -36,34 +32,33 @@ namespace UnitTest.Base.Log.Layout {
     }
 
     /// <summary>
-    /// Build a basic <see cref="LoggingEventData"/> object with some default values.
+    /// Build a basic <see cref="LogObjectData"/> object with some default values.
     /// </summary>
     /// <returns>A useful LoggingEventData object</returns>
-    private LoggingEventData CreateBaseEvent() {
-      LoggingEventData ed = new LoggingEventData();
+    private LogObjectData CreateBaseEvent() {
+      LogObjectData ed = new LogObjectData();
       ed.Domain = "Tests";
       ed.ExceptionString = "";
       ed.Identity = "TestRunner";
       ed.Level = Level.Info;
-      ed.LocationInfo = new LocationInfo(GetType());
+      ed.Location = new LocationInfo(GetType());
       ed.LoggerName = "TestLogger";
       ed.Message = "Test message";
       ed.ThreadName = "TestThread";
-      ed.TimeStampUtc = DateTime.Today.ToUniversalTime();
-      ed.UserName = "TestRunner";
-      ed.Properties = new PropertySet();
+      ed.Date = DateTime.Today.ToUniversalTime();
+      ed.PropertySet = new PropertySet();
 
       return ed;
     }
 
     private static string CreateEventNode(string message) {
-      return String.Format("<event logger=\"TestLogger\" timestamp=\"{0}\" level=\"INFO\" thread=\"TestThread\" domain=\"Tests\" identity=\"TestRunner\" username=\"TestRunner\"><message>{1}</message></event>" + Environment.NewLine,
+      return String.Format("<event logger=\"TestLogger\" timestamp=\"{0}\" level=\"INFO\" thread=\"TestThread\" domain=\"Tests\" identity=\"TestRunner\"><message>{1}</message></event>" + Environment.NewLine,
 			                     XmlConvert.ToString(DateTime.Today, XmlDateTimeSerializationMode.Local),
                            message);
     }
 
     private static string CreateEventNode(string key, string value) {
-      return String.Format("<event logger=\"TestLogger\" timestamp=\"{0}\" level=\"INFO\" thread=\"TestThread\" domain=\"Tests\" identity=\"TestRunner\" username=\"TestRunner\"><message>Test message</message><properties><data name=\"{1}\" value=\"{2}\" /></properties></event>" + Environment.NewLine,
+      return String.Format("<event logger=\"TestLogger\" timestamp=\"{0}\" level=\"INFO\" thread=\"TestThread\" domain=\"Tests\" identity=\"TestRunner\"><message>Test message</message><properties><data name=\"{1}\" value=\"{2}\" /></properties></event>" + Environment.NewLine,
 			                     XmlConvert.ToString(DateTime.Today, XmlDateTimeSerializationMode.Local),
                            key,
                            value);
@@ -73,9 +68,9 @@ namespace UnitTest.Base.Log.Layout {
     public void TestBasicEventLogging() {
       TextWriter writer = new StringWriter();
       LayoutLoggerXml layout = new LayoutLoggerXml();
-      LoggingEventData evt = CreateBaseEvent();
+      LogObjectData evt = CreateBaseEvent();
 
-      layout.Format(writer, null, new LoggingEvent(evt));
+      layout.Format(writer, null, new LogObject(evt));
 
       string expected = CreateEventNode("Test message");
 
@@ -86,11 +81,11 @@ namespace UnitTest.Base.Log.Layout {
     public void TestIllegalCharacterMasking() {
       TextWriter writer = new StringWriter();
       LayoutLoggerXml layout = new LayoutLoggerXml();
-      LoggingEventData evt = CreateBaseEvent();
+      LogObjectData evt = CreateBaseEvent();
 
       evt.Message = "This is a masked char->\uFFFF";
 
-      layout.Format(writer, null, new LoggingEvent(evt));
+      layout.Format(writer, null, new LogObject(evt));
 
       string expected = CreateEventNode("This is a masked char-&gt;?");
 
@@ -101,12 +96,12 @@ namespace UnitTest.Base.Log.Layout {
     public void TestCDATAEscaping1() {
       TextWriter writer = new StringWriter();
       LayoutLoggerXml layout = new LayoutLoggerXml();
-      LoggingEventData evt = CreateBaseEvent();
+      LogObjectData evt = CreateBaseEvent();
 
       //The &'s trigger the use of a cdata block
       evt.Message = "&&&&&&&Escape this ]]>. End here.";
 
-      layout.Format(writer, null, new LoggingEvent(evt));
+      layout.Format(writer, null, new LogObject(evt));
 
       string expected = CreateEventNode("<![CDATA[&&&&&&&Escape this ]]>]]<![CDATA[>. End here.]]>");
 
@@ -117,12 +112,12 @@ namespace UnitTest.Base.Log.Layout {
     public void TestCDATAEscaping2() {
       TextWriter writer = new StringWriter();
       LayoutLoggerXml layout = new LayoutLoggerXml();
-      LoggingEventData evt = CreateBaseEvent();
+      LogObjectData evt = CreateBaseEvent();
 
       //The &'s trigger the use of a cdata block
       evt.Message = "&&&&&&&Escape the end ]]>";
 
-      layout.Format(writer, null, new LoggingEvent(evt));
+      layout.Format(writer, null, new LogObject(evt));
 
       string expected = CreateEventNode("<![CDATA[&&&&&&&Escape the end ]]>]]&gt;");
 
@@ -133,12 +128,12 @@ namespace UnitTest.Base.Log.Layout {
     public void TestCDATAEscaping3() {
       TextWriter writer = new StringWriter();
       LayoutLoggerXml layout = new LayoutLoggerXml();
-      LoggingEventData evt = CreateBaseEvent();
+      LogObjectData evt = CreateBaseEvent();
 
       //The &'s trigger the use of a cdata block
       evt.Message = "]]>&&&&&&&Escape the begining";
 
-      layout.Format(writer, null, new LoggingEvent(evt));
+      layout.Format(writer, null, new LogObject(evt));
 
       string expected = CreateEventNode("<![CDATA[]]>]]<![CDATA[>&&&&&&&Escape the begining]]>");
 
@@ -149,10 +144,10 @@ namespace UnitTest.Base.Log.Layout {
     public void TestBase64EventLogging() {
       TextWriter writer = new StringWriter();
       LayoutLoggerXml layout = new LayoutLoggerXml();
-      LoggingEventData evt = CreateBaseEvent();
+      LogObjectData evt = CreateBaseEvent();
 
       layout.base64EncodeMessage = true;
-      layout.Format(writer, null, new LoggingEvent(evt));
+      layout.Format(writer, null, new LogObject(evt));
 
       string expected = CreateEventNode("VGVzdCBtZXNzYWdl");
 
@@ -161,18 +156,18 @@ namespace UnitTest.Base.Log.Layout {
 
     [Test]
     public void TestPropertyEventLogging() {
-      LoggingEventData evt = CreateBaseEvent();
-      evt.Properties["Property1"] = "prop1";
+      LogObjectData evt = CreateBaseEvent();
+      evt.PropertySet["Property1"] = "prop1";
 
       LayoutLoggerXml layout = new LayoutLoggerXml();
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = layout;
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
       ILog log1 = LogManager.GetLogger(rep.Name, "TestThreadProperiesPattern");
 
-      log1.Logger.Log(new LoggingEvent(evt));
+      log1.Logger.Log(new LogObject(evt));
 
       string expected = CreateEventNode("Property1", "prop1");
 
@@ -181,19 +176,19 @@ namespace UnitTest.Base.Log.Layout {
 
     [Test]
     public void TestBase64PropertyEventLogging() {
-      LoggingEventData evt = CreateBaseEvent();
-      evt.Properties["Property1"] = "prop1";
+      LogObjectData evt = CreateBaseEvent();
+      evt.PropertySet["Property1"] = "prop1";
 
       LayoutLoggerXml layout = new LayoutLoggerXml();
       layout.base64EncodeProperties = true;
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = layout;
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
       ILog log1 = LogManager.GetLogger(rep.Name, "TestThreadProperiesPattern");
 
-      log1.Logger.Log(new LoggingEvent(evt));
+      log1.Logger.Log(new LogObject(evt));
 
       string expected = CreateEventNode("Property1", "cHJvcDE=");
 
@@ -202,18 +197,18 @@ namespace UnitTest.Base.Log.Layout {
 
     [Test]
     public void TestPropertyCharacterEscaping() {
-      LoggingEventData evt = CreateBaseEvent();
-      evt.Properties["Property1"] = "prop1 \"quoted\"";
+      LogObjectData evt = CreateBaseEvent();
+      evt.PropertySet["Property1"] = "prop1 \"quoted\"";
 
       LayoutLoggerXml layout = new LayoutLoggerXml();
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = layout;
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
       ILog log1 = LogManager.GetLogger(rep.Name, "TestThreadProperiesPattern");
 
-      log1.Logger.Log(new LoggingEvent(evt));
+      log1.Logger.Log(new LogObject(evt));
 
       string expected = CreateEventNode("Property1", "prop1 &quot;quoted&quot;");
 
@@ -222,18 +217,18 @@ namespace UnitTest.Base.Log.Layout {
 
     [Test]
     public void TestPropertyIllegalCharacterMasking() {
-      LoggingEventData evt = CreateBaseEvent();
-      evt.Properties["Property1"] = "mask this ->\uFFFF";
+      LogObjectData evt = CreateBaseEvent();
+      evt.PropertySet["Property1"] = "mask this ->\uFFFF";
 
       LayoutLoggerXml layout = new LayoutLoggerXml();
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = layout;
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
       ILog log1 = LogManager.GetLogger(rep.Name, "TestThreadProperiesPattern");
 
-      log1.Logger.Log(new LoggingEvent(evt));
+      log1.Logger.Log(new LogObject(evt));
 
       string expected = CreateEventNode("Property1", "mask this -&gt;?");
 
@@ -242,18 +237,18 @@ namespace UnitTest.Base.Log.Layout {
 
     [Test]
     public void TestPropertyIllegalCharacterMaskingInName() {
-      LoggingEventData evt = CreateBaseEvent();
-      evt.Properties["Property\uFFFF"] = "mask this ->\uFFFF";
+      LogObjectData evt = CreateBaseEvent();
+      evt.PropertySet["Property\uFFFF"] = "mask this ->\uFFFF";
 
       LayoutLoggerXml layout = new LayoutLoggerXml();
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = layout;
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
       ILog log1 = LogManager.GetLogger(rep.Name, "TestThreadProperiesPattern");
 
-      log1.Logger.Log(new LoggingEvent(evt));
+      log1.Logger.Log(new LogObject(evt));
 
       string expected = CreateEventNode("Property?", "mask this -&gt;?");
 
@@ -266,8 +261,8 @@ namespace UnitTest.Base.Log.Layout {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = layout;
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
       ILog log1 = LogManager.GetLogger(rep.Name, "TestLogger");
       Action<int> bar = foo => {
         try {
@@ -289,8 +284,8 @@ namespace UnitTest.Base.Log.Layout {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = layout;
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
       ILog log1 = LogManager.GetLogger(rep.Name, "TestLogger");
       Action<int> bar = foo => {
         try {

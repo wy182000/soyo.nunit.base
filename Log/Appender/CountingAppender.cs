@@ -1,5 +1,5 @@
 ﻿using Soyo.Base.Text;
-using Soyo.Base.Log.Core;
+using Soyo.Base.Log;
 
 namespace UnitTest.Base.Log.Appender {
   /// <summary>

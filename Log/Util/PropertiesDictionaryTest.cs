@@ -1,22 +1,16 @@
 ﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-using Soyo.Base.Log.Util;
+using Soyo.Base;
 
 using NUnit.Framework;
 
 namespace UnitTest.Base.Log.Util {
-  /// <summary>
-  /// Used for internal unit testing the <see cref="PropertiesDictionary"/> class.
-  /// </summary>
-  /// <remarks>
-  /// Used for internal unit testing the <see cref="PropertiesDictionary"/> class.
-  /// </remarks>
   [TestFixture]
-  public class PropertiesDictionaryTest {
+  public class PropertySetTest {
     [Test]
     public void TestSerialization() {
-      PropertiesDictionary pd = new PropertiesDictionary();
+      PropertySet pd = new PropertySet();
 
       for (int i = 0; i < 10; i++) {
         pd[i.ToString()] = i;
@@ -31,11 +25,11 @@ namespace UnitTest.Base.Log.Util {
 
       // Deserialize the stream into a new properties dictionary
       memory.Position = 0;
-      PropertiesDictionary pd2 = (PropertiesDictionary)formatter.Deserialize(memory);
+      PropertySet pd2 = (PropertySet)formatter.Deserialize(memory);
 
       Assert.AreEqual(10, pd2.Count, "Deserialized Dictionary should have 10 items");
 
-      foreach (string key in pd.GetKeys()) {
+      foreach (string key in pd.Keys) {
         Assert.AreEqual(pd[key], pd2[key], "Check Value Persisted for key [{0}]", key);
       }
     }

@@ -2,9 +2,6 @@
 using System.IO;
 
 using Soyo.Base.Log;
-using Soyo.Base.Log.Config;
-using Soyo.Base.Log.Core;
-using Soyo.Base.Log.Repository;
 using UnitTest.Base.Log.Appender;
 using Soyo.Base;
 using Soyo.Base.Text;
@@ -54,13 +51,13 @@ namespace UnitTest.Base.Log.Layout {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = NewPatternLayout("%property{" + Utils.PROPERTY_KEY + "}");
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
 
       ILog log1 = LogManager.GetLogger(rep.Name, "TestThreadProperiesPattern");
 
       log1.Info("TestMessage");
-      Assert.AreEqual(Soyo.Base.Log.Util.SystemInfo.NullText, stringAppender.GetString(), "Test no thread properties value set");
+      Assert.AreEqual(TextDefault.NullText, stringAppender.GetString(), "Test no thread properties value set");
       stringAppender.Reset();
 
       ThreadContext.PropertySet[Utils.PROPERTY_KEY] = "val1";
@@ -72,7 +69,7 @@ namespace UnitTest.Base.Log.Layout {
       ThreadContext.Remove(Utils.PROPERTY_KEY);
 
       log1.Info("TestMessage");
-      Assert.AreEqual(Soyo.Base.Log.Util.SystemInfo.NullText, stringAppender.GetString(), "Test thread properties value removed");
+      Assert.AreEqual(TextDefault.NullText, stringAppender.GetString(), "Test thread properties value removed");
       stringAppender.Reset();
     }
 
@@ -81,8 +78,8 @@ namespace UnitTest.Base.Log.Layout {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = NewPatternLayout("%stacktrace{2}");
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
 
       ILog log1 = LogManager.GetLogger(rep.Name, "TestStackTracePattern");
 
@@ -96,13 +93,13 @@ namespace UnitTest.Base.Log.Layout {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = NewPatternLayout("%property{" + Utils.PROPERTY_KEY + "}");
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
 
       ILog log1 = LogManager.GetLogger(rep.Name, "TestGlobalProperiesPattern");
 
       log1.Info("TestMessage");
-      Assert.AreEqual(Soyo.Base.Log.Util.SystemInfo.NullText, stringAppender.GetString(), "Test no global properties value set");
+      Assert.AreEqual(TextDefault.NullText, stringAppender.GetString(), "Test no global properties value set");
       stringAppender.Reset();
 
       GlobalContext.Set(Utils.PROPERTY_KEY, "val1");
@@ -114,7 +111,7 @@ namespace UnitTest.Base.Log.Layout {
       GlobalContext.Remove(Utils.PROPERTY_KEY);
 
       log1.Info("TestMessage");
-      Assert.AreEqual(Soyo.Base.Log.Util.SystemInfo.NullText, stringAppender.GetString(), "Test global properties value removed");
+      Assert.AreEqual(TextDefault.NullText, stringAppender.GetString(), "Test global properties value removed");
       stringAppender.Reset();
     }
 
@@ -129,8 +126,8 @@ namespace UnitTest.Base.Log.Layout {
 
       stringAppender.Layout = layout;
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
 
       ILog log1 = LogManager.GetLogger(rep.Name, "TestAddingCustomPattern");
 
@@ -147,8 +144,8 @@ namespace UnitTest.Base.Log.Layout {
       layout.Pattern = "%message-as-name";
       layout.Activate();
       stringAppender.Layout = layout;
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
       ILog log1 = LogManager.GetLogger(rep.Name, "TestAddingCustomPattern");
 
       log1.Info("NoDots");
@@ -193,8 +190,8 @@ namespace UnitTest.Base.Log.Layout {
       layout.Pattern = "%message-as-name{1}";
       layout.Activate();
       stringAppender.Layout = layout;
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
       ILog log1 = LogManager.GetLogger(rep.Name, "TestAddingCustomPattern");
 
       log1.Info("NoDots");
@@ -239,8 +236,8 @@ namespace UnitTest.Base.Log.Layout {
       layout.Pattern = "%message-as-name{2}";
       layout.Activate();
       stringAppender.Layout = layout;
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
       ILog log1 = LogManager.GetLogger(rep.Name, "TestAddingCustomPattern");
 
       log1.Info("NoDots");
@@ -294,24 +291,24 @@ namespace UnitTest.Base.Log.Layout {
       LayoutPattern layout = NewPatternLayout("%exception{stacktrace}");
       stringAppender.Layout = layout;
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
-      BasicConfigurator.Configure(rep, stringAppender);
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      BasicConfigurator.Config(rep, stringAppender);
 
       ILog log1 = LogManager.GetLogger(rep.Name, "TestExceptionPattern");
 
       Exception exception = new Exception("Oh no!");
       log1.Info("TestMessage", exception);
 
-      Assert.AreEqual(Soyo.Base.Log.Util.SystemInfo.NullText, stringAppender.GetString());
+      Assert.AreEqual(TextDefault.NullText, stringAppender.GetString());
 
       stringAppender.Reset();
     }
 
     private class MessageAsNamePatternConverter : NamedPatternConverter {
       protected override string GetName(object state) {
-        var loggingEvent = state as LoggingEvent;
+        var loggingEvent = state as LogObject;
         if (loggingEvent == null) return string.Empty;
-        return loggingEvent.MessageObject.ToString();
+        return loggingEvent.Message.ToString();
       }
     }
   }

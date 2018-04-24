@@ -2,11 +2,6 @@
 using System.Xml;
 
 using Soyo.Base.Log;
-using Soyo.Base.Log.Config;
-using Soyo.Base.Log.Core;
-using Soyo.Base.Log.Repository;
-using Soyo.Base.Log.Repository.Hierarchy;
-using Soyo.Base.Text;
 using UnitTest.Base.Log.Appender;
 using NUnit.Framework;
 
@@ -32,11 +27,11 @@ namespace UnitTest.Base.Log.Hierarchy {
                   </root>
                 </Soyo.Base.Log>");
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
       XmlConfigurator.Configure(rep, log4netConfig["Soyo.Base.Log"]);
 
-      Assert.AreEqual("4", rep.Properties["two-plus-two"]);
-      Assert.IsNull(rep.Properties["one-plus-one"]);
+      Assert.AreEqual("4", rep.PropertySet["two-plus-two"]);
+      Assert.IsNull(rep.PropertySet["one-plus-one"]);
     }
 
     [Test]
@@ -44,12 +39,12 @@ namespace UnitTest.Base.Log.Hierarchy {
       CountingAppender alpha = new CountingAppender();
       CountingAppender beta = new CountingAppender();
 
-      Soyo.Base.Log.Repository.Hierarchy.Hierarchy hierarchy =
-          (Soyo.Base.Log.Repository.Hierarchy.Hierarchy)Utils.GetRepository();
+      Soyo.Base.Log.Hierarchy hierarchy =
+          (Soyo.Base.Log.Hierarchy)Utils.GetRepository();
 
       hierarchy.Root.AddAppender(alpha);
       hierarchy.Root.AddAppender(beta);
-      hierarchy.Configured = true;
+      hierarchy.Initialized = true;
 
       ILog log = LogManager.GetLogger(GetType());
       log.Debug("Hello World");
@@ -63,7 +58,7 @@ namespace UnitTest.Base.Log.Hierarchy {
       CountingAppender alpha = new CountingAppender();
       CountingAppender beta = new CountingAppender();
 
-      BasicConfigurator.Configure(alpha, beta);
+      BasicConfigurator.Config(alpha, beta);
 
       ILog log = LogManager.GetLogger(GetType());
       log.Debug("Hello World");
@@ -90,7 +85,7 @@ namespace UnitTest.Base.Log.Hierarchy {
                   </logger>
                 </Soyo.Base.Log>");
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
       XmlConfigurator.Configure(rep, log4netConfig["Soyo.Base.Log"]);
     }
 
@@ -111,7 +106,7 @@ namespace UnitTest.Base.Log.Hierarchy {
                   </logger>
                 </Soyo.Base.Log>");
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
       XmlConfigurator.Configure(rep, log4netConfig["Soyo.Base.Log"]);
     }
 
@@ -132,7 +127,7 @@ namespace UnitTest.Base.Log.Hierarchy {
                   </logger>
                 </Soyo.Base.Log>");
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
       XmlConfigurator.Configure(rep, log4netConfig["Soyo.Base.Log"]);
     }
   }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Soyo.Base.Log.Util;
+using Soyo.Base.Log;
 
 using NUnit.Framework;
 
@@ -22,7 +22,7 @@ namespace UnitTest.Base.Log.Util {
     /// In 'Debug' GetCallingAssembly should return dynamic assembly named: 'Anonymously Hosted DynamicMethods Assembly'
     /// whereas in 'Release' this will be inlined and the result will be something like 'X:\Y\Z\UnitTest.Base.Log.dll'.
     /// Therefore simple check against dynamic assembly
-    /// in <see cref="Soyo.Base.Log.Util.SystemInfo.AssemblyLocationInfo"/> to avoid <see cref="NotSupportedException"/> 'Debug' release.
+    /// in <see cref="Soyo.Base.Log.SystemInfo.AssemblyLocationInfo"/> to avoid <see cref="NotSupportedException"/> 'Debug' release.
     /// </summary>
     [Test]
     public void TestAssemblyLocationInfoDoesNotThrowNotSupportedExceptionForDynamicAssembly() {
@@ -38,7 +38,7 @@ namespace UnitTest.Base.Log.Util {
     }
 
     public static string TestAssemblyLocationInfoMethod() {
-      return Soyo.Base.Log.Util.SystemInfo.AssemblyLocationInfo(Assembly.GetCallingAssembly());
+      return Soyo.Base.Log.SystemInfo.AssemblyLocationInfo(Assembly.GetCallingAssembly());
     }
 
     [Test]
@@ -73,53 +73,53 @@ namespace UnitTest.Base.Log.Util {
     public void TestGetTypeFromStringSearch() {
       Type t;
 
-      t = GetTypeFromString("Soyo.Base.Log.Util.SystemInfo", false, false);
+      t = GetTypeFromString("Soyo.Base.Log.SystemInfo", false, false);
       Assert.AreSame(typeof(SystemInfo), t,
                                        string.Format("Test explicit case sensitive type load found {0} rather than {1}",
                                                      t.AssemblyQualifiedName, typeof(SystemInfo).AssemblyQualifiedName));
 
-      t = GetTypeFromString("Soyo.Base.Log.util.SYSTEMINFO", false, true);
+      t = GetTypeFromString("Soyo.Base.Log.SYSTEMINFO", false, true);
       Assert.AreSame(typeof(SystemInfo), t, "Test explicit case in-sensitive type load caps");
 
-      t = GetTypeFromString("Soyo.Base.Log.util.systeminfo", false, true);
+      t = GetTypeFromString("Soyo.Base.Log.systeminfo", false, true);
       Assert.AreSame(typeof(SystemInfo), t, "Test explicit case in-sensitive type load lower");
     }
 
-    // Wraps Soyo.Base.Log.Util.SystemInfo.GetTypeFromString because the method relies on GetCallingAssembly, which is
+    // Wraps Soyo.Base.Log.SystemInfo.GetTypeFromString because the method relies on GetCallingAssembly, which is
     // unavailable in CoreFX. As a workaround, only overloads which explicitly take a Type or Assembly
     // are exposed for NETSTANDARD1_3.
     private Type GetTypeFromString(string typeName, bool throwOnError, bool ignoreCase) {
-      return Soyo.Base.Log.Util.SystemInfo.GetTypeFromString(typeName, throwOnError, ignoreCase);
+      return Soyo.Base.Log.SystemInfo.GetTypeFromString(typeName, throwOnError, ignoreCase);
     }
 
     [Test]
     public void EqualsIgnoringCase_BothNull_true() {
-      Assert.True(Soyo.Base.Log.Util.SystemInfo.EqualsIgnoringCase(null, null));
+      Assert.True(Soyo.Base.Log.SystemInfo.EqualsIgnoringCase(null, null));
     }
 
     [Test]
     public void EqualsIgnoringCase_LeftNull_false() {
-      Assert.False(Soyo.Base.Log.Util.SystemInfo.EqualsIgnoringCase(null, "foo"));
+      Assert.False(Soyo.Base.Log.SystemInfo.EqualsIgnoringCase(null, "foo"));
     }
 
     [Test]
     public void EqualsIgnoringCase_RightNull_false() {
-      Assert.False(Soyo.Base.Log.Util.SystemInfo.EqualsIgnoringCase("foo", null));
+      Assert.False(Soyo.Base.Log.SystemInfo.EqualsIgnoringCase("foo", null));
     }
 
     [Test]
     public void EqualsIgnoringCase_SameStringsSameCase_true() {
-      Assert.True(Soyo.Base.Log.Util.SystemInfo.EqualsIgnoringCase("foo", "foo"));
+      Assert.True(Soyo.Base.Log.SystemInfo.EqualsIgnoringCase("foo", "foo"));
     }
 
     [Test]
     public void EqualsIgnoringCase_SameStringsDifferentCase_true() {
-      Assert.True(Soyo.Base.Log.Util.SystemInfo.EqualsIgnoringCase("foo", "FOO"));
+      Assert.True(Soyo.Base.Log.SystemInfo.EqualsIgnoringCase("foo", "FOO"));
     }
 
     [Test]
     public void EqualsIgnoringCase_DifferentStrings_false() {
-      Assert.False(Soyo.Base.Log.Util.SystemInfo.EqualsIgnoringCase("foo", "foobar"));
+      Assert.False(Soyo.Base.Log.SystemInfo.EqualsIgnoringCase("foo", "foobar"));
     }
   }
 }

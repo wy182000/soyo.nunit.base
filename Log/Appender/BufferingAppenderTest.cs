@@ -1,5 +1,4 @@
-﻿using Soyo.Base.Log.Config;
-using Soyo.Base.Log.Core;
+﻿using Soyo.Base.Log;
 
 using Soyo.Base.Text;
 
@@ -17,11 +16,11 @@ namespace UnitTest.Base.Log.Appender {
   public class BufferingAppenderTest {
     private AppenderLoggerBufferForward m_bufferingForwardingAppender;
     private CountingAppender m_countingAppender;
-    private Soyo.Base.Log.Repository.Hierarchy.Hierarchy m_hierarchy;
+    private Soyo.Base.Log.Hierarchy m_hierarchy;
 
 
     private void SetupRepository() {
-      m_hierarchy = new Soyo.Base.Log.Repository.Hierarchy.Hierarchy();
+      m_hierarchy = new Soyo.Base.Log.Hierarchy();
 
       m_countingAppender = new CountingAppender();
       m_countingAppender.Activate();
@@ -39,7 +38,7 @@ namespace UnitTest.Base.Log.Appender {
 
       m_bufferingForwardingAppender.Activate();
 
-      BasicConfigurator.Configure(m_hierarchy, m_bufferingForwardingAppender);
+      BasicConfigurator.Config(m_hierarchy, m_bufferingForwardingAppender);
     }
 
     /// <summary>

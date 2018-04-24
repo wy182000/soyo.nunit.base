@@ -3,7 +3,7 @@ using System;
 using System.Xml;
 using NUnit.Framework;
 
-using Soyo.Base.Log.Repository.Hierarchy;
+using Soyo.Base.Log;
 
 namespace UnitTest.Base.Log.Hierarchy {
   [TestFixture]

@@ -11,9 +11,9 @@ namespace UnitTest.Base.Log.Appender {
   /// </summary>
   /// <seealso cref="System.EventArgs" />
   public class LoggingEventEventArgs : EventArgs {
-    public Soyo.Base.Log.Core.LoggingEvent LoggingEvent { get; private set; }
+    public Soyo.Base.Log.LogObject LoggingEvent { get; private set; }
 
-    public LoggingEventEventArgs(Soyo.Base.Log.Core.LoggingEvent loggingEvent) {
+    public LoggingEventEventArgs(Soyo.Base.Log.LogObject loggingEvent) {
       if (loggingEvent == null) throw new ArgumentNullException("loggingEvent");
       LoggingEvent = loggingEvent;
     }
@@ -40,7 +40,7 @@ namespace UnitTest.Base.Log.Appender {
     }
 
     public void Append(IRender render, object loggingEvent) {
-      OnLoggingEventAppended(new LoggingEventEventArgs(loggingEvent as Soyo.Base.Log.Core.LoggingEvent));
+      OnLoggingEventAppended(new LoggingEventEventArgs(loggingEvent as Soyo.Base.Log.LogObject));
     }
 
     public string Name {

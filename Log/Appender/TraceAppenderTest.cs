@@ -3,8 +3,6 @@ using System.Diagnostics;
 
 using Soyo.Base.Text;
 using Soyo.Base.Log;
-using Soyo.Base.Log.Config;
-using Soyo.Base.Log.Repository;
 using NUnit.Framework;
 
 namespace UnitTest.Base.Log.Appender {
@@ -16,13 +14,13 @@ namespace UnitTest.Base.Log.Appender {
       Trace.Listeners.Clear();
       Trace.Listeners.Add(categoryTraceListener);
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
 
       AppenderTrace traceAppender = new AppenderTrace();
       traceAppender.Layout = new LayoutLoggerSimple();
       traceAppender.Activate();
 
-      BasicConfigurator.Configure(rep, traceAppender);
+      BasicConfigurator.Config(rep, traceAppender);
 
       ILog log = LogManager.GetLogger(rep.Name, GetType());
       log.Debug("Message");
@@ -38,7 +36,7 @@ namespace UnitTest.Base.Log.Appender {
       Trace.Listeners.Clear();
       Trace.Listeners.Add(categoryTraceListener);
 
-      ILoggerRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
 
       AppenderTrace traceAppender = new AppenderTrace();
       LayoutPattern methodLayout = new LayoutPattern("%method");
@@ -47,7 +45,7 @@ namespace UnitTest.Base.Log.Appender {
       traceAppender.Layout = new LayoutLoggerSimple();
       traceAppender.Activate();
 
-      BasicConfigurator.Configure(rep, traceAppender);
+      BasicConfigurator.Config(rep, traceAppender);
 
       ILog log = LogManager.GetLogger(rep.Name, GetType());
       log.Debug("Message");
