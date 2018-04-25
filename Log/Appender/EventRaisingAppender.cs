@@ -5,7 +5,7 @@ using System.Text;
 
 using Soyo.Base.Text;
 
-namespace UnitTest.Base.Log.Appender {
+namespace UnitTest.Base.Log {
   /// <summary>
   /// Provides data for the <see cref="EventRaisingAppender.LoggingEventAppended"/> event.
   /// </summary>

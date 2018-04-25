@@ -5,7 +5,7 @@ using Soyo.Base.Text;
 using NUnit.Framework;
 
 
-namespace UnitTest.Base.Log.Appender {
+namespace UnitTest.Base.Log {
   /// <summary>
   /// Used for internal unit testing the <see cref="BufferingAppenderBase"/> class.
   /// </summary>
@@ -38,7 +38,7 @@ namespace UnitTest.Base.Log.Appender {
 
       m_bufferingForwardingAppender.Activate();
 
-      BasicConfigurator.Config(controller, m_bufferingForwardingAppender);
+      BasicConfig.Config(controller, m_bufferingForwardingAppender);
     }
 
     /// <summary>

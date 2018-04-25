@@ -6,11 +6,11 @@ using Soyo.Base.Log;
 using Soyo.Base.Text;
 using NUnit.Framework;
 
-namespace UnitTest.Base.Log.LoggerRepository {
+namespace UnitTest.Base.Log {
   [TestFixture]
-  public class ConfigurationMessages {
+  public class InternalMessage {
     [Test]
-    public void ConfigurationMessagesTest() {
+    public void InternalMessageTest() {
       try {
         Soyo.Base.Log.LogInternal.InternalMessage = false;
         Soyo.Base.Log.LogInternal.InternalDebug = true;
@@ -34,7 +34,7 @@ namespace UnitTest.Base.Log.LoggerRepository {
         ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
         rep.ChangeConfigEvent += new LoggerControllerEventHandler(rep_ConfigurationChanged);
 
-        ICollection<LogInternal> configurationMessages = XmlConfigurator.Configure(rep, log4netConfig["Soyo.Base.Log"]);
+        ICollection<LogInternal> configurationMessages = XmlConfig.Config(rep, log4netConfig["Soyo.Base.Log"]);
 
         Assert.IsTrue(configurationMessages.Count > 0);
       } finally {

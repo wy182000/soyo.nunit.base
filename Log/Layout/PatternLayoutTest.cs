@@ -2,14 +2,13 @@
 using System.IO;
 
 using Soyo.Base.Log;
-using UnitTest.Base.Log.Appender;
 using Soyo.Base;
 using Soyo.Base.Text;
 
 using NUnit.Framework;
 using System.Globalization;
 
-namespace UnitTest.Base.Log.Layout {
+namespace UnitTest.Base.Log {
   /// <summary>
   /// Used for internal unit testing the <see cref="LayoutPattern"/> class.
   /// </summary>
@@ -52,7 +51,7 @@ namespace UnitTest.Base.Log.Layout {
       stringAppender.Layout = NewPatternLayout("%property{" + Utils.PROPERTY_KEY + "}");
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
 
       ILog log1 = LogManager.Get(rep.Name, "TestThreadProperiesPattern");
 
@@ -79,7 +78,7 @@ namespace UnitTest.Base.Log.Layout {
       stringAppender.Layout = NewPatternLayout("%stacktrace{2}");
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
 
       ILog log1 = LogManager.Get(rep.Name, "TestStackTracePattern");
 
@@ -94,7 +93,7 @@ namespace UnitTest.Base.Log.Layout {
       stringAppender.Layout = NewPatternLayout("%property{" + Utils.PROPERTY_KEY + "}");
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
 
       ILog log1 = LogManager.Get(rep.Name, "TestGlobalProperiesPattern");
 
@@ -127,7 +126,7 @@ namespace UnitTest.Base.Log.Layout {
       stringAppender.Layout = layout;
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
 
       ILog log1 = LogManager.Get(rep.Name, "TestAddingCustomPattern");
 
@@ -145,7 +144,7 @@ namespace UnitTest.Base.Log.Layout {
       layout.Activate();
       stringAppender.Layout = layout;
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
       ILog log1 = LogManager.Get(rep.Name, "TestAddingCustomPattern");
 
       log1.Info("NoDots");
@@ -191,7 +190,7 @@ namespace UnitTest.Base.Log.Layout {
       layout.Activate();
       stringAppender.Layout = layout;
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
       ILog log1 = LogManager.Get(rep.Name, "TestAddingCustomPattern");
 
       log1.Info("NoDots");
@@ -237,7 +236,7 @@ namespace UnitTest.Base.Log.Layout {
       layout.Activate();
       stringAppender.Layout = layout;
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
       ILog log1 = LogManager.Get(rep.Name, "TestAddingCustomPattern");
 
       log1.Info("NoDots");
@@ -292,7 +291,7 @@ namespace UnitTest.Base.Log.Layout {
       stringAppender.Layout = layout;
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
 
       ILog log1 = LogManager.Get(rep.Name, "TestExceptionPattern");
 

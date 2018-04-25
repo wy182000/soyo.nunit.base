@@ -1,7 +1,7 @@
 ﻿using Soyo.Base.Text;
 using NUnit.Framework;
 
-namespace UnitTest.Base.Log.Appender {
+namespace UnitTest.Base.Log {
   /// <summary>
   /// Used for internal unit testing the <see cref="AppenderCollection"/> class.
   /// </summary>

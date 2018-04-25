@@ -5,12 +5,11 @@ using System.Xml;
 using Soyo.Base;
 using Soyo.Base.Text;
 using Soyo.Base.Log;
-using UnitTest.Base.Log.Appender;
 
 using NUnit.Framework;
 using System.Globalization;
 
-namespace UnitTest.Base.Log.Layout {
+namespace UnitTest.Base.Log {
   [TestFixture]
   public class XmlLayoutTest {
     private CultureInfo _currentCulture;
@@ -164,7 +163,7 @@ namespace UnitTest.Base.Log.Layout {
       stringAppender.Layout = layout;
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
       ILog log1 = LogManager.Get(rep.Name, "TestThreadProperiesPattern");
 
       log1.Logger.Log(new LogObject(evt));
@@ -185,7 +184,7 @@ namespace UnitTest.Base.Log.Layout {
       stringAppender.Layout = layout;
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
       ILog log1 = LogManager.Get(rep.Name, "TestThreadProperiesPattern");
 
       log1.Logger.Log(new LogObject(evt));
@@ -205,7 +204,7 @@ namespace UnitTest.Base.Log.Layout {
       stringAppender.Layout = layout;
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
       ILog log1 = LogManager.Get(rep.Name, "TestThreadProperiesPattern");
 
       log1.Logger.Log(new LogObject(evt));
@@ -225,7 +224,7 @@ namespace UnitTest.Base.Log.Layout {
       stringAppender.Layout = layout;
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
       ILog log1 = LogManager.Get(rep.Name, "TestThreadProperiesPattern");
 
       log1.Logger.Log(new LogObject(evt));
@@ -245,7 +244,7 @@ namespace UnitTest.Base.Log.Layout {
       stringAppender.Layout = layout;
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
       ILog log1 = LogManager.Get(rep.Name, "TestThreadProperiesPattern");
 
       log1.Logger.Log(new LogObject(evt));
@@ -262,7 +261,7 @@ namespace UnitTest.Base.Log.Layout {
       stringAppender.Layout = layout;
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
       ILog log1 = LogManager.Get(rep.Name, "TestLogger");
       Action<int> bar = foo => {
         try {
@@ -285,7 +284,7 @@ namespace UnitTest.Base.Log.Layout {
       stringAppender.Layout = layout;
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
       ILog log1 = LogManager.Get(rep.Name, "TestLogger");
       Action<int> bar = foo => {
         try {

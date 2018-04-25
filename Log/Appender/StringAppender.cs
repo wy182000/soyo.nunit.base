@@ -3,7 +3,7 @@
 using Soyo.Base.Text;
 using Soyo.Base.Log;
 
-namespace UnitTest.Base.Log.Appender {
+namespace UnitTest.Base.Log {
   public class StringAppender : AppenderLogger {
     private StringBuilder buffer_ = new StringBuilder();
     public StringAppender() {

@@ -8,7 +8,7 @@ using Soyo.Base.Log;
 
 using NUnit.Framework;
 
-namespace UnitTest.Base.Log.Appender {
+namespace UnitTest.Base.Log {
   /// <summary>
   /// Used for internal unit testing the <see cref="AppenderSmtpPickup"/> class.
   /// </summary>

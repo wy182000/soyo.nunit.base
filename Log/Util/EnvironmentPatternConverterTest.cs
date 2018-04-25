@@ -1,11 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 using NUnit.Framework;
 
 using Soyo.Base.Text;
 
-namespace UnitTest.Base.Log.Util {
+namespace UnitTest.Base.Log {
   [TestFixture]
   public class EnvironmentPatternConverterTest {
     private const string ENVIRONMENT_VARIABLE_NAME = "LOG4NET_TEST_TEMP";

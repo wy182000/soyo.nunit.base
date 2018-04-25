@@ -4,7 +4,7 @@ using Soyo.Base.Log;
 
 using NUnit.Framework;
 
-namespace UnitTest.Base.Log.Util {
+namespace UnitTest.Base.Log {
 
   [TestFixture]
   public class TransformTest {

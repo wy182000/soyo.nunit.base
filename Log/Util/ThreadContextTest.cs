@@ -4,11 +4,10 @@ using System.Threading;
 using Soyo.Base;
 using Soyo.Base.Text;
 using Soyo.Base.Log;
-using UnitTest.Base.Log.Appender;
 
 using NUnit.Framework;
 
-namespace UnitTest.Base.Log.Context {
+namespace UnitTest.Base.Log {
   /// <summary>
   /// Used for internal unit testing the <see cref="ThreadContext"/> class.
   /// </summary>
@@ -28,7 +27,7 @@ namespace UnitTest.Base.Log.Context {
       stringAppender.Layout = new LayoutPattern("%property{" + Utils.PROPERTY_KEY + "}");
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
 
       ILog log1 = LogManager.Get(rep.Name, "TestThreadProperiesPattern");
 
@@ -55,7 +54,7 @@ namespace UnitTest.Base.Log.Context {
       stringAppender.Layout = new LayoutPattern("%property{" + Utils.PROPERTY_KEY + "}");
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
 
       ILog log1 = LogManager.Get(rep.Name, "TestThreadStackPattern");
 
@@ -80,7 +79,7 @@ namespace UnitTest.Base.Log.Context {
       stringAppender.Layout = new LayoutPattern("%property{" + Utils.PROPERTY_KEY + "}");
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
 
       ILog log1 = LogManager.Get(rep.Name, "TestThreadStackPattern");
 
@@ -111,7 +110,7 @@ namespace UnitTest.Base.Log.Context {
       stringAppender.Layout = new LayoutPattern("%property{" + Utils.PROPERTY_KEY + "}");
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
 
       ILog log1 = LogManager.Get(rep.Name, "TestThreadStackPattern");
 
@@ -136,7 +135,7 @@ namespace UnitTest.Base.Log.Context {
       stringAppender.Layout = new LayoutPattern("%property{" + Utils.PROPERTY_KEY + "}");
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
 
       ILog log1 = LogManager.Get(rep.Name, "TestThreadStackPattern");
 
@@ -169,7 +168,7 @@ namespace UnitTest.Base.Log.Context {
       stringAppender.Layout = new LayoutPattern("%property{DateTimeTodayToString}");
 
       ILoggerController rep = LogManager.CreateController(TestBackgroundThreadContextPropertyRepository = "TestBackgroundThreadContextPropertyRepository" + Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
 
       System.Threading.Thread thread = new System.Threading.Thread(new ThreadStart(ExecuteBackgroundThread));
       thread.Start();

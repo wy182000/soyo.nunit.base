@@ -1,10 +1,9 @@
-﻿#if UNITY_2017
-using System;
+﻿using System;
 using Soyo.Base.Text;
 using NUnit.Framework;
 using System.IO;
 
-namespace UnitTest.Base.Log.Util {
+namespace UnitTest.Base.Log {
   [TestFixture]
   public class PatternStringTest : MarshalByRefObject {
     [Test]
@@ -30,14 +29,5 @@ namespace UnitTest.Base.Log.Util {
       File.WriteAllText(fileName, configurationFileContent);
       return fileName;
     }
-
-    private static AppDomain CreateConfiguredDomain(string domainName, string configurationFileName) {
-      AppDomainSetup ads = new AppDomainSetup();
-      ads.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
-      ads.ConfigurationFile = configurationFileName;
-      AppDomain ad = AppDomain.CreateDomain(domainName, null, ads);
-      return ad;
-    }
   }
 }
-#endif

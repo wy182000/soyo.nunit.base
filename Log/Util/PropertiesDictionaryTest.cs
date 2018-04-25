@@ -5,7 +5,7 @@ using Soyo.Base;
 
 using NUnit.Framework;
 
-namespace UnitTest.Base.Log.Util {
+namespace UnitTest.Base.Log {
   [TestFixture]
   public class PropertySetTest {
     [Test]

@@ -5,7 +5,7 @@ using Soyo.Base.Text;
 using Soyo.Base.Log;
 using NUnit.Framework;
 
-namespace UnitTest.Base.Log.Filter {
+namespace UnitTest.Base.Log {
   [TestFixture]
   public class FilterTest {
     [Test]
@@ -15,7 +15,7 @@ namespace UnitTest.Base.Log.Filter {
       log4netConfig.LoadXml(@"
             <Soyo.Base.Log>
             <appender name=""AppenderMemory"" type=""Soyo.Base.Text.AppenderMemory"">
-                <filter type=""UnitTest.Base.Log.Filter.MultiplePropertyFilter"">
+                <filter type=""UnitTest.Base.Log.MultiplePropertyFilter"">
                     <condition>
                         <key value=""ABC"" />
                         <stringToMatch value=""123"" />
@@ -34,7 +34,7 @@ namespace UnitTest.Base.Log.Filter {
       #endregion
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      XmlConfigurator.Configure(rep, log4netConfig["Soyo.Base.Log"]);
+      XmlConfig.Config(rep, log4netConfig["Soyo.Base.Log"]);
 
       IAppender[] appenders = LogManager.GetController(rep.Name).Appenders;
       Assert.IsTrue(appenders.Length == 1);

@@ -2,12 +2,11 @@
 using System.Xml;
 
 using Soyo.Base.Log;
-using UnitTest.Base.Log.Appender;
 using NUnit.Framework;
 
-namespace UnitTest.Base.Log.Hierarchy {
+namespace UnitTest.Base.Log {
   [TestFixture]
-  public class Hierarchy {
+  public class LoggerControllerTest {
     [Test]
     public void SetRepositoryPropertiesInConfigFile() {
       // LOG4NET-53: Allow repository properties to be set in the config file
@@ -18,7 +17,7 @@ namespace UnitTest.Base.Log.Hierarchy {
                     <key value=""two-plus-two"" />
                     <value value=""4"" />
                   </property>
-                  <appender name=""StringAppender"" type=""UnitTest.Base.Log.Appender.StringAppender"">
+                  <appender name=""StringAppender"" type=""UnitTest.Base.Log.StringAppender"">
                     <layout type=""Soyo.Base.Text.LayoutLoggerSimple"" />
                   </appender>
                   <root>
@@ -28,7 +27,7 @@ namespace UnitTest.Base.Log.Hierarchy {
                 </Soyo.Base.Log>");
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      XmlConfigurator.Configure(rep, log4netConfig["Soyo.Base.Log"]);
+      XmlConfig.Config(rep, log4netConfig["Soyo.Base.Log"]);
 
       Assert.AreEqual("4", rep.PropertySet["two-plus-two"]);
       Assert.IsNull(rep.PropertySet["one-plus-one"]);
@@ -58,7 +57,7 @@ namespace UnitTest.Base.Log.Hierarchy {
       CountingAppender alpha = new CountingAppender();
       CountingAppender beta = new CountingAppender();
 
-      BasicConfigurator.Config(alpha, beta);
+      BasicConfig.Config(alpha, beta);
 
       ILog log = LogManager.Get(GetType());
       log.Debug("Hello World");
@@ -73,7 +72,7 @@ namespace UnitTest.Base.Log.Hierarchy {
       XmlDocument log4netConfig = new XmlDocument();
       log4netConfig.LoadXml(@"
                 <Soyo.Base.Log>
-                  <appender name=""StringAppender"" type=""UnitTest.Base.Log.Appender.StringAppender"">
+                  <appender name=""StringAppender"" type=""UnitTest.Base.Log.StringAppender"">
                     <layout type=""Soyo.Base.Text.LayoutLoggerSimple"" />
                   </appender>
                   <root>
@@ -86,7 +85,7 @@ namespace UnitTest.Base.Log.Hierarchy {
                 </Soyo.Base.Log>");
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      XmlConfigurator.Configure(rep, log4netConfig["Soyo.Base.Log"]);
+      XmlConfig.Config(rep, log4netConfig["Soyo.Base.Log"]);
     }
 
     [Test]
@@ -94,7 +93,7 @@ namespace UnitTest.Base.Log.Hierarchy {
       XmlDocument log4netConfig = new XmlDocument();
       log4netConfig.LoadXml(@"
                 <Soyo.Base.Log>
-                  <appender name=""StringAppender"" type=""UnitTest.Base.Log.Appender.StringAppender"">
+                  <appender name=""StringAppender"" type=""UnitTest.Base.Log.StringAppender"">
                     <layout type=""Soyo.Text.LayoutLoggerSimple"" />
                   </appender>
                   <root>
@@ -107,7 +106,7 @@ namespace UnitTest.Base.Log.Hierarchy {
                 </Soyo.Base.Log>");
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      XmlConfigurator.Configure(rep, log4netConfig["Soyo.Base.Log"]);
+      XmlConfig.Config(rep, log4netConfig["Soyo.Base.Log"]);
     }
 
     [Test]
@@ -115,7 +114,7 @@ namespace UnitTest.Base.Log.Hierarchy {
       XmlDocument log4netConfig = new XmlDocument();
       log4netConfig.LoadXml(@"
                 <Soyo.Base.Log>
-                  <appender name=""StringAppender"" type=""UnitTest.Base.Log.Appender.StringAppender"">
+                  <appender name=""StringAppender"" type=""UnitTest.Base.Log.StringAppender"">
                     <layout type=""Soyo.Base.Text.LayoutLoggerSimple"" />
                   </appender>
                   <root>
@@ -128,7 +127,7 @@ namespace UnitTest.Base.Log.Hierarchy {
                 </Soyo.Base.Log>");
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      XmlConfigurator.Configure(rep, log4netConfig["Soyo.Base.Log"]);
+      XmlConfig.Config(rep, log4netConfig["Soyo.Base.Log"]);
     }
   }
 }

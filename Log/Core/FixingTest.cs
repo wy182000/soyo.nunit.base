@@ -6,7 +6,7 @@ using Soyo.Base.Text;
 
 using NUnit.Framework;
 
-namespace UnitTest.Base.Log.Core {
+namespace UnitTest.Base.Log {
   /// <summary>
   /// </<summary>
   [TestFixture]
@@ -16,9 +16,9 @@ namespace UnitTest.Base.Log.Core {
     [OneTimeSetUp]
     public void CreateRepository() {
       bool exists = false;
-      Soyo.Base.Log.ILoggerController[] repositories = LogManager.GetAllController();
+      ILoggerController[] repositories = LogManager.GetAllController();
       if (repositories != null) {
-        foreach (Soyo.Base.Log.ILoggerController r in repositories) {
+        foreach (var r in repositories) {
           if (r.Name == TEST_REPOSITORY) {
             exists = true;
             break;
@@ -39,7 +39,6 @@ namespace UnitTest.Base.Log.Core {
     public void TestUnfixedValues() {
       LogObjectData loggingEventData = BuildStandardEventData();
 
-      // LoggingEvents occur at distinct points in time
       LogObject loggingEvent = new LogObject(
         loggingEventData.Location.GetType(),
         LogManager.GetController(TEST_REPOSITORY),
@@ -112,8 +111,8 @@ namespace UnitTest.Base.Log.Core {
       Assert.AreEqual(null, loggingEventData.Identity, "Identity is incorrect");
       Assert.AreEqual(Level.Warn, loggingEventData.Level, "Level is incorrect");
       Assert.AreEqual("get_Location", loggingEvent.Location.MethodName, "Location Info is incorrect");
-      Assert.AreEqual("UnitTest.Base.Log.Core.FixingTest", loggingEventData.LoggerName, "LoggerName is incorrect");
-      Assert.AreEqual(LogManager.GetController(TEST_REPOSITORY), loggingEvent.Repository, "Repository is incorrect");
+      Assert.AreEqual("UnitTest.Base.Log.FixingTest", loggingEventData.LoggerName, "LoggerName is incorrect");
+      Assert.AreEqual(LogManager.GetController(TEST_REPOSITORY), loggingEvent.Controller, "Repository is incorrect");
       Assert.AreEqual(Thread.CurrentThread.Name, loggingEventData.ThreadName, "ThreadName is incorrect");
       // This test is redundant as loggingEventData.TimeStamp is a value type and cannot be null
       // Assert.IsNotNull(loggingEventData.TimeStampUtc, "TimeStamp is incorrect");

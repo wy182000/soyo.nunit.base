@@ -1,60 +1,27 @@
 ﻿using Soyo.Base.Text;
-using Soyo.Base.Log;
 
-namespace UnitTest.Base.Log.Appender {
-  /// <summary>
-  /// Implements an Appender for test purposes that counts the
-  /// number of output calls to <see cref="Append" />.
-  /// </summary>
-  /// <remarks>
-  /// This appender is used in the unit tests.
-  /// </remarks>
-  /// <author>Nicko Cadell</author>
-  /// <author>Gert Driesen</author>
+namespace UnitTest.Base.Log {
   public class CountingAppender : AppenderBase {
-    #region Public Instance Constructors
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CountingAppender" /> class.
-    /// </summary>
+    #region constructors
     public CountingAppender() {
-      m_counter = 0;
+      Counter = 0;
     }
-    #endregion Public Instance Constructors
+    #endregion constructors
 
-    #region Public Instance Properties
-    /// <summary>
-    /// Returns the number of times <see cref="Append" /> has been called.
-    /// </summary>
-    /// <value>
-    /// The number of times <see cref="Append" /> has been called.
-    /// </value>
-    public int Counter {
-      get { return m_counter; }
-    }
-    #endregion Public Instance Properties
+    #region public property
+    public int Counter { get; private set; }
+    #endregion public property
 
-    /// <summary>
-    /// Reset the counter to zero
-    /// </summary>
+    #region public function
     public void ResetCounter() {
-      m_counter = 0;
+      Counter = 0;
     }
+    #endregion public function
 
-    #region Override implementation of AppenderBase
-    /// <summary>
-    /// Registers how many times the method has been called.
-    /// </summary>
-    /// <param name="logEvent">The logging event.</param>
+    #region AppenderBase
     protected override void append(IRender render, object logEvent) {
-      m_counter++;
+      Counter++;
     }
-    #endregion Override implementation of AppenderBase
-
-    #region Private Instance Fields
-    /// <summary>
-    /// The number of times <see cref="Append" /> has been called.
-    /// </summary>
-    private int m_counter;
-    #endregion Private Instance Fields
+    #endregion AppenderBase
   }
 }

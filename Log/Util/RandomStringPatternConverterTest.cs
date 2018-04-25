@@ -3,7 +3,7 @@ using System.IO;
 
 using NUnit.Framework;
 
-namespace UnitTest.Base.Log.Util {
+namespace UnitTest.Base.Log {
   /// <summary>
   /// Used for internal unit testing the <see cref="RandomStringPatternConverter"/> class.
   /// </summary>

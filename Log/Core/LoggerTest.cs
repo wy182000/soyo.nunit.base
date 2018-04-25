@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 
 using Soyo.Base.Log;
-using UnitTest.Base.Log.Appender;
 
 using NUnit.Framework;
 
-namespace UnitTest.Base.Log.Hierarchy {
+namespace UnitTest.Base.Log {
   /// <summary>
   /// Used for internal unit testing the <see cref="Logger"/> class.
   /// </summary>
@@ -83,105 +82,6 @@ namespace UnitTest.Base.Log.Hierarchy {
       aHat = (CountingAppender)log.GetAppender(a2.Name);
       Assert.AreEqual(a2, aHat);
     }
-
-    /* skip logger hierarchy
-    /// <summary>
-    /// Test if logger a.b inherits its appender from a.
-    /// </summary>
-    [Test]
-    public void TestAdditivity1() {
-      Logger a = (Logger)Utils.GetLogger("a").Logger;
-      Logger ab = (Logger)Utils.GetLogger("a.b").Logger;
-      CountingAppender ca = new CountingAppender();
-
-      a.AddAppender(ca);
-      a.Repository.Configured = true;
-
-      Assert.AreEqual(ca.Counter, 0);
-      ab.Log(Level.Debug, MSG, null);
-      Assert.AreEqual(ca.Counter, 1);
-      ab.Log(Level.Info, MSG, null);
-      Assert.AreEqual(ca.Counter, 2);
-      ab.Log(Level.Warn, MSG, null);
-      Assert.AreEqual(ca.Counter, 3);
-      ab.Log(Level.Error, MSG, null);
-      Assert.AreEqual(ca.Counter, 4);
-    }
-
-    /// <summary>
-    /// Test multiple additivity.
-    /// </summary>
-    [Test]
-    public void TestAdditivity2() {
-      Logger a = (Logger)Utils.GetLogger("a").Logger;
-      Logger ab = (Logger)Utils.GetLogger("a.b").Logger;
-      Logger abc = (Logger)Utils.GetLogger("a.b.c").Logger;
-      Logger x = (Logger)Utils.GetLogger("x").Logger;
-
-      CountingAppender ca1 = new CountingAppender();
-      CountingAppender ca2 = new CountingAppender();
-
-      a.AddAppender(ca1);
-      abc.AddAppender(ca2);
-      a.Repository.Configured = true;
-
-      Assert.AreEqual(ca1.Counter, 0);
-      Assert.AreEqual(ca2.Counter, 0);
-
-      ab.Log(Level.Debug, MSG, null);
-      Assert.AreEqual(ca1.Counter, 1);
-      Assert.AreEqual(ca2.Counter, 0);
-
-      abc.Log(Level.Debug, MSG, null);
-      Assert.AreEqual(ca1.Counter, 2);
-      Assert.AreEqual(ca2.Counter, 1);
-
-      x.Log(Level.Debug, MSG, null);
-      Assert.AreEqual(ca1.Counter, 2);
-      Assert.AreEqual(ca2.Counter, 1);
-    }
-
-    /// <summary>
-    /// Test additivity flag.
-    /// </summary>
-    [Test]
-    public void TestAdditivity3() {
-      Logger root = ((Soyo.Base.Log.RepositoryNode)Utils.GetRepository()).Root;
-      Logger a = (Logger)Utils.GetLogger("a").Logger;
-      Logger ab = (Logger)Utils.GetLogger("a.b").Logger;
-      Logger abc = (Logger)Utils.GetLogger("a.b.c").Logger;
-
-      CountingAppender caRoot = new CountingAppender();
-      CountingAppender caA = new CountingAppender();
-      CountingAppender caABC = new CountingAppender();
-
-      root.AddAppender(caRoot);
-      a.AddAppender(caA);
-      abc.AddAppender(caABC);
-      a.Repository.Configured = true;
-
-      Assert.AreEqual(caRoot.Counter, 0);
-      Assert.AreEqual(caA.Counter, 0);
-      Assert.AreEqual(caABC.Counter, 0);
-
-      ab.Additivity = false;
-
-      a.Log(Level.Debug, MSG, null);
-      Assert.AreEqual(caRoot.Counter, 1);
-      Assert.AreEqual(caA.Counter, 1);
-      Assert.AreEqual(caABC.Counter, 0);
-
-      ab.Log(Level.Debug, MSG, null);
-      Assert.AreEqual(caRoot.Counter, 1);
-      Assert.AreEqual(caA.Counter, 1);
-      Assert.AreEqual(caABC.Counter, 0);
-
-      abc.Log(Level.Debug, MSG, null);
-      Assert.AreEqual(caRoot.Counter, 1);
-      Assert.AreEqual(caA.Counter, 1);
-      Assert.AreEqual(caABC.Counter, 1);
-    }
-    */
 
     /// <summary>
     /// Test the ability to disable a level of message

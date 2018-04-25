@@ -2,29 +2,20 @@
 
 using Soyo.Base.Text;
 using Soyo.Base.Log;
-using UnitTest.Base.Log.Appender;
 
 using NUnit.Framework;
 
-namespace UnitTest.Base.Log.Core {
-  /// <summary>
-  /// </remarks>
+namespace UnitTest.Base.Log {
   [TestFixture]
-  public class ShutdownTest {
-    /// <summary>
-    /// Test that a repository can be shutdown and reconfigured
-    /// </summary>
+  public class TerminateTest {
     [Test]
     public void TestShutdownAndReconfigure() {
-      // Create unique repository
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
 
-      // Create appender and configure repos
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = new LayoutPattern("%m");
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
 
-      // Get logger from repos
       ILog log1 = LogManager.Get(rep.Name, "logger1");
 
       log1.Info("TestMessage1");
@@ -37,10 +28,9 @@ namespace UnitTest.Base.Log.Core {
       Assert.AreEqual("", stringAppender.GetString(), "Test not logging while shutdown");
       stringAppender.Reset();
 
-      // Create new appender and configure
       stringAppender = new StringAppender();
       stringAppender.Layout = new LayoutPattern("%m");
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
 
       log1.Info("TestMessage3");
       Assert.AreEqual("TestMessage3", stringAppender.GetString(), "Test logging re-configured");

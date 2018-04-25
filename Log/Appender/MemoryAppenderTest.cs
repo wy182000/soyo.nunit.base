@@ -5,7 +5,7 @@ using NUnit.Framework;
 using Soyo.Base.Text;
 using Soyo.Base.Log;
 
-namespace UnitTest.Base.Log.Appender {
+namespace UnitTest.Base.Log {
   [TestFixture]
   public class MemoryAppenderTest {
     private static int cThreadsRunning;
@@ -20,7 +20,7 @@ namespace UnitTest.Base.Log.Appender {
       var patternLayout = new LayoutPattern();
       memoryAppender.Layout = patternLayout;
       memoryAppender.Activate();
-      BasicConfigurator.Config(rep, memoryAppender);
+      BasicConfig.Config(rep, memoryAppender);
 
       cThreadsRunning = cThreadsMax;
       var threads = Enumerable.Range(0, cThreadsMax)

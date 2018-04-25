@@ -3,7 +3,7 @@ using Soyo.Base.Log;
 using NUnit.Framework;
 using System.Globalization;
 
-namespace UnitTest.Base.Log.Appender {
+namespace UnitTest.Base.Log {
   [TestFixture]
   public class RecursiveLoggingTest {
     private EventRaisingAppender m_eventRaisingAppender;
@@ -21,7 +21,7 @@ namespace UnitTest.Base.Log.Appender {
       m_hierarchy.Root.Level = Level.All;
       m_hierarchy.Root.AddAppender(m_eventRaisingAppender);
 
-      BasicConfigurator.Config(m_hierarchy, m_eventRaisingAppender);
+      BasicConfig.Config(m_hierarchy, m_eventRaisingAppender);
 
       m_logger = m_hierarchy.Get("test");
 

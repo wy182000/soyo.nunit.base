@@ -3,9 +3,9 @@ using System.Diagnostics;
 using Soyo.Base.Log;
 using NUnit.Framework;
 
-namespace UnitTest.Base.Log.Util {
+namespace UnitTest.Base.Log {
   [TestFixture]
-  public class LogLogTest {
+  public class LogInternalTest {
     [Test]
     public void TraceListenerCounterTest() {
       TraceListenerCounter listTraceListener = new TraceListenerCounter();

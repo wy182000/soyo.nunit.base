@@ -3,11 +3,10 @@ using System.IO;
 using System.Xml;
 
 using Soyo.Base.Log;
-using UnitTest.Base.Log.Appender;
 using Soyo.Base.Text;
 using NUnit.Framework;
 
-namespace UnitTest.Base.Log.Util {
+namespace UnitTest.Base.Log {
   [TestFixture]
   public class PatternConverterTest {
     [Test]
@@ -15,11 +14,11 @@ namespace UnitTest.Base.Log.Util {
       XmlDocument log4netConfig = new XmlDocument();
       log4netConfig.LoadXml(@"
                 <Soyo.Base.Log>
-                  <appender name=""StringAppender"" type=""UnitTest.Base.Log.Appender.StringAppender"">
+                  <appender name=""StringAppender"" type=""UnitTest.Base.Log.StringAppender"">
                     <layout type=""Soyo.Base.Text.LayoutPattern"">
                         <converter>
                             <name value=""propertyKeyCount"" />
-                            <type value=""UnitTest.Base.Log.Util.PropertyKeyCountPatternLayoutConverter"" />
+                            <type value=""UnitTest.Base.Log.PropertyKeyCountPatternLayoutConverter"" />
                             <property>
                                 <key value=""one-plus-one"" />
                                 <value value=""2"" />
@@ -39,7 +38,7 @@ namespace UnitTest.Base.Log.Util {
                 </Soyo.Base.Log>");
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      XmlConfigurator.Configure(rep, log4netConfig["Soyo.Base.Log"]);
+      XmlConfig.Config(rep, log4netConfig["Soyo.Base.Log"]);
 
       ILog log = LogManager.Get(rep.Name, "PatternLayoutConverterProperties");
       log.Debug("Message");
@@ -59,12 +58,12 @@ namespace UnitTest.Base.Log.Util {
       XmlDocument log4netConfig = new XmlDocument();
       log4netConfig.LoadXml(@"
                 <Soyo.Base.Log>
-                  <appender name=""PatternStringAppender"" type=""UnitTest.Base.Log.Util.PatternStringAppender"">
+                  <appender name=""PatternStringAppender"" type=""UnitTest.Base.Log.PatternStringAppender"">
                     <layout type=""Soyo.Base.Text.LayoutLoggerSimple"" />
                     <setting>
                         <converter>
                             <name value=""propertyKeyCount"" />
-                            <type value=""UnitTest.Base.Log.Util.PropertyKeyCountPatternConverter"" />
+                            <type value=""UnitTest.Base.Log.PropertyKeyCountPatternConverter"" />
                             <property>
                                 <key value=""one-plus-one"" />
                                 <value value=""2"" />
@@ -84,7 +83,7 @@ namespace UnitTest.Base.Log.Util {
                 </Soyo.Base.Log>");
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      XmlConfigurator.Configure(rep, log4netConfig["Soyo.Base.Log"]);
+      XmlConfig.Config(rep, log4netConfig["Soyo.Base.Log"]);
 
       ILog log = LogManager.Get(rep.Name, "PatternConverterProperties");
       log.Debug("Message");

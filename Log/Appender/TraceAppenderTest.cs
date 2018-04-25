@@ -5,7 +5,7 @@ using Soyo.Base.Text;
 using Soyo.Base.Log;
 using NUnit.Framework;
 
-namespace UnitTest.Base.Log.Appender {
+namespace UnitTest.Base.Log {
   [TestFixture]
   public class TraceAppenderTest {
     [Test]
@@ -20,7 +20,7 @@ namespace UnitTest.Base.Log.Appender {
       traceAppender.Layout = new LayoutLoggerSimple();
       traceAppender.Activate();
 
-      BasicConfigurator.Config(rep, traceAppender);
+      BasicConfig.Config(rep, traceAppender);
 
       ILog log = LogManager.Get(rep.Name, GetType());
       log.Debug("Message");
@@ -45,7 +45,7 @@ namespace UnitTest.Base.Log.Appender {
       traceAppender.Layout = new LayoutLoggerSimple();
       traceAppender.Activate();
 
-      BasicConfigurator.Config(rep, traceAppender);
+      BasicConfig.Config(rep, traceAppender);
 
       ILog log = LogManager.Get(rep.Name, GetType());
       log.Debug("Message");

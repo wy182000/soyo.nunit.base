@@ -1,37 +1,18 @@
-﻿#if UNITY_2017
-using System;
+﻿using System;
 using System.Xml;
 using NUnit.Framework;
 
 using Soyo.Base.Log;
 
-namespace UnitTest.Base.Log.Hierarchy {
+namespace UnitTest.Base.Log {
   [TestFixture]
-  public class XmlHierarchyConfiguratorTest {
-
-    private string testProp;
-
-    public string TestProp {
-      set {
-        testProp = value;
-      }
-      get {
-        return testProp;
-      }
-    }
+  public class XmlConfigTest {
+    public string TestProp { set; get; }
 
     [Test]
-    [Platform(Include = "Win")]
     public void EnvironmentOnWindowsIsCaseInsensitive() {
       SetTestPropWithPath();
       Assert.AreNotEqual("Path=", TestProp);
-    }
-
-    [Test]
-    [Platform(Include = "Unix")]
-    public void EnvironmentOnUnixIsCaseSensitive() {
-      SetTestPropWithPath();
-      Assert.AreEqual("Path=", TestProp);
     }
 
     private void SetTestPropWithPath() {
@@ -42,14 +23,12 @@ namespace UnitTest.Base.Log.Hierarchy {
       new TestConfigurator().PublicSetParameter(el, this);
     }
 
-    // workaround for SetParameter being protected
-    private class TestConfigurator : XmlHierarchyConfigurator {
+    private class TestConfigurator : XmlControllerConfig {
       public TestConfigurator() : base(null) {
       }
       public void PublicSetParameter(XmlElement element, object target) {
-        SetParameter(element, target);
+        setParameter(element, target);
       }
     }
   }
 }
-#endif

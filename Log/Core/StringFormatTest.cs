@@ -3,11 +3,10 @@ using System.Globalization;
 
 using Soyo.Base.Text;
 using Soyo.Base.Log;
-using UnitTest.Base.Log.Appender;
 
 using NUnit.Framework;
 
-namespace UnitTest.Base.Log.Core {
+namespace UnitTest.Base.Log {
   /// <summary>
   /// Used for internal unit testing the <see cref="PatternLayoutTest"/> class.
   /// </summary>
@@ -16,22 +15,22 @@ namespace UnitTest.Base.Log.Core {
   /// </remarks>
   [TestFixture]
   public class StringFormatTest {
-    private CultureInfo _currentCulture;
-    private CultureInfo _currentUICulture;
+    private CultureInfo currentCulture_;
+    private CultureInfo currentUICulture_;
 
     [SetUp]
     public void SetUp() {
       // set correct thread culture
-      _currentCulture = System.Threading.Thread.CurrentThread.CurrentCulture;
-      _currentUICulture = System.Threading.Thread.CurrentThread.CurrentUICulture;
+      currentCulture_ = System.Threading.Thread.CurrentThread.CurrentCulture;
+      currentUICulture_ = System.Threading.Thread.CurrentThread.CurrentUICulture;
       System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.InvariantCulture;
     }
 
     [TearDown]
     public void TearDown() {
       // restore previous culture
-      System.Threading.Thread.CurrentThread.CurrentCulture = _currentCulture;
-      System.Threading.Thread.CurrentThread.CurrentUICulture = _currentUICulture;
+      System.Threading.Thread.CurrentThread.CurrentCulture = currentCulture_;
+      System.Threading.Thread.CurrentThread.CurrentUICulture = currentUICulture_;
     }
 
     [Test]
@@ -40,7 +39,7 @@ namespace UnitTest.Base.Log.Core {
       stringAppender.Layout = new LayoutPattern("%message");
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
 
       ILog log1 = LogManager.Get(rep.Name, "TestFormatString");
 
@@ -96,7 +95,7 @@ namespace UnitTest.Base.Log.Core {
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
 
       ILog log1 = LogManager.Get(rep.Name, "TestLogFormatApi_Debug");
 
@@ -154,7 +153,7 @@ namespace UnitTest.Base.Log.Core {
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
 
       ILog log1 = LogManager.Get(rep.Name, "TestLogFormatApi_Debug");
 
@@ -212,7 +211,7 @@ namespace UnitTest.Base.Log.Core {
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
 
       ILog log1 = LogManager.Get(rep.Name, "TestLogFormatApi_Info");
 
@@ -270,7 +269,7 @@ namespace UnitTest.Base.Log.Core {
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
 
       ILog log1 = LogManager.Get(rep.Name, "TestLogFormatApi_Info");
 
@@ -328,7 +327,7 @@ namespace UnitTest.Base.Log.Core {
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
 
       ILog log1 = LogManager.Get(rep.Name, "TestLogFormatApi_Warn");
 
@@ -386,7 +385,7 @@ namespace UnitTest.Base.Log.Core {
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
 
       ILog log1 = LogManager.Get(rep.Name, "TestLogFormatApi_Warn");
 
@@ -444,7 +443,7 @@ namespace UnitTest.Base.Log.Core {
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
 
       ILog log1 = LogManager.Get(rep.Name, "TestLogFormatApi_Error");
 
@@ -502,7 +501,7 @@ namespace UnitTest.Base.Log.Core {
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
 
       ILog log1 = LogManager.Get(rep.Name, "TestLogFormatApi_Error");
 
@@ -560,7 +559,7 @@ namespace UnitTest.Base.Log.Core {
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
 
       ILog log1 = LogManager.Get(rep.Name, "TestLogFormatApi_Fatal");
 
@@ -618,7 +617,7 @@ namespace UnitTest.Base.Log.Core {
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
-      BasicConfigurator.Config(rep, stringAppender);
+      BasicConfig.Config(rep, stringAppender);
 
       ILog log1 = LogManager.Get(rep.Name, "TestLogFormatApi_Fatal");
 

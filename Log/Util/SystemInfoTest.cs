@@ -7,7 +7,7 @@ using NUnit.Framework;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace UnitTest.Base.Log.Util {
+namespace UnitTest.Base.Log {
   /// <summary>
   /// Used for internal unit testing the <see cref="SystemInfo"/> class.
   /// </summary>
@@ -45,13 +45,13 @@ namespace UnitTest.Base.Log.Util {
     public void TestGetTypeFromStringFullyQualified() {
       Type t;
 
-      t = GetTypeFromString("UnitTest.Base.Log.Util.SystemInfoTest", false, false);
+      t = GetTypeFromString("UnitTest.Base.Log.SystemInfoTest", false, false);
       Assert.AreSame(typeof(SystemInfoTest), t, "Test explicit case sensitive type load");
 
-      t = GetTypeFromString("UnitTest.Base.Log.Util.SYSTEMINFOTEST", false, true);
+      t = GetTypeFromString("UnitTest.Base.Log.SYSTEMINFOTEST", false, true);
       Assert.AreSame(typeof(SystemInfoTest), t, "Test explicit case in-sensitive type load caps");
 
-      t = GetTypeFromString("UnitTest.Base.Log.Util.systeminfotest", false, true);
+      t = GetTypeFromString("UnitTest.Base.Log.systeminfotest", false, true);
       Assert.AreSame(typeof(SystemInfoTest), t, "Test explicit case in-sensitive type load lower");
     }
 
@@ -59,13 +59,13 @@ namespace UnitTest.Base.Log.Util {
     public void TestGetTypeFromStringRelative() {
       Type t;
 
-      t = GetTypeFromString("UnitTest.Base.Log.Util.SystemInfoTest", false, false);
+      t = GetTypeFromString("UnitTest.Base.Log.SystemInfoTest", false, false);
       Assert.AreSame(typeof(SystemInfoTest), t, "Test explicit case sensitive type load");
 
-      t = GetTypeFromString("UnitTest.Base.Log.Util.SYSTEMINFOTEST", false, true);
+      t = GetTypeFromString("UnitTest.Base.Log.SYSTEMINFOTEST", false, true);
       Assert.AreSame(typeof(SystemInfoTest), t, "Test explicit case in-sensitive type load caps");
 
-      t = GetTypeFromString("UnitTest.Base.Log.Util.systeminfotest", false, true);
+      t = GetTypeFromString("UnitTest.Base.Log.systeminfotest", false, true);
       Assert.AreSame(typeof(SystemInfoTest), t, "Test explicit case in-sensitive type load lower");
     }
 

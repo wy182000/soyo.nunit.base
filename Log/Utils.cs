@@ -75,9 +75,6 @@ namespace UnitTest.Base.Log {
     internal static void RemovePropertyFromAllContexts() {
       GlobalContext.Remove(PROPERTY_KEY);
       ThreadContext.Remove(PROPERTY_KEY);
-#if UNITY_2017
-      LogicalThreadContext.Properties.Remove(PROPERTY_KEY);
-#endif
     }
 
     // Wrappers because repository/logger retrieval APIs require an Assembly argument on NETSTANDARD1_3

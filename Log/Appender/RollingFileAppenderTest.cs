@@ -12,7 +12,7 @@ using Soyo.Base.Log;
 using NUnit.Framework;
 using System.Globalization;
 
-namespace UnitTest.Base.Log.Appender {
+namespace UnitTest.Base.Log {
   /// <summary>
   /// Used for internal unit testing the <see cref="AppenderFileRolling"/> class.
   /// </summary>
