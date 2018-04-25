@@ -16,11 +16,11 @@ namespace UnitTest.Base.Log.Appender {
   public class BufferingAppenderTest {
     private AppenderLoggerBufferForward m_bufferingForwardingAppender;
     private CountingAppender m_countingAppender;
-    private Soyo.Base.Log.Hierarchy m_hierarchy;
+    private LoggerController controller;
 
 
     private void SetupRepository() {
-      m_hierarchy = new Soyo.Base.Log.Hierarchy();
+      controller = new LoggerController();
 
       m_countingAppender = new CountingAppender();
       m_countingAppender.Activate();
@@ -38,7 +38,7 @@ namespace UnitTest.Base.Log.Appender {
 
       m_bufferingForwardingAppender.Activate();
 
-      BasicConfigurator.Config(m_hierarchy, m_bufferingForwardingAppender);
+      BasicConfigurator.Config(controller, m_bufferingForwardingAppender);
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ namespace UnitTest.Base.Log.Appender {
 
       Assert.AreEqual(0, m_countingAppender.Counter, "Test empty appender");
 
-      ILogger logger = m_hierarchy.GetLogger("test");
+      ILogger logger = controller.Get("test");
       logger.Log(typeof(BufferingAppenderTest), Level.Warn, "Message logged", null);
 
       Assert.AreEqual(1, m_countingAppender.Counter, "Test 1 event logged");
@@ -66,7 +66,7 @@ namespace UnitTest.Base.Log.Appender {
 
       Assert.AreEqual(m_countingAppender.Counter, 0);
 
-      ILogger logger = m_hierarchy.GetLogger("test");
+      ILogger logger = controller.Get("test");
 
       logger.Log(typeof(BufferingAppenderTest), Level.Warn, "Message 1", null);
       Assert.AreEqual(0, m_countingAppender.Counter, "Test 1 event in buffer");

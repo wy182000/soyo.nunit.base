@@ -15,7 +15,7 @@ namespace UnitTest.Base.Log.Appender {
 
     [Test]
     public void TestThreadSafety() {
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       var memoryAppender = new AppenderMemory();
       var patternLayout = new LayoutPattern();
       memoryAppender.Layout = patternLayout;
@@ -45,7 +45,7 @@ namespace UnitTest.Base.Log.Appender {
 
     private static ThreadStart LogMessages(string repository) {
       return () => {
-        var logger = LogManager.GetLogger(repository, "LoggerThread");
+        var logger = LogManager.Get(repository, "LoggerThread");
         for (var i = 0; i < cLogEntriesPerThread; i++) {
           logger.Info("Logging message " + i);
         }

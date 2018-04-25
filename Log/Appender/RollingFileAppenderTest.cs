@@ -66,10 +66,7 @@ namespace UnitTest.Base.Log.Appender {
     /// for logging.
     /// </summary>
     private static void ResetAndDeleteTestFiles() {
-      // Regular users should not use the clear method lightly!
-      Utils.GetRepository().ResetConfig();
-      Utils.GetRepository().Terminate();
-      ((Soyo.Base.Log.Hierarchy)Utils.GetRepository()).Clear();
+      Utils.GetController().Terminate();
 
       DeleteTestFiles();
     }
@@ -154,7 +151,7 @@ namespace UnitTest.Base.Log.Appender {
 
     [Test]
     public void RollingCombinedWithPreserveExtension() {
-      _root = ((Soyo.Base.Log.Hierarchy)Utils.GetRepository()).Root;
+      _root = ((Soyo.Base.Log.LoggerController)Utils.GetController()).Root;
       _root.Level = Level.All;
       LayoutPattern patternLayout = new LayoutPattern();
       patternLayout.Activate();
@@ -173,7 +170,7 @@ namespace UnitTest.Base.Log.Appender {
       roller.Activate();
       _root.AddAppender(roller);
 
-      _root.Repository.Initialized = true;
+      _root.Controller.Initialize();
 
       for (int i = 0; i < 1000; i++) {
         StringBuilder s = new StringBuilder();
@@ -1037,7 +1034,7 @@ namespace UnitTest.Base.Log.Appender {
     /// Configures the root appender for counting and rolling
     /// </summary>
     private void ConfigureRootAppender() {
-      _root = ((Soyo.Base.Log.Hierarchy)Utils.GetRepository()).Root;
+      _root = ((Soyo.Base.Log.LoggerController)Utils.GetController()).Root;
       _root.Level = Level.Debug;
       _caRoot = new CountingAppender();
       _root.AddAppender(_caRoot);
@@ -1048,7 +1045,7 @@ namespace UnitTest.Base.Log.Appender {
       //
       _root.AddAppender(CreateAppender());
 
-      _root.Repository.Initialized = true;
+      _root.Controller.Initialize();
     }
 
     /// <summary>
@@ -1315,7 +1312,7 @@ namespace UnitTest.Base.Log.Appender {
     /// <param name="maxSizeRollBackups">Maximum number of roll backups</param>
     /// <returns>A configured ILogger</returns>
     private static ILogger CreateLogger(string filename, Soyo.Base.IO.FileLock lockModel, IErrorHandler handler, int maxFileSize, int maxSizeRollBackups) {
-      Soyo.Base.Log.Hierarchy h = (Soyo.Base.Log.Hierarchy)LogManager.CreateRepository("TestRepository");
+      Soyo.Base.Log.LoggerController h = (Soyo.Base.Log.LoggerController)LogManager.CreateController("TestRepository");
 
       AppenderFileRolling appender = new AppenderFileRolling();
       appender.File = filename;
@@ -1338,9 +1335,9 @@ namespace UnitTest.Base.Log.Appender {
       appender.Activate();
 
       h.Root.AddAppender(appender);
-      h.Initialized = true;
+      h.Initialize();
 
-      ILogger log = h.GetLogger("Logger");
+      ILogger log = h.Get("Logger");
       return log;
     }
 
@@ -1348,10 +1345,10 @@ namespace UnitTest.Base.Log.Appender {
     /// Destroys the logger hierarchy created by <see cref="RollingFileAppenderTest.CreateLogger"/>
     /// </summary>
     private static void DestroyLogger() {
-      Soyo.Base.Log.Hierarchy h = (Soyo.Base.Log.Hierarchy)LogManager.GetRepository("TestRepository");
-      h.ResetConfig();
+      Soyo.Base.Log.LoggerController h = (Soyo.Base.Log.LoggerController)LogManager.GetController("TestRepository");
+      h.Reset();
       //Replace the repository selector so that we can recreate the hierarchy with the same name if necessary
-      LoggerManager.RepositorySelector = new CompactRepositorySelector(typeof(Soyo.Base.Log.Hierarchy));
+      LoggerController.Selector = new LoggerControllerSelector(typeof(Soyo.Base.Log.LoggerController));
     }
 
     private static void AssertFileEquals(string filename, string contents) {
@@ -1619,7 +1616,7 @@ namespace UnitTest.Base.Log.Appender {
       SilentErrorHandler sh = new SilentErrorHandler();
       ILogger log = CreateLogger(filename, null, sh);
 
-      IAppender[] appenders = log.Repository.GetAppenders();
+      var appenders = log.Controller.Appenders;
       Assert.AreEqual(1, appenders.Length, "The wrong number of appenders are configured");
 
       AppenderFileRolling rfa = (AppenderFileRolling)(appenders[0]);

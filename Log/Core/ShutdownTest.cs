@@ -17,7 +17,7 @@ namespace UnitTest.Base.Log.Core {
     [Test]
     public void TestShutdownAndReconfigure() {
       // Create unique repository
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
 
       // Create appender and configure repos
       StringAppender stringAppender = new StringAppender();
@@ -25,7 +25,7 @@ namespace UnitTest.Base.Log.Core {
       BasicConfigurator.Config(rep, stringAppender);
 
       // Get logger from repos
-      ILog log1 = LogManager.GetLogger(rep.Name, "logger1");
+      ILog log1 = LogManager.Get(rep.Name, "logger1");
 
       log1.Info("TestMessage1");
       Assert.AreEqual("TestMessage1", stringAppender.GetString(), "Test logging configured");

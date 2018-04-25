@@ -82,11 +82,11 @@ namespace UnitTest.Base.Log {
 
     // Wrappers because repository/logger retrieval APIs require an Assembly argument on NETSTANDARD1_3
     internal static ILog GetLogger(string name) {
-      return LogManager.GetLogger(name);
+      return LogManager.Get(name);
     }
 
-    internal static IRepository GetRepository() {
-      return LogManager.GetRepository();
+    internal static ILoggerController GetController() {
+      return LogManager.GetController();
     }
   }
 }

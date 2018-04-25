@@ -14,7 +14,7 @@ namespace UnitTest.Base.Log.Appender {
       Trace.Listeners.Clear();
       Trace.Listeners.Add(categoryTraceListener);
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
 
       AppenderTrace traceAppender = new AppenderTrace();
       traceAppender.Layout = new LayoutLoggerSimple();
@@ -22,7 +22,7 @@ namespace UnitTest.Base.Log.Appender {
 
       BasicConfigurator.Config(rep, traceAppender);
 
-      ILog log = LogManager.GetLogger(rep.Name, GetType());
+      ILog log = LogManager.Get(rep.Name, GetType());
       log.Debug("Message");
 
       Assert.AreEqual(
@@ -36,7 +36,7 @@ namespace UnitTest.Base.Log.Appender {
       Trace.Listeners.Clear();
       Trace.Listeners.Add(categoryTraceListener);
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
 
       AppenderTrace traceAppender = new AppenderTrace();
       LayoutPattern methodLayout = new LayoutPattern("%method");
@@ -47,7 +47,7 @@ namespace UnitTest.Base.Log.Appender {
 
       BasicConfigurator.Config(rep, traceAppender);
 
-      ILog log = LogManager.GetLogger(rep.Name, GetType());
+      ILog log = LogManager.Get(rep.Name, GetType());
       log.Debug("Message");
 
       Assert.AreEqual(

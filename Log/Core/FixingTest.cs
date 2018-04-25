@@ -16,9 +16,9 @@ namespace UnitTest.Base.Log.Core {
     [OneTimeSetUp]
     public void CreateRepository() {
       bool exists = false;
-      Soyo.Base.Log.IRepository[] repositories = LogManager.GetAllRepositories();
+      Soyo.Base.Log.ILoggerController[] repositories = LogManager.GetAllController();
       if (repositories != null) {
-        foreach (Soyo.Base.Log.IRepository r in repositories) {
+        foreach (Soyo.Base.Log.ILoggerController r in repositories) {
           if (r.Name == TEST_REPOSITORY) {
             exists = true;
             break;
@@ -26,7 +26,7 @@ namespace UnitTest.Base.Log.Core {
         }
       }
       if (!exists) {
-        LogManager.CreateRepository(TEST_REPOSITORY);
+        LogManager.CreateController(TEST_REPOSITORY);
       }
 
       // write-once
@@ -42,7 +42,7 @@ namespace UnitTest.Base.Log.Core {
       // LoggingEvents occur at distinct points in time
       LogObject loggingEvent = new LogObject(
         loggingEventData.Location.GetType(),
-        LogManager.GetRepository(TEST_REPOSITORY),
+        LogManager.GetController(TEST_REPOSITORY),
         loggingEventData.LoggerName,
         loggingEventData.Level,
         loggingEventData.Message,
@@ -60,7 +60,7 @@ namespace UnitTest.Base.Log.Core {
       // LoggingEvents occur at distinct points in time
       LogObject loggingEvent = new LogObject(
         loggingEventData.Location.GetType(),
-        LogManager.GetRepository(TEST_REPOSITORY),
+        LogManager.GetController(TEST_REPOSITORY),
         loggingEventData.LoggerName,
         loggingEventData.Level,
         loggingEventData.Message,
@@ -80,7 +80,7 @@ namespace UnitTest.Base.Log.Core {
       // LoggingEvents occur at distinct points in time
       LogObject loggingEvent = new LogObject(
         loggingEventData.Location.GetType(),
-        LogManager.GetRepository(TEST_REPOSITORY),
+        LogManager.GetController(TEST_REPOSITORY),
         loggingEventData.LoggerName,
         loggingEventData.Level,
         loggingEventData.Message,
@@ -113,7 +113,7 @@ namespace UnitTest.Base.Log.Core {
       Assert.AreEqual(Level.Warn, loggingEventData.Level, "Level is incorrect");
       Assert.AreEqual("get_Location", loggingEvent.Location.MethodName, "Location Info is incorrect");
       Assert.AreEqual("UnitTest.Base.Log.Core.FixingTest", loggingEventData.LoggerName, "LoggerName is incorrect");
-      Assert.AreEqual(LogManager.GetRepository(TEST_REPOSITORY), loggingEvent.Repository, "Repository is incorrect");
+      Assert.AreEqual(LogManager.GetController(TEST_REPOSITORY), loggingEvent.Repository, "Repository is incorrect");
       Assert.AreEqual(Thread.CurrentThread.Name, loggingEventData.ThreadName, "ThreadName is incorrect");
       // This test is redundant as loggingEventData.TimeStamp is a value type and cannot be null
       // Assert.IsNotNull(loggingEventData.TimeStampUtc, "TimeStamp is incorrect");

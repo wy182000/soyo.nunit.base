@@ -39,10 +39,10 @@ namespace UnitTest.Base.Log.Core {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = new LayoutPattern("%message");
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
 
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestFormatString");
+      ILog log1 = LogManager.Get(rep.Name, "TestFormatString");
 
       // ***
       log1.Info("TestMessage");
@@ -95,10 +95,10 @@ namespace UnitTest.Base.Log.Core {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
 
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestLogFormatApi_Debug");
+      ILog log1 = LogManager.Get(rep.Name, "TestLogFormatApi_Debug");
 
       // ***
       log1.Debug("TestMessage");
@@ -153,10 +153,10 @@ namespace UnitTest.Base.Log.Core {
       stringAppender.Threshold = Level.Info;
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
 
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestLogFormatApi_Debug");
+      ILog log1 = LogManager.Get(rep.Name, "TestLogFormatApi_Debug");
 
       // ***
       log1.Debug("TestMessage");
@@ -211,10 +211,10 @@ namespace UnitTest.Base.Log.Core {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
 
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestLogFormatApi_Info");
+      ILog log1 = LogManager.Get(rep.Name, "TestLogFormatApi_Info");
 
       // ***
       log1.Info("TestMessage");
@@ -269,10 +269,10 @@ namespace UnitTest.Base.Log.Core {
       stringAppender.Threshold = Level.Warn;
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
 
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestLogFormatApi_Info");
+      ILog log1 = LogManager.Get(rep.Name, "TestLogFormatApi_Info");
 
       // ***
       log1.Info("TestMessage");
@@ -327,10 +327,10 @@ namespace UnitTest.Base.Log.Core {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
 
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestLogFormatApi_Warn");
+      ILog log1 = LogManager.Get(rep.Name, "TestLogFormatApi_Warn");
 
       // ***
       log1.Warn("TestMessage");
@@ -385,10 +385,10 @@ namespace UnitTest.Base.Log.Core {
       stringAppender.Threshold = Level.Error;
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
 
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestLogFormatApi_Warn");
+      ILog log1 = LogManager.Get(rep.Name, "TestLogFormatApi_Warn");
 
       // ***
       log1.Warn("TestMessage");
@@ -443,10 +443,10 @@ namespace UnitTest.Base.Log.Core {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
 
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestLogFormatApi_Error");
+      ILog log1 = LogManager.Get(rep.Name, "TestLogFormatApi_Error");
 
       // ***
       log1.Error("TestMessage");
@@ -501,10 +501,10 @@ namespace UnitTest.Base.Log.Core {
       stringAppender.Threshold = Level.Fatal;
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
 
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestLogFormatApi_Error");
+      ILog log1 = LogManager.Get(rep.Name, "TestLogFormatApi_Error");
 
       // ***
       log1.Error("TestMessage");
@@ -559,10 +559,10 @@ namespace UnitTest.Base.Log.Core {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
 
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestLogFormatApi_Fatal");
+      ILog log1 = LogManager.Get(rep.Name, "TestLogFormatApi_Fatal");
 
       // ***
       log1.Fatal("TestMessage");
@@ -617,10 +617,10 @@ namespace UnitTest.Base.Log.Core {
       stringAppender.Threshold = Level.Off;
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
 
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestLogFormatApi_Fatal");
+      ILog log1 = LogManager.Get(rep.Name, "TestLogFormatApi_Fatal");
 
       // ***
       log1.Fatal("TestMessage");

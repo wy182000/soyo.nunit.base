@@ -33,10 +33,10 @@ namespace UnitTest.Base.Log.Filter {
             </Soyo.Base.Log>");
       #endregion
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       XmlConfigurator.Configure(rep, log4netConfig["Soyo.Base.Log"]);
 
-      IAppender[] appenders = LogManager.GetRepository(rep.Name).GetAppenders();
+      IAppender[] appenders = LogManager.GetController(rep.Name).Appenders;
       Assert.IsTrue(appenders.Length == 1);
 
       IAppender appender = Array.Find(appenders, delegate (IAppender a) {

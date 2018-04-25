@@ -51,10 +51,10 @@ namespace UnitTest.Base.Log.Layout {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = NewPatternLayout("%property{" + Utils.PROPERTY_KEY + "}");
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
 
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestThreadProperiesPattern");
+      ILog log1 = LogManager.Get(rep.Name, "TestThreadProperiesPattern");
 
       log1.Info("TestMessage");
       Assert.AreEqual(TextDefault.NullText, stringAppender.GetString(), "Test no thread properties value set");
@@ -78,10 +78,10 @@ namespace UnitTest.Base.Log.Layout {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = NewPatternLayout("%stacktrace{2}");
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
 
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestStackTracePattern");
+      ILog log1 = LogManager.Get(rep.Name, "TestStackTracePattern");
 
       log1.Info("TestMessage");
       StringAssert.EndsWith("PatternLayoutTest.TestStackTracePattern", stringAppender.GetString(), "stack trace value set");
@@ -93,10 +93,10 @@ namespace UnitTest.Base.Log.Layout {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = NewPatternLayout("%property{" + Utils.PROPERTY_KEY + "}");
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
 
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestGlobalProperiesPattern");
+      ILog log1 = LogManager.Get(rep.Name, "TestGlobalProperiesPattern");
 
       log1.Info("TestMessage");
       Assert.AreEqual(TextDefault.NullText, stringAppender.GetString(), "Test no global properties value set");
@@ -126,10 +126,10 @@ namespace UnitTest.Base.Log.Layout {
 
       stringAppender.Layout = layout;
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
 
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestAddingCustomPattern");
+      ILog log1 = LogManager.Get(rep.Name, "TestAddingCustomPattern");
 
       log1.Info("TestMessage");
       Assert.AreEqual("TestMessage", stringAppender.GetString(), "%TestAddingCustomPattern not registered");
@@ -144,9 +144,9 @@ namespace UnitTest.Base.Log.Layout {
       layout.Pattern = "%message-as-name";
       layout.Activate();
       stringAppender.Layout = layout;
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestAddingCustomPattern");
+      ILog log1 = LogManager.Get(rep.Name, "TestAddingCustomPattern");
 
       log1.Info("NoDots");
       Assert.AreEqual("NoDots", stringAppender.GetString(), "%message-as-name not registered");
@@ -190,9 +190,9 @@ namespace UnitTest.Base.Log.Layout {
       layout.Pattern = "%message-as-name{1}";
       layout.Activate();
       stringAppender.Layout = layout;
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestAddingCustomPattern");
+      ILog log1 = LogManager.Get(rep.Name, "TestAddingCustomPattern");
 
       log1.Info("NoDots");
       Assert.AreEqual("NoDots", stringAppender.GetString(), "%message-as-name not registered");
@@ -236,9 +236,9 @@ namespace UnitTest.Base.Log.Layout {
       layout.Pattern = "%message-as-name{2}";
       layout.Activate();
       stringAppender.Layout = layout;
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestAddingCustomPattern");
+      ILog log1 = LogManager.Get(rep.Name, "TestAddingCustomPattern");
 
       log1.Info("NoDots");
       Assert.AreEqual("NoDots", stringAppender.GetString(), "%message-as-name not registered");
@@ -291,10 +291,10 @@ namespace UnitTest.Base.Log.Layout {
       LayoutPattern layout = NewPatternLayout("%exception{stacktrace}");
       stringAppender.Layout = layout;
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
 
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestExceptionPattern");
+      ILog log1 = LogManager.Get(rep.Name, "TestExceptionPattern");
 
       Exception exception = new Exception("Oh no!");
       log1.Info("TestMessage", exception);

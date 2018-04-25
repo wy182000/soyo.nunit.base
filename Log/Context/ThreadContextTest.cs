@@ -27,10 +27,10 @@ namespace UnitTest.Base.Log.Context {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = new LayoutPattern("%property{" + Utils.PROPERTY_KEY + "}");
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
 
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestThreadProperiesPattern");
+      ILog log1 = LogManager.Get(rep.Name, "TestThreadProperiesPattern");
 
       log1.Info("TestMessage");
       Assert.AreEqual(TextDefault.NullText, stringAppender.GetString(), "Test no thread properties value set");
@@ -54,10 +54,10 @@ namespace UnitTest.Base.Log.Context {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = new LayoutPattern("%property{" + Utils.PROPERTY_KEY + "}");
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
 
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestThreadStackPattern");
+      ILog log1 = LogManager.Get(rep.Name, "TestThreadStackPattern");
 
       log1.Info("TestMessage");
       Assert.AreEqual(TextDefault.NullText, stringAppender.GetString(), "Test no thread stack value set");
@@ -79,10 +79,10 @@ namespace UnitTest.Base.Log.Context {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = new LayoutPattern("%property{" + Utils.PROPERTY_KEY + "}");
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
 
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestThreadStackPattern");
+      ILog log1 = LogManager.Get(rep.Name, "TestThreadStackPattern");
 
       log1.Info("TestMessage");
       Assert.AreEqual(TextDefault.NullText, stringAppender.GetString(), "Test no thread stack value set");
@@ -110,10 +110,10 @@ namespace UnitTest.Base.Log.Context {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = new LayoutPattern("%property{" + Utils.PROPERTY_KEY + "}");
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
 
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestThreadStackPattern");
+      ILog log1 = LogManager.Get(rep.Name, "TestThreadStackPattern");
 
       log1.Info("TestMessage");
       Assert.AreEqual(TextDefault.NullText, stringAppender.GetString(), "Test no thread stack value set");
@@ -135,10 +135,10 @@ namespace UnitTest.Base.Log.Context {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = new LayoutPattern("%property{" + Utils.PROPERTY_KEY + "}");
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
 
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestThreadStackPattern");
+      ILog log1 = LogManager.Get(rep.Name, "TestThreadStackPattern");
 
       log1.Info("TestMessage");
       Assert.AreEqual(TextDefault.NullText, stringAppender.GetString(), "Test no thread stack value set");
@@ -168,7 +168,7 @@ namespace UnitTest.Base.Log.Context {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = new LayoutPattern("%property{DateTimeTodayToString}");
 
-      IRepository rep = LogManager.CreateRepository(TestBackgroundThreadContextPropertyRepository = "TestBackgroundThreadContextPropertyRepository" + Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(TestBackgroundThreadContextPropertyRepository = "TestBackgroundThreadContextPropertyRepository" + Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
 
       System.Threading.Thread thread = new System.Threading.Thread(new ThreadStart(ExecuteBackgroundThread));
@@ -178,12 +178,12 @@ namespace UnitTest.Base.Log.Context {
     }
 
     private static void ExecuteBackgroundThread() {
-      ILog log = LogManager.GetLogger(TestBackgroundThreadContextPropertyRepository, "ExecuteBackGroundThread");
+      ILog log = LogManager.Get(TestBackgroundThreadContextPropertyRepository, "ExecuteBackGroundThread");
       ThreadContext.PropertySet["DateTimeTodayToString"] = DateTime.Today.ToString();
 
       log.Info("TestMessage");
 
-      Soyo.Base.Log.Hierarchy hierarchyLoggingRepository = (Soyo.Base.Log.Hierarchy)log.Logger.Repository;
+      Soyo.Base.Log.LoggerController hierarchyLoggingRepository = (Soyo.Base.Log.LoggerController)log.Logger.Controller;
       StringAppender stringAppender = (StringAppender)hierarchyLoggingRepository.Root.Appenders[0];
 
       Assert.AreEqual(DateTime.Today.ToString(), stringAppender.GetString());

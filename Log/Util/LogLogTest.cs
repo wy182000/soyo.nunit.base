@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using Soyo.Base.Log;
 using NUnit.Framework;
@@ -24,30 +24,30 @@ namespace UnitTest.Base.Log.Util {
       TraceListenerCounter listTraceListener = new TraceListenerCounter();
       Trace.Listeners.Clear();
       Trace.Listeners.Add(listTraceListener);
-      Soyo.Base.Log.Log.Error(GetType(), "Hello");
-      Soyo.Base.Log.Log.Error(GetType(), "World");
+      Soyo.Base.Log.LogInternal.Error(GetType(), "Hello");
+      Soyo.Base.Log.LogInternal.Error(GetType(), "World");
       Trace.Flush();
       Assert.AreEqual(2, listTraceListener.Count);
 
       try {
-        Soyo.Base.Log.Log.InternalMessage = false;
+        Soyo.Base.Log.LogInternal.InternalMessage = false;
 
-        Soyo.Base.Log.Log.Error(GetType(), "Hello");
-        Soyo.Base.Log.Log.Error(GetType(), "World");
+        Soyo.Base.Log.LogInternal.Error(GetType(), "Hello");
+        Soyo.Base.Log.LogInternal.Error(GetType(), "World");
         Assert.AreEqual(2, listTraceListener.Count);
       } finally {
-        Soyo.Base.Log.Log.InternalMessage = true;
+        Soyo.Base.Log.LogInternal.InternalMessage = true;
       }
     }
 
     [Test]
     public void LogReceivedAdapter() {
-      ArrayList messages = new ArrayList();
+      var messages = new System.Collections.ArrayList();
 
-      using (new Soyo.Base.Log.Log.LogReceivedAdapter(messages)) {
-        Soyo.Base.Log.Log.Debug(GetType(), "Won't be recorded");
-        Soyo.Base.Log.Log.Error(GetType(), "This will be recorded.");
-        Soyo.Base.Log.Log.Error(GetType(), "This will be recorded.");
+      using (new Soyo.Base.Log.LogInternal.LogReceivedAdapter(messages)) {
+        Soyo.Base.Log.LogInternal.Debug(GetType(), "Won't be recorded");
+        Soyo.Base.Log.LogInternal.Error(GetType(), "This will be recorded.");
+        Soyo.Base.Log.LogInternal.Error(GetType(), "This will be recorded.");
       }
 
       Assert.AreEqual(2, messages.Count);

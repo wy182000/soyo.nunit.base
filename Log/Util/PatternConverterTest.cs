@@ -38,10 +38,10 @@ namespace UnitTest.Base.Log.Util {
                   </root>  
                 </Soyo.Base.Log>");
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       XmlConfigurator.Configure(rep, log4netConfig["Soyo.Base.Log"]);
 
-      ILog log = LogManager.GetLogger(rep.Name, "PatternLayoutConverterProperties");
+      ILog log = LogManager.Get(rep.Name, "PatternLayoutConverterProperties");
       log.Debug("Message");
 
       PropertyKeyCountPatternLayoutConverter converter =
@@ -50,7 +50,7 @@ namespace UnitTest.Base.Log.Util {
       Assert.AreEqual("4", converter.PropertySet["two-plus-two"]);
 
       StringAppender appender =
-          (StringAppender)LogManager.GetRepository(rep.Name).GetAppenders()[0];
+          (StringAppender)LogManager.GetController(rep.Name).Appenders[0];
       Assert.AreEqual("2", appender.GetString());
     }
 
@@ -83,10 +83,10 @@ namespace UnitTest.Base.Log.Util {
                   </root>  
                 </Soyo.Base.Log>");
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       XmlConfigurator.Configure(rep, log4netConfig["Soyo.Base.Log"]);
 
-      ILog log = LogManager.GetLogger(rep.Name, "PatternConverterProperties");
+      ILog log = LogManager.Get(rep.Name, "PatternConverterProperties");
       log.Debug("Message");
 
       PropertyKeyCountPatternConverter converter =
@@ -95,7 +95,7 @@ namespace UnitTest.Base.Log.Util {
       Assert.AreEqual("4", converter.PropertySet["two-plus-two"]);
 
       PatternStringAppender appender =
-          (PatternStringAppender)LogManager.GetRepository(rep.Name).GetAppenders()[0];
+          (PatternStringAppender)LogManager.GetController(rep.Name).Appenders[0];
       Assert.AreEqual("2", appender.Setting.Format());
     }
   }

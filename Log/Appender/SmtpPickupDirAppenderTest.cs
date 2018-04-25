@@ -52,10 +52,7 @@ namespace UnitTest.Base.Log.Appender {
     /// for logging.
     /// </summary>
     private void ResetLogger() {
-      // Regular users should not use the clear method lightly!
-      Utils.GetRepository().ResetConfig();
-      Utils.GetRepository().Terminate();
-      ((Soyo.Base.Log.Hierarchy)Utils.GetRepository()).Clear();
+      Utils.GetController().Terminate();
     }
 
     /// <summary>
@@ -93,7 +90,7 @@ namespace UnitTest.Base.Log.Appender {
     /// <param name="appender">The appender to use</param>
     /// <returns>A configured ILogger</returns>
     private ILogger CreateLogger(AppenderSmtpPickup appender) {
-      Soyo.Base.Log.Hierarchy h = (Soyo.Base.Log.Hierarchy)LogManager.CreateRepository("TestRepository");
+      Soyo.Base.Log.LoggerController h = (Soyo.Base.Log.LoggerController)LogManager.CreateController("TestRepository");
 
       LayoutPattern layout = new LayoutPattern();
       layout.Pattern = "%m%n";
@@ -103,9 +100,9 @@ namespace UnitTest.Base.Log.Appender {
       appender.Activate();
 
       h.Root.AddAppender(appender);
-      h.Initialized = true;
+      h.Initialize();
 
-      ILogger log = h.GetLogger("Logger");
+      ILogger log = h.Get("Logger");
       return log;
     }
 
@@ -125,10 +122,10 @@ namespace UnitTest.Base.Log.Appender {
     /// Destroys the logger hierarchy created by <see cref="SmtpPickupDirAppenderTest.CreateLogger"/>
     /// </summary>
     private static void DestroyLogger() {
-      Soyo.Base.Log.Hierarchy h = (Soyo.Base.Log.Hierarchy)LogManager.GetRepository("TestRepository");
-      h.ResetConfig();
+      Soyo.Base.Log.LoggerController h = (Soyo.Base.Log.LoggerController)LogManager.GetController("TestRepository");
+      h.Reset();
       //Replace the repository selector so that we can recreate the hierarchy with the same name if necessary
-      LoggerManager.RepositorySelector = new CompactRepositorySelector(typeof(Soyo.Base.Log.Hierarchy));
+      LoggerController.Selector = new LoggerControllerSelector(typeof(Soyo.Base.Log.LoggerController));
     }
 
     /// <summary>

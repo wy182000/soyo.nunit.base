@@ -32,10 +32,7 @@ namespace UnitTest.Base.Log.Hierarchy {
     /// </summary>
     [TearDown]
     public void TearDown() {
-      // Regular users should not use the clear method lightly!
-      Utils.GetRepository().ResetConfig();
-      Utils.GetRepository().Terminate();
-      ((Soyo.Base.Log.Hierarchy)Utils.GetRepository()).Clear();
+      Utils.GetController().Terminate();
     }
 
     /// <summary>
@@ -149,7 +146,7 @@ namespace UnitTest.Base.Log.Hierarchy {
     /// </summary>
     [Test]
     public void TestAdditivity3() {
-      Logger root = ((Soyo.Base.Log.Hierarchy)Utils.GetRepository()).Root;
+      Logger root = ((Soyo.Base.Log.RepositoryNode)Utils.GetRepository()).Root;
       Logger a = (Logger)Utils.GetLogger("a").Logger;
       Logger ab = (Logger)Utils.GetLogger("a.b").Logger;
       Logger abc = (Logger)Utils.GetLogger("a.b.c").Logger;
@@ -192,12 +189,12 @@ namespace UnitTest.Base.Log.Hierarchy {
     [Test]
     public void TestDisable1() {
       CountingAppender caRoot = new CountingAppender();
-      Logger root = ((Soyo.Base.Log.Hierarchy)Utils.GetRepository()).Root;
+      Logger root = ((Soyo.Base.Log.LoggerController)Utils.GetController()).Root;
       root.AddAppender(caRoot);
 
-      Soyo.Base.Log.Hierarchy h = ((Soyo.Base.Log.Hierarchy)Utils.GetRepository());
+      Soyo.Base.Log.LoggerController h = ((Soyo.Base.Log.LoggerController)Utils.GetController());
       h.Threshold = Level.Info;
-      h.Initialized = true;
+      h.Initialize();
 
       Assert.AreEqual(caRoot.Counter, 0);
 
@@ -247,13 +244,13 @@ namespace UnitTest.Base.Log.Hierarchy {
       object a_b_c = Utils.GetLogger("a.b.c");
 
       object t;
-      t = LogManager.Exists("xx");
+      t = LogManager.TryGet("xx");
       Assert.IsNull(t);
-      t = LogManager.Exists("a");
+      t = LogManager.TryGet("a");
       Assert.AreSame(a, t);
-      t = LogManager.Exists("a.b");
+      t = LogManager.TryGet("a.b");
       Assert.AreSame(a_b, t);
-      t = LogManager.Exists("a.b.c");
+      t = LogManager.TryGet("a.b.c");
       Assert.AreSame(a_b_c, t);
     }
 
@@ -262,15 +259,15 @@ namespace UnitTest.Base.Log.Hierarchy {
     /// </summary>
     [Test]
     public void TestHierarchy1() {
-      Soyo.Base.Log.Hierarchy h = new Soyo.Base.Log.Hierarchy();
+      Soyo.Base.Log.LoggerController h = new Soyo.Base.Log.LoggerController();
       h.Root.Level = Level.Error;
 
-      Logger a0 = (Logger)h.GetLogger("a");
+      Logger a0 = (Logger)h.Get("a");
       Assert.AreEqual("a", a0.Name);
       Assert.IsNull(a0.Level);
       Assert.AreSame(Level.Error, a0.EffectiveLevel);
 
-      Logger a1 = (Logger)h.GetLogger("a");
+      Logger a1 = (Logger)h.Get("a");
       Assert.AreSame(a0, a1);
     }
   }

@@ -163,9 +163,9 @@ namespace UnitTest.Base.Log.Layout {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = layout;
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestThreadProperiesPattern");
+      ILog log1 = LogManager.Get(rep.Name, "TestThreadProperiesPattern");
 
       log1.Logger.Log(new LogObject(evt));
 
@@ -184,9 +184,9 @@ namespace UnitTest.Base.Log.Layout {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = layout;
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestThreadProperiesPattern");
+      ILog log1 = LogManager.Get(rep.Name, "TestThreadProperiesPattern");
 
       log1.Logger.Log(new LogObject(evt));
 
@@ -204,9 +204,9 @@ namespace UnitTest.Base.Log.Layout {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = layout;
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestThreadProperiesPattern");
+      ILog log1 = LogManager.Get(rep.Name, "TestThreadProperiesPattern");
 
       log1.Logger.Log(new LogObject(evt));
 
@@ -224,9 +224,9 @@ namespace UnitTest.Base.Log.Layout {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = layout;
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestThreadProperiesPattern");
+      ILog log1 = LogManager.Get(rep.Name, "TestThreadProperiesPattern");
 
       log1.Logger.Log(new LogObject(evt));
 
@@ -244,9 +244,9 @@ namespace UnitTest.Base.Log.Layout {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = layout;
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestThreadProperiesPattern");
+      ILog log1 = LogManager.Get(rep.Name, "TestThreadProperiesPattern");
 
       log1.Logger.Log(new LogObject(evt));
 
@@ -261,9 +261,9 @@ namespace UnitTest.Base.Log.Layout {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = layout;
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestLogger");
+      ILog log1 = LogManager.Get(rep.Name, "TestLogger");
       Action<int> bar = foo => {
         try {
           throw new NullReferenceException();
@@ -284,9 +284,9 @@ namespace UnitTest.Base.Log.Layout {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = layout;
 
-      IRepository rep = LogManager.CreateRepository(Guid.NewGuid().ToString());
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfigurator.Config(rep, stringAppender);
-      ILog log1 = LogManager.GetLogger(rep.Name, "TestLogger");
+      ILog log1 = LogManager.Get(rep.Name, "TestLogger");
       Action<int> bar = foo => {
         try {
           throw new NullReferenceException();
