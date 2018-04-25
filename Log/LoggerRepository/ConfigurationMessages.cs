@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Xml;
 
 using Soyo.Base.Log;
@@ -34,7 +34,7 @@ namespace UnitTest.Base.Log.LoggerRepository {
         ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
         rep.ChangeConfigEvent += new LoggerControllerEventHandler(rep_ConfigurationChanged);
 
-        ICollection configurationMessages = XmlConfigurator.Configure(rep, log4netConfig["Soyo.Base.Log"]);
+        ICollection<LogInternal> configurationMessages = XmlConfigurator.Configure(rep, log4netConfig["Soyo.Base.Log"]);
 
         Assert.IsTrue(configurationMessages.Count > 0);
       } finally {
@@ -46,7 +46,7 @@ namespace UnitTest.Base.Log.LoggerRepository {
     static void rep_ConfigurationChanged(object sender, EventArgs e) {
       LoggerControllerEventArgs configChanged = (LoggerControllerEventArgs)e;
 
-      Assert.IsTrue(configChanged.Controller.ConfigMessage.Count > 0);
+      Assert.IsTrue(configChanged.Controller.InteralMessage.Count > 0);
     }
   }
 

@@ -42,7 +42,7 @@ namespace UnitTest.Base.Log.Util {
 
     [Test]
     public void LogReceivedAdapter() {
-      var messages = new System.Collections.ArrayList();
+      var messages = new List<LogInternal>();
 
       using (new Soyo.Base.Log.LogInternal.LogReceivedAdapter(messages)) {
         Soyo.Base.Log.LogInternal.Debug(GetType(), "Won't be recorded");
