@@ -309,7 +309,7 @@ namespace UnitTest.Base.Util.Cache {
       }
 
       ret = Thread.Wait(() => setCount == thread_count * cache_data_count
-      && getCount == thread_count * get_data_count, 1000);
+      && getCount == thread_count * get_data_count, 2000);
       Assert.IsTrue(ret);
 
       // stats

@@ -15,7 +15,7 @@ namespace UnitTest.Base.Util {
     public void TestHook() {
       var hook = new Hook<int>();
       var item1 = hook.Add(add);
-      var item2 = hook.Add(add, true);
+      hook.Add(add, true);
       Assert.AreEqual(hook.Count, 2);
       hook.Invoke(1);
       Assert.AreEqual(checkValue_, 2);
