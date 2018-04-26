@@ -12,8 +12,8 @@ namespace UnitTest.Base.Log {
     [Test]
     public void InternalMessageTest() {
       try {
-        Soyo.Base.Log.LogInternal.InternalMessage = false;
-        Soyo.Base.Log.LogInternal.InternalDebug = true;
+        LogInternal.InternalMessage = false;
+        LogInternal.InternalDebug = true;
 
         XmlDocument log4netConfig = new XmlDocument();
         log4netConfig.LoadXml(@"
@@ -38,8 +38,8 @@ namespace UnitTest.Base.Log {
 
         Assert.IsTrue(configurationMessages.Count > 0);
       } finally {
-        Soyo.Base.Log.LogInternal.InternalMessage = true;
-        Soyo.Base.Log.LogInternal.InternalDebug = false;
+        LogInternal.InternalMessage = true;
+        LogInternal.InternalDebug = false;
       }
     }
 
@@ -54,17 +54,17 @@ namespace UnitTest.Base.Log {
     private readonly static Type declaringType = typeof(LogLogAppender);
 
     public override void Activate() {
-      Soyo.Base.Log.LogInternal.Debug(declaringType, "Debug - Activating options...");
-      Soyo.Base.Log.LogInternal.Warn(declaringType, "Warn - Activating options...");
-      Soyo.Base.Log.LogInternal.Error(declaringType, "Error - Activating options...");
+      LogInternal.Debug(declaringType, "Debug - Activating options...");
+      LogInternal.Warn(declaringType, "Warn - Activating options...");
+      LogInternal.Error(declaringType, "Error - Activating options...");
 
       base.Activate();
     }
 
     protected override void append(IRender render, object loggingEvent) {
-      Soyo.Base.Log.LogInternal.Debug(declaringType, "Debug - Appending...");
-      Soyo.Base.Log.LogInternal.Warn(declaringType, "Warn - Appending...");
-      Soyo.Base.Log.LogInternal.Error(declaringType, "Error - Appending...");
+      LogInternal.Debug(declaringType, "Debug - Appending...");
+      LogInternal.Warn(declaringType, "Warn - Appending...");
+      LogInternal.Error(declaringType, "Error - Appending...");
     }
   }
 }

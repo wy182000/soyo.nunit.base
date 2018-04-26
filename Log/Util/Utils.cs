@@ -13,7 +13,7 @@ namespace UnitTest.Base.Log {
     }
 
     public static object CreateInstance(string targetType) {
-      return CreateInstance(Soyo.Base.Log.SystemInfo.GetTypeFromString(targetType, true, true));
+      return CreateInstance(Soyo.Base.SystemInfo.GetType(targetType, true));
     }
 
     public static object CreateInstance(Type targetType) {

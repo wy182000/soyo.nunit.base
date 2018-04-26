@@ -27,7 +27,7 @@ namespace UnitTest.Base.Log {
     private int _iCountDirection = 0;
     private int _MaxSizeRollBackups = 3;
     private CountingAppender _caRoot;
-    private Logger _root;
+    private ILogger _root;
     private CultureInfo _currentCulture;
     private CultureInfo _currentUICulture;
     private class SilentErrorHandler : IErrorHandler {
@@ -151,7 +151,7 @@ namespace UnitTest.Base.Log {
 
     [Test]
     public void RollingCombinedWithPreserveExtension() {
-      _root = ((Soyo.Base.Log.LoggerController)Utils.GetController()).Root;
+      _root = Utils.GetController().Root;
       _root.Level = Level.All;
       LayoutPattern patternLayout = new LayoutPattern();
       patternLayout.Activate();
@@ -1034,7 +1034,7 @@ namespace UnitTest.Base.Log {
     /// Configures the root appender for counting and rolling
     /// </summary>
     private void ConfigureRootAppender() {
-      _root = ((Soyo.Base.Log.LoggerController)Utils.GetController()).Root;
+      _root = Utils.GetController().Root;
       _root.Level = Level.Debug;
       _caRoot = new CountingAppender();
       _root.AddAppender(_caRoot);
@@ -1312,7 +1312,7 @@ namespace UnitTest.Base.Log {
     /// <param name="maxSizeRollBackups">Maximum number of roll backups</param>
     /// <returns>A configured ILogger</returns>
     private static ILogger CreateLogger(string filename, Soyo.Base.IO.FileLock lockModel, IErrorHandler handler, int maxFileSize, int maxSizeRollBackups) {
-      Soyo.Base.Log.LoggerController h = (Soyo.Base.Log.LoggerController)LogManager.CreateController("TestRepository");
+      var h = LogManager.CreateController("TestRepository");
 
       AppenderFileRolling appender = new AppenderFileRolling();
       appender.File = filename;
@@ -1345,10 +1345,10 @@ namespace UnitTest.Base.Log {
     /// Destroys the logger hierarchy created by <see cref="RollingFileAppenderTest.CreateLogger"/>
     /// </summary>
     private static void DestroyLogger() {
-      Soyo.Base.Log.LoggerController h = (Soyo.Base.Log.LoggerController)LogManager.GetController("TestRepository");
+      var h = LogManager.GetController("TestRepository");
       h.Reset();
       //Replace the repository selector so that we can recreate the hierarchy with the same name if necessary
-      LoggerController.Selector = new LoggerControllerSelector(typeof(Soyo.Base.Log.LoggerController));
+      LoggerController.Selector = new LoggerControllerSelector(typeof(LoggerController));
     }
 
     private static void AssertFileEquals(string filename, string contents) {
@@ -1616,7 +1616,7 @@ namespace UnitTest.Base.Log {
       SilentErrorHandler sh = new SilentErrorHandler();
       ILogger log = CreateLogger(filename, null, sh);
 
-      var appenders = log.Controller.Appenders;
+      var appenders = log.Controller.AppenderSet;
       Assert.AreEqual(1, appenders.Length, "The wrong number of appenders are configured");
 
       AppenderFileRolling rfa = (AppenderFileRolling)(appenders[0]);

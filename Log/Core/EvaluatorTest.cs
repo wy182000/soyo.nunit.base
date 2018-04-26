@@ -8,11 +8,11 @@ namespace UnitTest.Base.Log {
   public class EvaluatorTest {
     private AppenderLoggerBufferForward bufferingForwardingAppender_;
     private CountingAppender countingAppender_;
-    private LoggerController controller_;
+    private ILoggerController controller_;
 
     [SetUp]
     public void SetupRepository() {
-      controller_ = new LoggerController();
+      controller_ = LogManager.CreateController("");
 
       countingAppender_ = new CountingAppender();
       countingAppender_.Activate();
@@ -32,7 +32,7 @@ namespace UnitTest.Base.Log {
     public void TestLevelEvaluator() {
       bufferingForwardingAppender_.Trigger = new TriggerLoggerLevel(Level.Info);
       bufferingForwardingAppender_.Activate();
-      Soyo.Base.Log.BasicConfig.Config(controller_, bufferingForwardingAppender_);
+      BasicConfig.Config(controller_, bufferingForwardingAppender_);
 
       ILogger logger = controller_.Get("TestLevelEvaluator");
 

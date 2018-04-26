@@ -86,7 +86,7 @@ namespace UnitTest.Base.Log {
       stringAppender.Reset();
     }
 
-    private const string STRING_FORMAT_ERROR = "<Soyo.Base.Log.Error>Exception during StringFormat: Index (zero based) must be greater than or equal to zero and less than the size of the argument list. <format>IGNORE THIS WARNING - EXCEPTION EXPECTED Before {0} After {1} {2}</format><args>{Middle, End}</args></Soyo.Base.Log.Error>";
+    private const string STRING_FORMAT_ERROR = "<Error>Exception during StringFormat: Index (zero based) must be greater than or equal to zero and less than the size of the argument list. <format>IGNORE THIS WARNING - EXCEPTION EXPECTED Before {0} After {1} {2}</format><args>{Middle, End}</args></Error>";
 
 
     [Test]

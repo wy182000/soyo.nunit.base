@@ -90,7 +90,7 @@ namespace UnitTest.Base.Log {
     /// <param name="appender">The appender to use</param>
     /// <returns>A configured ILogger</returns>
     private ILogger CreateLogger(AppenderSmtpPickup appender) {
-      Soyo.Base.Log.LoggerController h = (Soyo.Base.Log.LoggerController)LogManager.CreateController("TestRepository");
+      ILoggerController h = LogManager.CreateController("TestRepository");
 
       LayoutPattern layout = new LayoutPattern();
       layout.Pattern = "%m%n";
@@ -122,10 +122,10 @@ namespace UnitTest.Base.Log {
     /// Destroys the logger hierarchy created by <see cref="SmtpPickupDirAppenderTest.CreateLogger"/>
     /// </summary>
     private static void DestroyLogger() {
-      Soyo.Base.Log.LoggerController h = (Soyo.Base.Log.LoggerController)LogManager.GetController("TestRepository");
+      ILoggerController h = LogManager.GetController("TestRepository");
       h.Reset();
       //Replace the repository selector so that we can recreate the hierarchy with the same name if necessary
-      LoggerController.Selector = new LoggerControllerSelector(typeof(Soyo.Base.Log.LoggerController));
+      LoggerController.Selector = new LoggerControllerSelector(typeof(LoggerController));
     }
 
     /// <summary>

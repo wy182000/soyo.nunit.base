@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+using Soyo.Base.Log;
 using Soyo.Base.Text;
 
 namespace UnitTest.Base.Log {
@@ -11,9 +8,9 @@ namespace UnitTest.Base.Log {
   /// </summary>
   /// <seealso cref="System.EventArgs" />
   public class LoggingEventEventArgs : EventArgs {
-    public Soyo.Base.Log.LogObject LoggingEvent { get; private set; }
+    public LogObject LoggingEvent { get; private set; }
 
-    public LoggingEventEventArgs(Soyo.Base.Log.LogObject loggingEvent) {
+    public LoggingEventEventArgs(LogObject loggingEvent) {
       if (loggingEvent == null) throw new ArgumentNullException("loggingEvent");
       LoggingEvent = loggingEvent;
     }
@@ -40,7 +37,7 @@ namespace UnitTest.Base.Log {
     }
 
     public void Append(IRender render, object loggingEvent) {
-      OnLoggingEventAppended(new LoggingEventEventArgs(loggingEvent as Soyo.Base.Log.LogObject));
+      OnLoggingEventAppended(new LoggingEventEventArgs(loggingEvent as LogObject));
     }
 
     public string Name {

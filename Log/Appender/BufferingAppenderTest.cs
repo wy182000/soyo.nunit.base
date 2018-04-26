@@ -16,7 +16,7 @@ namespace UnitTest.Base.Log {
   public class BufferingAppenderTest {
     private AppenderLoggerBufferForward m_bufferingForwardingAppender;
     private CountingAppender m_countingAppender;
-    private LoggerController controller;
+    private ILoggerController controller;
 
 
     private void SetupRepository() {

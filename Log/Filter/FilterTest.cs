@@ -36,7 +36,7 @@ namespace UnitTest.Base.Log {
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       XmlConfig.Config(rep, log4netConfig["Soyo.Base.Log"]);
 
-      IAppender[] appenders = LogManager.GetController(rep.Name).Appenders;
+      IAppender[] appenders = LogManager.GetController(rep.Name).AppenderSet;
       Assert.IsTrue(appenders.Length == 1);
 
       IAppender appender = Array.Find(appenders, delegate (IAppender a) {

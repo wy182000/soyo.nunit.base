@@ -38,8 +38,8 @@ namespace UnitTest.Base.Log {
       CountingAppender alpha = new CountingAppender();
       CountingAppender beta = new CountingAppender();
 
-      Soyo.Base.Log.LoggerController hierarchy =
-          (Soyo.Base.Log.LoggerController)Utils.GetController();
+      ILoggerController hierarchy =
+          Utils.GetController();
 
       hierarchy.Root.AddAppender(alpha);
       hierarchy.Root.AddAppender(beta);
@@ -94,7 +94,7 @@ namespace UnitTest.Base.Log {
       log4netConfig.LoadXml(@"
                 <Soyo.Base.Log>
                   <appender name=""StringAppender"" type=""UnitTest.Base.Log.StringAppender"">
-                    <layout type=""Soyo.Text.LayoutLoggerSimple"" />
+                    <layout type=""Soyo.Base.Text.LayoutLoggerSimple"" />
                   </appender>
                   <root>
                     <level value=""ALL"" />

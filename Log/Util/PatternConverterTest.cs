@@ -49,7 +49,7 @@ namespace UnitTest.Base.Log {
       Assert.AreEqual("4", converter.PropertySet["two-plus-two"]);
 
       StringAppender appender =
-          (StringAppender)LogManager.GetController(rep.Name).Appenders[0];
+          (StringAppender)LogManager.GetController(rep.Name).AppenderSet[0];
       Assert.AreEqual("2", appender.GetString());
     }
 
@@ -94,7 +94,7 @@ namespace UnitTest.Base.Log {
       Assert.AreEqual("4", converter.PropertySet["two-plus-two"]);
 
       PatternStringAppender appender =
-          (PatternStringAppender)LogManager.GetController(rep.Name).Appenders[0];
+          (PatternStringAppender)LogManager.GetController(rep.Name).AppenderSet[0];
       Assert.AreEqual("2", appender.Setting.Format());
     }
   }

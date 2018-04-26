@@ -182,8 +182,8 @@ namespace UnitTest.Base.Log {
 
       log.Info("TestMessage");
 
-      Soyo.Base.Log.LoggerController hierarchyLoggingRepository = (Soyo.Base.Log.LoggerController)log.Logger.Controller;
-      StringAppender stringAppender = (StringAppender)hierarchyLoggingRepository.Root.Appenders[0];
+      ILoggerController hierarchyLoggingRepository = log.Logger.Controller;
+      StringAppender stringAppender = (StringAppender)hierarchyLoggingRepository.Root.AppenderSet[0];
 
       Assert.AreEqual(DateTime.Today.ToString(), stringAppender.GetString());
     }

@@ -7,13 +7,13 @@ namespace UnitTest.Base.Log {
   [TestFixture]
   public class RecursiveLoggingTest {
     private EventRaisingAppender m_eventRaisingAppender;
-    private Soyo.Base.Log.LoggerController m_hierarchy;
+    private ILoggerController m_hierarchy;
     private int m_eventCount;
     private ILogger m_logger;
     private const int MaxRecursion = 3;
 
     private void SetupRepository() {
-      m_hierarchy = new Soyo.Base.Log.LoggerController();
+      m_hierarchy = new LoggerController();
 
       m_eventRaisingAppender = new EventRaisingAppender();
       m_eventRaisingAppender.LoggingEventAppended += eventRaisingAppender_LoggingEventAppended;

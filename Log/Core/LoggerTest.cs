@@ -13,7 +13,7 @@ namespace UnitTest.Base.Log {
   /// </remarks>
   [TestFixture]
   public class LoggerTest {
-    private Logger log;
+    private ILogger log;
 
     // A short message.
     private static string MSG = "M";
@@ -39,12 +39,12 @@ namespace UnitTest.Base.Log {
     /// </summary>
     [Test]
     public void TestAppender1() {
-      log = (Logger)Utils.GetLogger("test").Logger;
+      log = Utils.GetLogger("test").Logger;
       CountingAppender a1 = new CountingAppender();
       a1.Name = "testAppender1";
       log.AddAppender(a1);
 
-      IEnumerator enumAppenders = ((IEnumerable)log.Appenders).GetEnumerator();
+      IEnumerator enumAppenders = ((IEnumerable)log.AppenderSet).GetEnumerator();
       Assert.IsTrue(enumAppenders.MoveNext());
       CountingAppender aHat = (CountingAppender)enumAppenders.Current;
       Assert.AreEqual(a1, aHat);
@@ -61,7 +61,7 @@ namespace UnitTest.Base.Log {
       CountingAppender a2 = new CountingAppender();
       a2.Name = "testAppender2.2";
 
-      log = (Logger)Utils.GetLogger("test").Logger;
+      log = Utils.GetLogger("test").Logger;
       log.AddAppender(a1);
       log.AddAppender(a2);
 
@@ -73,7 +73,7 @@ namespace UnitTest.Base.Log {
 
       log.RemoveAppender("testAppender2.1");
 
-      IEnumerator enumAppenders = ((IEnumerable)log.Appenders).GetEnumerator();
+      IEnumerator enumAppenders = ((IEnumerable)log.AppenderSet).GetEnumerator();
       Assert.IsTrue(enumAppenders.MoveNext());
       aHat = (CountingAppender)enumAppenders.Current;
       Assert.AreEqual(a2, aHat);
@@ -89,10 +89,10 @@ namespace UnitTest.Base.Log {
     [Test]
     public void TestDisable1() {
       CountingAppender caRoot = new CountingAppender();
-      Logger root = ((Soyo.Base.Log.LoggerController)Utils.GetController()).Root;
+      ILogger root = Utils.GetController().Root;
       root.AddAppender(caRoot);
 
-      Soyo.Base.Log.LoggerController h = ((Soyo.Base.Log.LoggerController)Utils.GetController());
+      ILoggerController h = Utils.GetController();
       h.Threshold = Level.Info;
       h.Initialize();
 
@@ -159,15 +159,15 @@ namespace UnitTest.Base.Log {
     /// </summary>
     [Test]
     public void TestHierarchy1() {
-      Soyo.Base.Log.LoggerController h = new Soyo.Base.Log.LoggerController();
+      ILoggerController h = LogManager.CreateController("");
       h.Root.Level = Level.Error;
 
-      Logger a0 = (Logger)h.Get("a");
+      ILogger a0 = h.Get("a");
       Assert.AreEqual("a", a0.Name);
       Assert.IsNull(a0.Level);
-      Assert.AreSame(Level.Error, a0.EffectiveLevel);
+      Assert.AreSame(Level.Error, a0.ActiveLevel);
 
-      Logger a1 = (Logger)h.Get("a");
+      ILogger a1 = h.Get("a");
       Assert.AreSame(a0, a1);
     }
   }
