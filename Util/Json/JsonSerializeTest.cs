@@ -886,5 +886,98 @@ namespace UnitTest.Base.Util.JsonTest {
       var checkBitField = Json.ToObject<BitField>(json);
       Assert.IsTrue(bitField.Equals(checkBitField));
     }
+
+    private class MergeClass {
+      public int Field;
+      public int Property { get; set; }
+      public void AddValue(int value) {
+        Field += value;
+      }
+    }
+
+    [Test]
+    public void TestMerge() {
+      var list = new List<object>();
+      list.Add(1);
+      list.Add(2);
+      var node = Json.ToJson(list);
+      Json.MergeObject(node, list);
+      Assert.AreEqual(list.Count, 4);
+      Assert.AreEqual(list[0], 1);
+      Assert.AreEqual(list[1], 2);
+      Assert.AreEqual(list[2], 1);
+      Assert.AreEqual(list[3], 2);
+
+      var intList = new List<int>();
+      intList.Add(1);
+      intList.Add(2);
+      node = Json.ToJson(intList);
+      Json.MergeObject(node, intList);
+      Assert.AreEqual(intList.Count, 4);
+      Assert.AreEqual(intList[0], 1);
+      Assert.AreEqual(intList[1], 2);
+      Assert.AreEqual(intList[2], 1);
+      Assert.AreEqual(intList[3], 2);
+
+
+      var array = new int[] { 1, 2 };
+      node = Json.ToJson(array);
+      array = (int[])Json.MergeObject(node, array);
+      Assert.AreEqual(array.Length, 4);
+      Assert.AreEqual(array[0], 1);
+      Assert.AreEqual(array[1], 2);
+      Assert.AreEqual(array[2], 1);
+      Assert.AreEqual(array[3], 2);
+
+      var dict1 = new Dictionary<string, object>();
+      dict1.Add("1", 1);
+      dict1.Add("2", 2);
+      var dict2 = new Dictionary<string, object>();
+      dict2.Add("3", 3);
+      dict2.Add("4", 4);
+      node = Json.ToJson(dict1);
+      Json.MergeObject(node, dict2);
+      Assert.AreEqual(dict2.Count, 4);
+      Assert.AreEqual(dict2["1"], 1);
+      Assert.AreEqual(dict2["2"], 2);
+      Assert.AreEqual(dict2["3"], 3);
+      Assert.AreEqual(dict2["4"], 4);
+
+      var intDict1 = new Dictionary<string, int>();
+      intDict1.Add("1", 1);
+      intDict1.Add("2", 2);
+      var intDict2 = new Dictionary<string, int>();
+      intDict2.Add("3", 3);
+      intDict2.Add("4", 4);
+      node = Json.ToJson(intDict1);
+      Json.MergeObject(node, intDict2);
+      Assert.AreEqual(intDict2.Count, 4);
+      Assert.AreEqual(intDict2["1"], 1);
+      Assert.AreEqual(intDict2["2"], 2);
+      Assert.AreEqual(intDict2["3"], 3);
+      Assert.AreEqual(intDict2["4"], 4);
+
+      var mergeValue = new MergeClass();
+      var temp = mergeValue;
+      mergeValue.Field = 1;
+
+      string jsonString = @"{ ""Property"": 2 }";
+      mergeValue = (MergeClass)Json.MergeObject(jsonString, mergeValue);
+      Assert.AreEqual(mergeValue, temp);
+      Assert.AreEqual(mergeValue.Field, 1);
+      Assert.AreEqual(mergeValue.Property, 2);
+
+      jsonString = @"{ ""Field"": 3 }";
+      Json.MergeObject(jsonString, mergeValue);
+      Assert.AreEqual(mergeValue, temp);
+      Assert.AreEqual(mergeValue.Field, 3);
+      Assert.AreEqual(mergeValue.Property, 2);
+
+      jsonString = @"{ ""AddValue"": 3 }";
+      Json.MergeObject(jsonString, mergeValue);
+      Assert.AreEqual(mergeValue, temp);
+      Assert.AreEqual(mergeValue.Field, 6);
+      Assert.AreEqual(mergeValue.Property, 2);
+    }
   }
 }
