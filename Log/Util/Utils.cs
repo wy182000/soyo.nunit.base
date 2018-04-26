@@ -7,7 +7,7 @@ using System.Reflection;
 namespace UnitTest.Base.Log {
   public static class Utils {
     public static object CreateInstance(string targetType) {
-      return CreateInstance(Soyo.Base.SystemInfo.GetType(targetType, true));
+      return CreateInstance(SystemInfo.GetType(targetType, true));
     }
 
     public static object CreateInstance(Type targetType) {

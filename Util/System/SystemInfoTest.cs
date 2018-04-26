@@ -68,12 +68,9 @@ namespace UnitTest.Base.Util {
       Assert.AreSame(typeof(SystemInfo), t, "Test explicit case in-sensitive type load lower");
     }
 
-    // Wraps SystemInfo.GetTypeFromString because the method relies on GetCallingAssembly, which is
-    // unavailable in CoreFX. As a workaround, only overloads which explicitly take a Type or Assembly
-    // are exposed for NETSTANDARD1_3.
+    // Wraps SystemInfo.GetTypeFromString because the method relies on GetCallingAssembly
     private Type GetTypeFromString(string typeName, bool ignoreCase) {
-      //return Soyo.Base.SystemInfo.GetType(typeName, ignoreCase);
-      return Soyo.Base.SystemInfo.GetType(typeName, ignoreCase);
+      return SystemInfo.GetType(typeName, ignoreCase);
     }
 
     [Test]
