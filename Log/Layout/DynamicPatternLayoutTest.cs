@@ -3,9 +3,6 @@
 using NUnit.Framework;
 
 namespace UnitTest.Base.Log {
-  /// <summary>
-  /// Used for internal unit testing the <see cref="DynamicPatternLayout"/> class.
-  /// </summary>
   public class DynamicPatternLayoutTest : PatternLayoutTest {
     protected override LayoutPattern NewPatternLayout() {
       return new LayoutPatternDynamic();

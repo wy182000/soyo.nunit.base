@@ -12,22 +12,22 @@ using System.Globalization;
 namespace UnitTest.Base.Log {
   [TestFixture]
   public class XmlLayoutTest {
-    private CultureInfo _currentCulture;
-    private CultureInfo _currentUICulture;
+    private CultureInfo currentCulture_;
+    private CultureInfo currentUICulture_;
 
     [SetUp]
     public void SetUp() {
       // set correct thread culture
-      _currentCulture = System.Threading.Thread.CurrentThread.CurrentCulture;
-      _currentUICulture = System.Threading.Thread.CurrentThread.CurrentUICulture;
+      currentCulture_ = System.Threading.Thread.CurrentThread.CurrentCulture;
+      currentUICulture_ = System.Threading.Thread.CurrentThread.CurrentUICulture;
       System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.InvariantCulture;
     }
 
     [TearDown]
     public void TearDown() {
       // restore previous culture
-      System.Threading.Thread.CurrentThread.CurrentCulture = _currentCulture;
-      System.Threading.Thread.CurrentThread.CurrentUICulture = _currentUICulture;
+      System.Threading.Thread.CurrentThread.CurrentCulture = currentCulture_;
+      System.Threading.Thread.CurrentThread.CurrentUICulture = currentUICulture_;
     }
 
     /// <summary>

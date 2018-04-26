@@ -5,13 +5,7 @@ using System;
 using System.Reflection;
 
 namespace UnitTest.Base.Log {
-  /// <summary>
-  /// Summary description for Class1.
-  /// </summary>
-  public class Utils {
-    private Utils() {
-    }
-
+  public static class Utils {
     public static object CreateInstance(string targetType) {
       return CreateInstance(Soyo.Base.SystemInfo.GetType(targetType, true));
     }

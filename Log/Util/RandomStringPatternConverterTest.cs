@@ -4,12 +4,6 @@ using System.IO;
 using NUnit.Framework;
 
 namespace UnitTest.Base.Log {
-  /// <summary>
-  /// Used for internal unit testing the <see cref="RandomStringPatternConverter"/> class.
-  /// </summary>
-  /// <remarks>
-  /// Used for internal unit testing the <see cref="RandomStringPatternConverter"/> class.
-  /// </remarks>
   [TestFixture]
   public class RandomStringPatternConverterTest {
     [Test]

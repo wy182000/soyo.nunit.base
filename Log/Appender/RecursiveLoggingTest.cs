@@ -6,45 +6,42 @@ using System.Globalization;
 namespace UnitTest.Base.Log {
   [TestFixture]
   public class RecursiveLoggingTest {
-    private EventRaisingAppender m_eventRaisingAppender;
-    private ILoggerController m_hierarchy;
-    private int m_eventCount;
-    private ILogger m_logger;
+    private EventRaisingAppender eventRaisingAppender_;
+    private ILoggerController controller_;
+    private int eventCount_;
+    private ILogger logger_;
     private const int MaxRecursion = 3;
 
-    private void SetupRepository() {
-      m_hierarchy = new LoggerController();
+    private void SetupController() {
+      controller_ = new LoggerController();
 
-      m_eventRaisingAppender = new EventRaisingAppender();
-      m_eventRaisingAppender.LoggingEventAppended += eventRaisingAppender_LoggingEventAppended;
+      eventRaisingAppender_ = new EventRaisingAppender();
+      eventRaisingAppender_.LoggingEventAppended += eventRaisingAppender_LoggingEventAppended;
 
-      m_hierarchy.Root.Level = Level.All;
-      m_hierarchy.Root.AddAppender(m_eventRaisingAppender);
+      controller_.Root.Level = Level.All;
+      controller_.Root.AddAppender(eventRaisingAppender_);
 
-      BasicConfig.Config(m_hierarchy, m_eventRaisingAppender);
-
-      m_logger = m_hierarchy.Get("test");
-
+      BasicConfig.Config(controller_, eventRaisingAppender_);
+      logger_ = controller_.Get("test");
     }
 
     void eventRaisingAppender_LoggingEventAppended(object sender, LoggingEventEventArgs e) {
-      if (m_eventCount < MaxRecursion && m_logger != null) {
-        m_eventCount++;
-        string message = String.Format(CultureInfo.CurrentCulture, "Log event {0} from EventRaisingAppender", m_eventCount);
+      if (eventCount_ < MaxRecursion && logger_ != null) {
+        eventCount_++;
+        string message = String.Format(CultureInfo.CurrentCulture, "Log event {0} from EventRaisingAppender", eventCount_);
         Console.WriteLine("Logging message: " + message);
-        m_logger.Log(typeof(RecursiveLoggingTest), Level.Warn, message, null);
+        logger_.Log(typeof(RecursiveLoggingTest), Level.Warn, message, null);
       }
     }
 
     [Test]
     public void TestAllowRecursiveLoggingFromAppender() {
-      SetupRepository();
+      SetupController();
 
-      m_eventCount = 0;
-      m_logger.Log(typeof(RecursiveLoggingTest), Level.Warn, "Message logged", null);
+      eventCount_ = 0;
+      logger_.Log(typeof(RecursiveLoggingTest), Level.Warn, "Message logged", null);
 
-      Assert.AreEqual(MaxRecursion, m_eventCount, "Expected MaxRecursion recursive calls");
+      Assert.AreEqual(MaxRecursion, eventCount_, "Expected MaxRecursion recursive calls");
     }
-
   }
 }

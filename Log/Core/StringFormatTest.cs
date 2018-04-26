@@ -7,12 +7,6 @@ using Soyo.Base.Log;
 using NUnit.Framework;
 
 namespace UnitTest.Base.Log {
-  /// <summary>
-  /// Used for internal unit testing the <see cref="PatternLayoutTest"/> class.
-  /// </summary>
-  /// <remarks>
-  /// Used for internal unit testing the <see cref="PatternLayoutTest"/> class.
-  /// </remarks>
   [TestFixture]
   public class StringFormatTest {
     private CultureInfo currentCulture_;

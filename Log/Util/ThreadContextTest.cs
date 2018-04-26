@@ -8,12 +8,6 @@ using Soyo.Base.Log;
 using NUnit.Framework;
 
 namespace UnitTest.Base.Log {
-  /// <summary>
-  /// Used for internal unit testing the <see cref="ThreadContext"/> class.
-  /// </summary>
-  /// <remarks>
-  /// Used for internal unit testing the <see cref="ThreadContext"/> class.
-  /// </remarks>
   [TestFixture]
   public class ThreadContextTest {
     [TearDown]

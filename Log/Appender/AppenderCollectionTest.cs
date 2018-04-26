@@ -2,18 +2,8 @@
 using NUnit.Framework;
 
 namespace UnitTest.Base.Log {
-  /// <summary>
-  /// Used for internal unit testing the <see cref="AppenderCollection"/> class.
-  /// </summary>
-  /// <remarks>
-  /// Used for internal unit testing the <see cref="AppenderCollection"/> class.
-  /// </remarks>
-  /// <author>Carlos Muñoz</author>
   [TestFixture]
   public class AppenderCollectionTest {
-    /// <summary>
-    /// Verifies that ToArray returns the elements of the <see cref="AppenderCollection"/>
-    /// </summary>
     [Test]
     public void ToArrayTest() {
       AppenderCollection appenderCollection = new AppenderCollection();

@@ -3,10 +3,6 @@ using Soyo.Base.Log;
 using Soyo.Base.Text;
 
 namespace UnitTest.Base.Log {
-  /// <summary>
-  /// Provides data for the <see cref="EventRaisingAppender.LoggingEventAppended"/> event.
-  /// </summary>
-  /// <seealso cref="System.EventArgs" />
   public class LoggingEventEventArgs : EventArgs {
     public LogObject LoggingEvent { get; private set; }
 
@@ -16,21 +12,11 @@ namespace UnitTest.Base.Log {
     }
   }
 
-  /// <summary>
-  /// A Soyo.Base.Log appender that raises an event each time a logging event is appended
-  /// </summary>
-  /// <remarks>
-  /// This class is intended to provide a way for test code to inspect logging
-  /// events as they are generated.
-  /// </remarks>
   public class EventRaisingAppender : IAppender {
     public event EventHandler<LoggingEventEventArgs> LoggingEventAppended;
 
     protected void OnLoggingEventAppended(LoggingEventEventArgs e) {
-      var loggingEventAppended = LoggingEventAppended;
-      if (loggingEventAppended != null) {
-        loggingEventAppended(this, e);
-      }
+      LoggingEventAppended?.Invoke(this, e);
     }
 
     public void Close() {

@@ -6,9 +6,6 @@ using Soyo.Base.Log;
 using NUnit.Framework;
 
 namespace UnitTest.Base.Log {
-  /// <summary>
-  /// Used for internal unit testing the <see cref="SystemInfo"/> class.
-  /// </summary>
   [TestFixture]
   public class SystemInfoTest {
     [Test]

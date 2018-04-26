@@ -5,12 +5,6 @@ using Soyo.Base.Log;
 using NUnit.Framework;
 
 namespace UnitTest.Base.Log {
-  /// <summary>
-  /// Used for internal unit testing the <see cref="Logger"/> class.
-  /// </summary>
-  /// <remarks>
-  /// Internal unit test. Uses the NUnit test harness.
-  /// </remarks>
   [TestFixture]
   public class LoggerTest {
     private ILogger log;
