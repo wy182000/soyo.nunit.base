@@ -8,7 +8,7 @@ namespace UnitTest.Base.Log {
   [TestFixture]
   public class LoggerControllerTest {
     [Test]
-    public void SetRepositoryPropertiesInConfigFile() {
+    public void SetControllerPropertiesInXmlFile() {
       // LOG4NET-53: Allow repository properties to be set in the config file
       XmlDocument log4netConfig = new XmlDocument();
       log4netConfig.LoadXml(@"

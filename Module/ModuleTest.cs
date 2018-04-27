@@ -69,7 +69,7 @@ namespace UnitTest.Base.Module {
       var moduleConfig = config as ModuleConfig;
       Assert.IsNotNull(moduleConfig);
       name = moduleConfig.name;
-      config.Apply();
+      config.Apply(node);
 
       var handle = Module.Find(name);
       Assert.Less(0, handle);

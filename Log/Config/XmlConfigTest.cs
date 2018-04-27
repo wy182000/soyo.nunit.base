@@ -23,7 +23,7 @@ namespace UnitTest.Base.Log {
       new TestConfigurator().PublicSetParameter(el, this);
     }
 
-    private class TestConfigurator : XmlControllerConfig {
+    private class TestConfigurator : ControllerXmlConfig {
       public TestConfigurator() : base(null) {
       }
       public void PublicSetParameter(XmlElement element, object target) {
