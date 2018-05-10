@@ -33,7 +33,7 @@ namespace UnitTest.Base.Util {
     public void TestCompress() {
       var checkValue = generateData(checkCount);
       var compressSize = CompressUtil.CompressSize(checkValue);
-      var compressbuffer = BufferManager.Take(checkCount + 9);
+      var compressbuffer = BufferManager.Take(compressSize);
 
       var ret = CompressUtil.Compress(checkValue, compressbuffer, checkCount);
 
