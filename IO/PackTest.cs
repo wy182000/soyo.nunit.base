@@ -1,5 +1,4 @@
-﻿/*
-using Soyo.Base;
+﻿using Soyo.Base;
 using Soyo.Base.IO;
 
 using NUnit.Framework;
@@ -11,7 +10,9 @@ namespace UnitTest.Base.IO {
     private readonly static string test_readonly_pack_name = "test_readonly.pack";
     private readonly static string test_pack_name = "test.pack";
     private readonly static string test_dir_name = "test";
+    private readonly static string test_multi_dir_parent_name = "a/bb";
     private readonly static string test_multi_dir_name = "a/bb/cccc";
+    private readonly static string test_multi_file_parent_name = "aa/bbb/cccc";
     private readonly static string test_multi_file_name = "aa/bbb/cccc/test.test";
     private readonly static string test_file_name = "test/test.test";
     private readonly static string test_compress_file_name = "test/test_compress.test";
@@ -38,7 +39,31 @@ namespace UnitTest.Base.IO {
       ByteBuffer buffer = new ByteBuffer(buffer_size);
 
       // rm file first, rmdir can not rm not empty dir
-      bool flag = Pack.exist(fd, test_file_name);
+      bool flag = Pack.exist(fd, test_multi_file_name);
+      if (flag) {
+        flag = Pack.rm(fd, test_multi_file_name);
+        Assert.IsTrue(flag);
+      }
+
+      flag = Pack.exist(fd, test_multi_dir_name);
+      if (flag) {
+        flag = Pack.rmdir(fd, test_multi_dir_name);
+        Assert.IsTrue(flag);
+      }
+
+      flag = Pack.exist(fd, test_multi_dir_parent_name);
+      if (flag) {
+        flag = Pack.rmdir(fd, test_multi_dir_parent_name);
+        Assert.IsTrue(flag);
+      }
+
+      flag = Pack.exist(fd, test_multi_file_parent_name);
+      if (flag) {
+        flag = Pack.rmdir(fd, test_multi_file_parent_name);
+        Assert.IsTrue(flag);
+      }
+
+      flag = Pack.exist(fd, test_file_name);
       if (flag) {
         flag = Pack.rm(fd, test_file_name);
         Assert.IsTrue(flag);
@@ -213,4 +238,3 @@ namespace UnitTest.Base.IO {
     }
   }
 }
-*/
