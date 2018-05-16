@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-using Soyo.Base.Log;
+using Soyo.Base.LogBase;
 using Soyo.Base;
 using Soyo.Base.Text;
 

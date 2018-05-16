@@ -2,7 +2,7 @@
 using System.Diagnostics;
 
 using Soyo.Base.Text;
-using Soyo.Base.Log;
+using Soyo.Base.LogBase;
 using NUnit.Framework;
 
 namespace UnitTest.Base.Log {

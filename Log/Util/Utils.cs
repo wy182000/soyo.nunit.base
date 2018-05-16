@@ -1,5 +1,5 @@
 ﻿using Soyo.Base;
-using Soyo.Base.Log;
+using Soyo.Base.LogBase;
 
 using System;
 using System.Reflection;

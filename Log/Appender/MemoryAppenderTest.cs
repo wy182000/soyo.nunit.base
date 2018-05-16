@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using NUnit.Framework;
 using Soyo.Base.Text;
-using Soyo.Base.Log;
+using Soyo.Base.LogBase;
 
 namespace UnitTest.Base.Log {
   [TestFixture]

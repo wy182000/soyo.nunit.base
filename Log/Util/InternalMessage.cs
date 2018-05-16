@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Xml;
 
-using Soyo.Base.Log;
+using Soyo.Base.LogBase;
 using Soyo.Base.Text;
 using NUnit.Framework;
 

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using Soyo.Base.Log;
+using Soyo.Base.LogBase;
 using NUnit.Framework;
 
 namespace UnitTest.Base.Log {

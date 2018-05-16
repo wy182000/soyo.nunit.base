@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-using Soyo.Base.Log;
+using Soyo.Base.LogBase;
 using Soyo.Base.Text;
 
 using NUnit.Framework;

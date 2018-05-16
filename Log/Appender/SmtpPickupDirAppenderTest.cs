@@ -4,7 +4,7 @@ using System.Text;
 
 using Soyo.Base;
 using Soyo.Base.Text;
-using Soyo.Base.Log;
+using Soyo.Base.LogBase;
 
 using NUnit.Framework;
 

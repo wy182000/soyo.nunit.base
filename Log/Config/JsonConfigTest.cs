@@ -2,7 +2,7 @@
 using System.Xml;
 using NUnit.Framework;
 
-using Soyo.Base.Log;
+using Soyo.Base.LogBase;
 
 namespace UnitTest.Base.Log {
   [TestFixture]

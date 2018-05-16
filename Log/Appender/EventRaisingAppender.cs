@@ -1,5 +1,5 @@
 ﻿using System;
-using Soyo.Base.Log;
+using Soyo.Base.LogBase;
 using Soyo.Base.Text;
 
 namespace UnitTest.Base.Log {
