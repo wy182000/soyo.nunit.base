@@ -110,22 +110,24 @@ namespace UnitTest.Base.Log {
       Assert.AreEqual(caRoot.Counter, 4);
       root.Log(Level.Error, MSG, null);
       Assert.AreEqual(caRoot.Counter, 5);
-      root.Log(Level.Error, MSG, null);
+      root.Log(Level.Assert, MSG, null);
       Assert.AreEqual(caRoot.Counter, 6);
+      root.Log(Level.Exception, MSG, null);
+      Assert.AreEqual(caRoot.Counter, 7);
 
       h.Threshold = Level.Off;
       root.Log(Level.Debug, MSG, null);
-      Assert.AreEqual(caRoot.Counter, 6);
+      Assert.AreEqual(caRoot.Counter, 7);
       root.Log(Level.Info, MSG, null);
-      Assert.AreEqual(caRoot.Counter, 6);
+      Assert.AreEqual(caRoot.Counter, 7);
       root.Log(Level.Warn, MSG, null);
-      Assert.AreEqual(caRoot.Counter, 6);
+      Assert.AreEqual(caRoot.Counter, 7);
       root.Log(Level.Error, MSG, null);
-      Assert.AreEqual(caRoot.Counter, 6);
-      root.Log(Level.Fatal, MSG, null);
-      Assert.AreEqual(caRoot.Counter, 6);
-      root.Log(Level.Fatal, MSG, null);
-      Assert.AreEqual(caRoot.Counter, 6);
+      Assert.AreEqual(caRoot.Counter, 7);
+      root.Log(Level.Assert, MSG, null);
+      Assert.AreEqual(caRoot.Counter, 7);
+      root.Log(Level.Exception, MSG, null);
+      Assert.AreEqual(caRoot.Counter, 7);
     }
 
     /// <summary>

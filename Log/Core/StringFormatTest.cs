@@ -64,7 +64,7 @@ namespace UnitTest.Base.Log {
       stringAppender.Reset();
 
       // ***
-      log1.FatalFormat("Before {0} After", "Middle");
+      log1.ExceptionFormat("Before {0} After", "Middle");
       Assert.AreEqual("Before Middle After", stringAppender.GetString(), "Test simple formatted FATAL event");
       stringAppender.Reset();
 
@@ -491,7 +491,7 @@ namespace UnitTest.Base.Log {
     [Test]
     public void TestLogFormatApi_NoError() {
       StringAppender stringAppender = new StringAppender();
-      stringAppender.Threshold = Level.Fatal;
+      stringAppender.Threshold = Level.Exception;
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
@@ -546,66 +546,65 @@ namespace UnitTest.Base.Log {
       stringAppender.Reset();
     }
 
-
     [Test]
-    public void TestLogFormatApi_Fatal() {
+    public void TestLogFormatApi_Assert() {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Layout = new LayoutPattern("%level:%message");
 
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfig.Config(rep, stringAppender);
 
-      ILog log1 = LogManager.Get(rep.Name, "TestLogFormatApi_Fatal");
+      ILog log1 = LogManager.Get(rep.Name, "TestLogFormatApi_Assert");
 
       // ***
-      log1.Fatal("TestMessage");
-      Assert.AreEqual("FATAL:TestMessage", stringAppender.GetString(), "Test simple FATAL event 1");
+      log1.Assert("TestMessage");
+      Assert.AreEqual("ASSERT:TestMessage", stringAppender.GetString(), "Test simple ASSERT event 1");
       stringAppender.Reset();
 
       // ***
-      log1.Fatal("TestMessage", null);
-      Assert.AreEqual("FATAL:TestMessage", stringAppender.GetString(), "Test simple FATAL event 2");
+      log1.Assert("TestMessage", null);
+      Assert.AreEqual("ASSERT:TestMessage", stringAppender.GetString(), "Test simple ASSERT event 2");
       stringAppender.Reset();
 
       // ***
-      log1.Fatal("TestMessage", new Exception("Exception message"));
-      Assert.AreEqual("FATAL:TestMessageSystem.Exception: Exception message" + Environment.NewLine, stringAppender.GetString(), "Test simple FATAL event 3");
+      log1.Assert("TestMessage", new Exception("Exception message"));
+      Assert.AreEqual("ASSERT:TestMessageSystem.Exception: Exception message" + Environment.NewLine, stringAppender.GetString(), "Test simple ASSERT event 3");
       stringAppender.Reset();
 
       // ***
-      log1.FatalFormat("a{0}", "1");
-      Assert.AreEqual("FATAL:a1", stringAppender.GetString(), "Test formatted FATAL event with 1 parm");
+      log1.AssertFormat("a{0}", "1");
+      Assert.AreEqual("ASSERT:a1", stringAppender.GetString(), "Test formatted ASSERT event with 1 parm");
       stringAppender.Reset();
 
       // ***
-      log1.FatalFormat("a{0}b{1}", "1", "2");
-      Assert.AreEqual("FATAL:a1b2", stringAppender.GetString(), "Test formatted FATAL event with 2 parm");
+      log1.AssertFormat("a{0}b{1}", "1", "2");
+      Assert.AreEqual("ASSERT:a1b2", stringAppender.GetString(), "Test formatted ASSERT event with 2 parm");
       stringAppender.Reset();
 
       // ***
-      log1.FatalFormat("a{0}b{1}c{2}", "1", "2", "3");
-      Assert.AreEqual("FATAL:a1b2c3", stringAppender.GetString(), "Test formatted FATAL event with 3 parm");
+      log1.AssertFormat("a{0}b{1}c{2}", "1", "2", "3");
+      Assert.AreEqual("ASSERT:a1b2c3", stringAppender.GetString(), "Test formatted ASSERT event with 3 parm");
       stringAppender.Reset();
 
 
       // ***
-      log1.FatalFormat("a{0}b{1}c{2}d{3}e{4}f", "Q", "W", "E", "R", "T", "Y");
-      Assert.AreEqual("FATAL:aQbWcEdReTf", stringAppender.GetString(), "Test formatted FATAL event with 5 parms (only 4 used)");
+      log1.AssertFormat("a{0}b{1}c{2}d{3}e{4}f", "Q", "W", "E", "R", "T", "Y");
+      Assert.AreEqual("ASSERT:aQbWcEdReTf", stringAppender.GetString(), "Test formatted ASSERT event with 5 parms (only 4 used)");
       stringAppender.Reset();
 
       // ***
-      log1.FatalFormat(null, "Before {0} After {1}", "Middle", "End");
-      Assert.AreEqual("FATAL:Before Middle After End", stringAppender.GetString(), "Test formatting with null provider");
+      log1.AssertFormat(null, "Before {0} After {1}", "Middle", "End");
+      Assert.AreEqual("ASSERT:Before Middle After End", stringAppender.GetString(), "Test formatting with null provider");
       stringAppender.Reset();
 
       // ***
-      log1.FatalFormat(new CultureInfo("en"), "Before {0} After {1}", "Middle", "End");
-      Assert.AreEqual("FATAL:Before Middle After End", stringAppender.GetString(), "Test formatting with 'en' provider");
+      log1.AssertFormat(new CultureInfo("en"), "Before {0} After {1}", "Middle", "End");
+      Assert.AreEqual("ASSERT:Before Middle After End", stringAppender.GetString(), "Test formatting with 'en' provider");
       stringAppender.Reset();
     }
 
     [Test]
-    public void TestLogFormatApi_NoFatal() {
+    public void TestLogFormatApi_NoAssert() {
       StringAppender stringAppender = new StringAppender();
       stringAppender.Threshold = Level.Off;
       stringAppender.Layout = new LayoutPattern("%level:%message");
@@ -613,51 +612,166 @@ namespace UnitTest.Base.Log {
       ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
       BasicConfig.Config(rep, stringAppender);
 
-      ILog log1 = LogManager.Get(rep.Name, "TestLogFormatApi_Fatal");
+      ILog log1 = LogManager.Get(rep.Name, "TestLogFormatApi_Assert");
 
       // ***
-      log1.Fatal("TestMessage");
-      Assert.AreEqual("", stringAppender.GetString(), "Test simple FATAL event 1");
+      log1.Assert("TestMessage");
+      Assert.AreEqual("", stringAppender.GetString(), "Test simple ASSERT event 1");
       stringAppender.Reset();
 
       // ***
-      log1.Fatal("TestMessage", null);
-      Assert.AreEqual("", stringAppender.GetString(), "Test simple FATAL event 2");
+      log1.Assert("TestMessage", null);
+      Assert.AreEqual("", stringAppender.GetString(), "Test simple ASSERT event 2");
       stringAppender.Reset();
 
       // ***
-      log1.Fatal("TestMessage", new Exception("Exception message"));
-      Assert.AreEqual("", stringAppender.GetString(), "Test simple FATAL event 3");
+      log1.Assert("TestMessage", new Exception("Exception message"));
+      Assert.AreEqual("", stringAppender.GetString(), "Test simple ASSERT event 3");
       stringAppender.Reset();
 
       // ***
-      log1.FatalFormat("a{0}", "1");
-      Assert.AreEqual("", stringAppender.GetString(), "Test formatted FATAL event with 1 parm");
+      log1.AssertFormat("a{0}", "1");
+      Assert.AreEqual("", stringAppender.GetString(), "Test formatted ASSERT event with 1 parm");
       stringAppender.Reset();
 
       // ***
-      log1.FatalFormat("a{0}b{1}", "1", "2");
-      Assert.AreEqual("", stringAppender.GetString(), "Test formatted FATAL event with 2 parm");
+      log1.AssertFormat("a{0}b{1}", "1", "2");
+      Assert.AreEqual("", stringAppender.GetString(), "Test formatted ASSERT event with 2 parm");
       stringAppender.Reset();
 
       // ***
-      log1.FatalFormat("a{0}b{1}c{2}", "1", "2", "3");
-      Assert.AreEqual("", stringAppender.GetString(), "Test formatted FATAL event with 3 parm");
+      log1.AssertFormat("a{0}b{1}c{2}", "1", "2", "3");
+      Assert.AreEqual("", stringAppender.GetString(), "Test formatted ASSERT event with 3 parm");
       stringAppender.Reset();
 
 
       // ***
-      log1.FatalFormat("a{0}b{1}c{2}d{3}e{4}f", "Q", "W", "E", "R", "T", "Y");
-      Assert.AreEqual("", stringAppender.GetString(), "Test formatted FATAL event with 5 parms (only 4 used)");
+      log1.AssertFormat("a{0}b{1}c{2}d{3}e{4}f", "Q", "W", "E", "R", "T", "Y");
+      Assert.AreEqual("", stringAppender.GetString(), "Test formatted ASSERT event with 5 parms (only 4 used)");
       stringAppender.Reset();
 
       // ***
-      log1.FatalFormat(null, "Before {0} After {1}", "Middle", "End");
+      log1.AssertFormat(null, "Before {0} After {1}", "Middle", "End");
       Assert.AreEqual("", stringAppender.GetString(), "Test formatting with null provider");
       stringAppender.Reset();
 
       // ***
-      log1.FatalFormat(new CultureInfo("en"), "Before {0} After {1}", "Middle", "End");
+      log1.AssertFormat(new CultureInfo("en"), "Before {0} After {1}", "Middle", "End");
+      Assert.AreEqual("", stringAppender.GetString(), "Test formatting with 'en' provider");
+      stringAppender.Reset();
+    }
+
+    [Test]
+    public void TestLogFormatApi_Exception() {
+      StringAppender stringAppender = new StringAppender();
+      stringAppender.Layout = new LayoutPattern("%level:%message");
+
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
+      BasicConfig.Config(rep, stringAppender);
+
+      ILog log1 = LogManager.Get(rep.Name, "TestLogFormatApi_Exception");
+
+      // ***
+      log1.Exception("TestMessage");
+      Assert.AreEqual("EXCEPTION:TestMessage", stringAppender.GetString(), "Test simple EXCEPTION event 1");
+      stringAppender.Reset();
+
+      // ***
+      log1.Exception("TestMessage", null);
+      Assert.AreEqual("EXCEPTION:TestMessage", stringAppender.GetString(), "Test simple EXCEPTION event 2");
+      stringAppender.Reset();
+
+      // ***
+      log1.Exception("TestMessage", new Exception("Exception message"));
+      Assert.AreEqual("EXCEPTION:TestMessageSystem.Exception: Exception message" + Environment.NewLine, stringAppender.GetString(), "Test simple EXCEPTION event 3");
+      stringAppender.Reset();
+
+      // ***
+      log1.ExceptionFormat("a{0}", "1");
+      Assert.AreEqual("EXCEPTION:a1", stringAppender.GetString(), "Test formatted EXCEPTION event with 1 parm");
+      stringAppender.Reset();
+
+      // ***
+      log1.ExceptionFormat("a{0}b{1}", "1", "2");
+      Assert.AreEqual("EXCEPTION:a1b2", stringAppender.GetString(), "Test formatted EXCEPTION event with 2 parm");
+      stringAppender.Reset();
+
+      // ***
+      log1.ExceptionFormat("a{0}b{1}c{2}", "1", "2", "3");
+      Assert.AreEqual("EXCEPTION:a1b2c3", stringAppender.GetString(), "Test formatted EXCEPTION event with 3 parm");
+      stringAppender.Reset();
+
+
+      // ***
+      log1.ExceptionFormat("a{0}b{1}c{2}d{3}e{4}f", "Q", "W", "E", "R", "T", "Y");
+      Assert.AreEqual("EXCEPTION:aQbWcEdReTf", stringAppender.GetString(), "Test formatted EXCEPTION event with 5 parms (only 4 used)");
+      stringAppender.Reset();
+
+      // ***
+      log1.ExceptionFormat(null, "Before {0} After {1}", "Middle", "End");
+      Assert.AreEqual("EXCEPTION:Before Middle After End", stringAppender.GetString(), "Test formatting with null provider");
+      stringAppender.Reset();
+
+      // ***
+      log1.ExceptionFormat(new CultureInfo("en"), "Before {0} After {1}", "Middle", "End");
+      Assert.AreEqual("EXCEPTION:Before Middle After End", stringAppender.GetString(), "Test formatting with 'en' provider");
+      stringAppender.Reset();
+    }
+
+    [Test]
+    public void TestLogFormatApi_NoException() {
+      StringAppender stringAppender = new StringAppender();
+      stringAppender.Threshold = Level.Off;
+      stringAppender.Layout = new LayoutPattern("%level:%message");
+
+      ILoggerController rep = LogManager.CreateController(Guid.NewGuid().ToString());
+      BasicConfig.Config(rep, stringAppender);
+
+      ILog log1 = LogManager.Get(rep.Name, "TestLogFormatApi_Exception");
+
+      // ***
+      log1.Exception("TestMessage");
+      Assert.AreEqual("", stringAppender.GetString(), "Test simple EXCEPTION event 1");
+      stringAppender.Reset();
+
+      // ***
+      log1.Exception("TestMessage", null);
+      Assert.AreEqual("", stringAppender.GetString(), "Test simple EXCEPTION event 2");
+      stringAppender.Reset();
+
+      // ***
+      log1.Exception("TestMessage", new Exception("Exception message"));
+      Assert.AreEqual("", stringAppender.GetString(), "Test simple EXCEPTION event 3");
+      stringAppender.Reset();
+
+      // ***
+      log1.ExceptionFormat("a{0}", "1");
+      Assert.AreEqual("", stringAppender.GetString(), "Test formatted EXCEPTION event with 1 parm");
+      stringAppender.Reset();
+
+      // ***
+      log1.ExceptionFormat("a{0}b{1}", "1", "2");
+      Assert.AreEqual("", stringAppender.GetString(), "Test formatted EXCEPTION event with 2 parm");
+      stringAppender.Reset();
+
+      // ***
+      log1.ExceptionFormat("a{0}b{1}c{2}", "1", "2", "3");
+      Assert.AreEqual("", stringAppender.GetString(), "Test formatted EXCEPTION event with 3 parm");
+      stringAppender.Reset();
+
+
+      // ***
+      log1.ExceptionFormat("a{0}b{1}c{2}d{3}e{4}f", "Q", "W", "E", "R", "T", "Y");
+      Assert.AreEqual("", stringAppender.GetString(), "Test formatted EXCEPTION event with 5 parms (only 4 used)");
+      stringAppender.Reset();
+
+      // ***
+      log1.ExceptionFormat(null, "Before {0} After {1}", "Middle", "End");
+      Assert.AreEqual("", stringAppender.GetString(), "Test formatting with null provider");
+      stringAppender.Reset();
+
+      // ***
+      log1.ExceptionFormat(new CultureInfo("en"), "Before {0} After {1}", "Middle", "End");
       Assert.AreEqual("", stringAppender.GetString(), "Test formatting with 'en' provider");
       stringAppender.Reset();
     }
