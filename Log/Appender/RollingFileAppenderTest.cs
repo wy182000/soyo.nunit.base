@@ -1429,13 +1429,13 @@ namespace UnitTest.Base.Log {
       log.Log(GetType(), Level.Info, "This is a message", null);
 
       try {
-#if UNITY_2018 // default FileLock not work for .net core on linux
+#if UNITY_2017_1_OR_NEWER // default FileLock not work for .net core on linux
         FileStream fs = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None);
         fs.Write(Encoding.ASCII.GetBytes("Test"), 0, 4);
         fs.Close();
-#else // UNITY_2018
+#else // UNITY_2017_1_OR_NEWER
         locked = true;
-#endif // UNITY_2018
+#endif // UNITY_2017_1_OR_NEWER
       } catch (IOException e1) {
         Assert.AreEqual("Sharing violation on path ", e1.Message.Substring(0, 26), "Unexpected exception");
         locked = true;
