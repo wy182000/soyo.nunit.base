@@ -91,7 +91,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act nodify as correct
-      var node = Json.Parse(JsonStringEqualsInsteadOfColon);
+      var node = JsonUtil.Parse(JsonStringEqualsInsteadOfColon);
       Assert.AreEqual(1, node["integer"]["negative"].Int);
     }
 
@@ -101,7 +101,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonStringMissingClosingBracket);
+      var node = JsonUtil.Parse(JsonStringMissingClosingBracket);
       Assert.IsNull(node);
     }
 
@@ -111,7 +111,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonStringMissingOpeningBracket);
+      var node = JsonUtil.Parse(JsonStringMissingOpeningBracket);
       Assert.IsNull(node);
     }
 
@@ -121,7 +121,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonStringMissingComma);
+      var node = JsonUtil.Parse(JsonStringMissingComma);
       Assert.IsNull(node);
     }
 
@@ -131,7 +131,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse("{}");
+      var node = JsonUtil.Parse("{}");
 
       // assert
       Assert.IsNotNull(node);
@@ -143,7 +143,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse("");
+      var node = JsonUtil.Parse("");
 
       // assert
       Assert.IsNull(node);
@@ -155,7 +155,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
 
       // assert
       Assert.AreEqual("this is a string", node["string"]["normal"].Value);
@@ -167,7 +167,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
 
       // assert
       Assert.AreEqual(@":,[]{}""\\t\n\r\bA\f\m/", node["string"]["special"].Value);
@@ -179,7 +179,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
 
       // assert
       Assert.AreEqual(1, node["integer"]["positive"].Int);
@@ -191,7 +191,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
 
       // assert
       Assert.AreEqual(1, node["integer"]["explicitPositive"].Int);
@@ -203,7 +203,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
 
       // assert
       Assert.AreEqual(-1, node["integer"]["negative"].Int);
@@ -215,7 +215,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
 
       // assert
       Assert.AreEqual(3.14, node["floating"]["positive"].Float, 0.000001);
@@ -227,7 +227,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
 
       // assert
       Assert.AreEqual(3.14, node["floating"]["explicitPositive"].Float, 0.000001);
@@ -239,7 +239,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
 
       // assert
       Assert.AreEqual(-3.14, node["floating"]["negative"].Float, 0.000001);
@@ -251,7 +251,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
 
       // assert
       Assert.AreEqual(3.14159265359, node["double"]["positive"].Double, 0.000000000001);
@@ -263,7 +263,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
 
       // assert
       Assert.AreEqual(3.14159265359, node["double"]["explicitPositive"].Double, 0.000000000001);
@@ -275,7 +275,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
 
       // assert
       Assert.AreEqual(-3.14159265359, node["double"]["negative"].Double, 0.000000000001);
@@ -287,7 +287,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
 
       // assert
       Assert.AreEqual(30000, node["exponential"]["positive"].Int);
@@ -299,7 +299,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
 
       // assert
       Assert.AreEqual(30000, node["exponential"]["explicitPositive"].Int);
@@ -311,7 +311,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
 
       // assert
       Assert.AreEqual(0.0003, node["exponential"]["negative"].Float, 0.000001);
@@ -323,7 +323,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(null);
+      var node = JsonUtil.Parse(null);
       Assert.IsNull(node);
 
       // assert
@@ -336,7 +336,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
 
       // assert
       Assert.AreEqual(true, node["boolean"]["positive"].Bool);
@@ -348,7 +348,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
 
       // assert
       Assert.AreEqual(false, node["boolean"]["negative"].Bool);
@@ -360,7 +360,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
 
       // assert
       Assert.IsTrue(node["null"].IsNull);
@@ -372,7 +372,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
 
       // assert
       Assert.AreEqual(0, node["array"]["empty"].Count);
@@ -384,7 +384,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
 
       // assert
       Assert.AreEqual(6, node["array"]["populated"].Count);
@@ -396,7 +396,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
 
       // assert
       Assert.AreEqual(1, node["array"]["populated"].JsonArray[0].Int);
@@ -408,7 +408,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
 
       // assert
       Assert.AreEqual(1.0, node["array"]["populated"].JsonArray[1].Float, 0.00001);
@@ -420,7 +420,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
 
       // assert
       Assert.IsTrue(node["array"]["populated"].JsonArray[2].IsNull);
@@ -432,7 +432,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
 
       // assert
       Assert.AreEqual("string", node["array"]["populated"].JsonArray[3].Value);
@@ -444,7 +444,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
 
       // assert
       Assert.IsFalse(node["array"]["populated"].JsonArray[4].Bool);
@@ -456,7 +456,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
 
       // assert
       Assert.IsNotNull(node["array"]["populated"].JsonArray[5].JsonObject);
@@ -468,7 +468,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllNull);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllNull);
 
       // assert
       Assert.IsTrue(node["integer"].IsNull);
@@ -480,7 +480,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllNull);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllNull);
 
       // assert
       Assert.AreEqual(null, node["string"].Value);
@@ -492,7 +492,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllNull);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllNull);
 
       // assert
       Assert.IsTrue(node["boolean"].IsNull);
@@ -504,7 +504,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllNull);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllNull);
 
       // assert
       Assert.IsTrue(node["floating"].IsNull);
@@ -516,7 +516,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // nothing
 
       // act
-      var node = Json.Parse(JsonObjectStringWithAllNull);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllNull);
 
       // assert
       Assert.IsTrue(node["floating"].IsNull);
@@ -532,7 +532,7 @@ namespace UnitTest.Base.Util.JsonTest {
             }";
 
       // act
-      var node = Json.Parse(jsonString);
+      var node = JsonUtil.Parse(jsonString);
 
       // assert
       Assert.AreEqual("second", node["value"].Value);
@@ -541,7 +541,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_NullObject_IntegerNull() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllNull);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllNull);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -549,7 +549,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.IsTrue(node["integer"].IsNull);
@@ -558,7 +558,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_NullObject_StringNull() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllNull);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllNull);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -566,7 +566,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
 
       // assert
@@ -576,7 +576,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_NullObject_BoolNull() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllNull);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllNull);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -584,7 +584,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.IsTrue(node["boolean"].IsNull);
@@ -593,7 +593,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_NullObject_FloatNull() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllNull);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllNull);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -601,7 +601,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.IsTrue(node["floating"].IsNull);
@@ -610,7 +610,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_NullObject_ArrayNull() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllNull);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllNull);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -618,7 +618,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.IsTrue(node["floating"].IsNull);
@@ -627,7 +627,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_TrueBoolSuccess() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -635,7 +635,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.AreEqual(true, node["boolean"]["positive"].Bool);
@@ -644,7 +644,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_FalseBoolSuccess() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -652,7 +652,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.AreEqual(false, node["boolean"]["negative"].Bool);
@@ -661,7 +661,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_NullSuccess() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -669,7 +669,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.IsTrue(node["null"].IsNull);
@@ -678,7 +678,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_EmptyArrayCountZero() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -686,7 +686,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.AreEqual(0, node["array"]["empty"].Count);
@@ -695,7 +695,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_PopulatedArrayCountSix() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -703,7 +703,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.AreEqual(6, node["array"]["populated"].Count);
@@ -712,7 +712,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_PopulatedArrayIntAtZero() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -720,7 +720,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.AreEqual(1, node["array"]["populated"].JsonArray[0].Int);
@@ -729,7 +729,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_PopulatedArrayFloatAtOne() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -737,7 +737,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.AreEqual(1.0, node["array"]["populated"].JsonArray[1].Float, 0.00001);
@@ -746,7 +746,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_PopulatedArrayNullAtTwo() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -754,7 +754,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.IsTrue(node["array"]["populated"].JsonArray[2].IsNull);
@@ -763,7 +763,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_PopulatedArrayStringAtThree() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -771,7 +771,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.AreEqual("string", node["array"]["populated"].JsonArray[3].Value);
@@ -780,7 +780,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_PopulatedArrayBoolAtFour() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -788,7 +788,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.IsFalse(node["array"]["populated"].JsonArray[4].Bool);
@@ -797,7 +797,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_PopulatedArrayObjectAtFive() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -805,7 +805,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.IsNotNull(node["array"]["populated"].JsonArray[5].JsonObject);
@@ -814,7 +814,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_NormalStringSuccess() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -822,7 +822,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.AreEqual("this is a string", node["string"]["normal"].Value);
@@ -831,7 +831,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_SpecialStringSuccess() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -839,7 +839,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.AreEqual(@":,[]{}""\\t\n\r\bA\f\m/", node["string"]["special"].Value);
@@ -848,7 +848,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_PlainIntegerSuccess() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -856,7 +856,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.AreEqual(1, node["integer"]["positive"].Int);
@@ -865,7 +865,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_ExplicitPositiveIntegerSuccess() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -873,7 +873,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.AreEqual(1, node["integer"]["explicitPositive"].Int);
@@ -882,7 +882,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_NegativeIntegerSuccess() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -890,7 +890,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.AreEqual(-1, node["integer"]["negative"].Int);
@@ -899,7 +899,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_PlainLongSuccess() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -907,7 +907,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.AreEqual(1234567890000, node["long"]["positive"].Long);
@@ -916,7 +916,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_ExplicitPositiveLongSuccess() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -924,7 +924,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.AreEqual(1234567890000, node["long"]["explicitPositive"].Long);
@@ -933,7 +933,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_NegativeLongSuccess() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -941,7 +941,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.AreEqual(-1234567890000, node["long"]["negative"].Long);
@@ -950,7 +950,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_FloatingSuccess() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -958,7 +958,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.AreEqual(3.14, node["floating"]["positive"].Float, 0.000001);
@@ -967,7 +967,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_FloatingExplicitPositiveSuccess() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -975,7 +975,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.AreEqual(3.14, node["floating"]["explicitPositive"].Float, 0.000001);
@@ -984,7 +984,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_FloatingNegativeSuccess() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -992,7 +992,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.AreEqual(-3.14, node["floating"]["negative"].Float, 0.000001);
@@ -1001,7 +1001,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_DoubleSuccess() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -1009,7 +1009,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.AreEqual(3.14159265359, node["double"]["positive"].Double, 0.000000000001);
@@ -1018,7 +1018,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_DoubleExplicitPositiveSuccess() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -1026,7 +1026,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.AreEqual(3.14159265359, node["double"]["explicitPositive"].Double, 0.000000000001);
@@ -1035,7 +1035,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_DoubleNegativeSuccess() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -1043,7 +1043,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.AreEqual(-3.14159265359, node["double"]["negative"].Double, 0.000000000001);
@@ -1052,7 +1052,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_PlainExponentialSuccess() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -1060,7 +1060,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.AreEqual(30000, node["exponential"]["positive"].Int);
@@ -1069,7 +1069,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_ExplicitPositiveExponentialSuccess() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -1077,7 +1077,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.AreEqual(30000, node["exponential"]["explicitPositive"].Int);
@@ -1086,7 +1086,7 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_NegativeExponentialSuccess() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllTypes);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllTypes);
       var memoryStream = new MemoryStream();
       var binaryWriter = new BinaryWriter(memoryStream);
       var binaryReader = new BinaryReader(memoryStream);
@@ -1094,7 +1094,7 @@ namespace UnitTest.Base.Util.JsonTest {
       // act
       node.Save(binaryWriter);
       memoryStream.Seek(0, SeekOrigin.Begin);
-      node = Json.Load(binaryReader);
+      node = JsonUtil.Load(binaryReader);
 
       // assert
       Assert.AreEqual(0.0003, node["exponential"]["negative"].Float, 0.000001);
@@ -1103,11 +1103,11 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void Serialize_SimpleObject_Base64() {
       // arrange
-      var node = Json.Parse(JsonObjectStringWithAllNull);
+      var node = JsonUtil.Parse(JsonObjectStringWithAllNull);
 
       // act
-      var base64 = Json.ToBase64String(node);
-      var loaded = Json.FromBase64String(base64).ToString();
+      var base64 = JsonUtil.ToBase64String(node);
+      var loaded = JsonUtil.FromBase64String(base64).ToString();
 
       // assert
       Assert.IsTrue(
@@ -1834,7 +1834,7 @@ namespace UnitTest.Base.Util.JsonTest {
             {
                 ""value"": null
             }";
-      var node = Json.Parse(expected);
+      var node = JsonUtil.Parse(expected);
 
       // act
       var actual = node.ToString();
@@ -1851,7 +1851,7 @@ namespace UnitTest.Base.Util.JsonTest {
             {
                 ""value"": 1
             }";
-      var node = Json.Parse(expected);
+      var node = JsonUtil.Parse(expected);
 
       // act
       var actual = node.ToString();
@@ -1868,7 +1868,7 @@ namespace UnitTest.Base.Util.JsonTest {
             {
                 ""value"": 1.5
             }";
-      var node = Json.Parse(expected);
+      var node = JsonUtil.Parse(expected);
 
       // act
       var actual = node.ToString();
@@ -1885,7 +1885,7 @@ namespace UnitTest.Base.Util.JsonTest {
             {
                 ""value"": ""String""
             }";
-      var node = Json.Parse(expected);
+      var node = JsonUtil.Parse(expected);
 
       // act
       var actual = node.ToString();
@@ -1903,7 +1903,7 @@ namespace UnitTest.Base.Util.JsonTest {
                 ""value"": 12345678900000,
                 ""value2"": 12345678900001
             }";
-      var node = Json.Parse(expected);
+      var node = JsonUtil.Parse(expected);
 
       // act
       var actual = node.ToString();
@@ -1921,7 +1921,7 @@ namespace UnitTest.Base.Util.JsonTest {
                 ""value"": true,
                 ""value2"": false
             }";
-      var node = Json.Parse(expected);
+      var node = JsonUtil.Parse(expected);
 
       // act
       var actual = node.ToString();
@@ -1945,7 +1945,7 @@ namespace UnitTest.Base.Util.JsonTest {
                     ""boolean"": false
                 }
             }";
-      var node = Json.Parse(expected);
+      var node = JsonUtil.Parse(expected);
 
       // act
       var actual = node.ToString();
@@ -1963,7 +1963,7 @@ namespace UnitTest.Base.Util.JsonTest {
                 ""value"": [],
                 ""value2"": [1, 1.5, ""string"", false, null, {}]
             }";
-      var node = Json.Parse(expected);
+      var node = JsonUtil.Parse(expected);
 
       // act
       var actual = node.ToString();
@@ -1980,7 +1980,7 @@ namespace UnitTest.Base.Util.JsonTest {
             {
                 ""value"": null
             }";
-      var node = Json.Parse(expected);
+      var node = JsonUtil.Parse(expected);
 
       // act
       var actual = node.ToString();
@@ -1997,7 +1997,7 @@ namespace UnitTest.Base.Util.JsonTest {
             {
                 ""value"": 1
             }";
-      var node = Json.Parse(expected);
+      var node = JsonUtil.Parse(expected);
 
       // act
       var actual = node.ToString();
@@ -2014,7 +2014,7 @@ namespace UnitTest.Base.Util.JsonTest {
             {
                 ""value"": 1.5
             }";
-      var node = Json.Parse(expected);
+      var node = JsonUtil.Parse(expected);
 
       // act
       var actual = node.ToString();
@@ -2031,7 +2031,7 @@ namespace UnitTest.Base.Util.JsonTest {
             {
                 ""value"": ""String""
             }";
-      var node = Json.Parse(expected);
+      var node = JsonUtil.Parse(expected);
 
       // act
       var actual = node.ToString();
@@ -2049,7 +2049,7 @@ namespace UnitTest.Base.Util.JsonTest {
                 ""value"": 12345678900000,
                 ""value2"": 12345678900001
             }";
-      var node = Json.Parse(expected);
+      var node = JsonUtil.Parse(expected);
 
       // act
       var actual = node.ToString();
@@ -2067,7 +2067,7 @@ namespace UnitTest.Base.Util.JsonTest {
                 ""value"": true,
                 ""value2"": false
             }";
-      var node = Json.Parse(expected);
+      var node = JsonUtil.Parse(expected);
 
       // act
       var actual = node.ToString();
@@ -2091,7 +2091,7 @@ namespace UnitTest.Base.Util.JsonTest {
                     ""boolean"": false
                 }
             }";
-      var node = Json.Parse(expected);
+      var node = JsonUtil.Parse(expected);
 
       // act
       var actual = node.ToString();
@@ -2109,7 +2109,7 @@ namespace UnitTest.Base.Util.JsonTest {
                 ""value"": [],
                 ""value2"": [1, 1.5, ""string"", false, null, {}]
             }";
-      var node = Json.Parse(expected);
+      var node = JsonUtil.Parse(expected);
 
       // act
       var actual = node.ToString();

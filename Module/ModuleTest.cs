@@ -62,7 +62,7 @@ namespace UnitTest.Base.Module {
 
     [Test]
     public void TestModule() {
-      var node = Json.Parse(json);
+      var node = JsonUtil.Parse(json);
       Assert.IsNotNull(node);
       var config = node.ToObject<Config>();
       Assert.IsNotNull(config);

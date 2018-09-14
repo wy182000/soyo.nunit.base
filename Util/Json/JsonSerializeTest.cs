@@ -268,11 +268,11 @@ namespace UnitTest.Base.Util.JsonTest {
     public void BasicTest() {
       string json = "{\"x\":123,\"y\":456,\"g\":[{\"z\":5,\"a\":12},{\"z\":4,\"a\":23},{\"z\":3,\"a\":34}],\"b\":[[1,2],[4,5,6],[7,6]]}";
 
-      Foo f = Json.ToObject<Foo>(json);
+      Foo f = JsonUtil.ToObject<Foo>(json);
       CheckFoo(f);
 
-      string s = Json.ToJson(f);
-      Foo f2 = Json.ToObject<Foo>(s);
+      string s = JsonUtil.ToJson(f);
+      Foo f2 = JsonUtil.ToObject<Foo>(s);
 
       CheckFoo(f2);
     }
@@ -288,12 +288,12 @@ namespace UnitTest.Base.Util.JsonTest {
     public void ArrayTest() {
       string kj = "[4,7,9]";
 
-      int[] k = Json.ToObject<int[]>(kj);
+      int[] k = JsonUtil.ToObject<int[]>(kj);
 
       CheckArray(k);
 
-      string s = Json.ToJson(k);
-      int[] k2 = Json.ToObject<int[]>(s);
+      string s = JsonUtil.ToJson(k);
+      int[] k2 = JsonUtil.ToObject<int[]>(s);
 
       CheckArray(k2);
     }
@@ -302,12 +302,12 @@ namespace UnitTest.Base.Util.JsonTest {
     public void UndefinedTest() {
       string u1 = "{}";
 
-      Moo m = Json.ToObject<Moo>(u1);
+      Moo m = JsonUtil.ToObject<Moo>(u1);
       Assert.AreEqual(m.b, null);
       Assert.AreEqual(m.a, null);
       Assert.AreEqual(m.c, null);
 
-      string s = Json.ToJson(m);
+      string s = JsonUtil.ToJson(m);
       Assert.AreEqual(s, @"{""a"":null,""b"":null,""c"":null}");
     }
 
@@ -315,15 +315,15 @@ namespace UnitTest.Base.Util.JsonTest {
     public void SomeUndefinedTest() {
       string u1 = "{\"a\":\"b\"}";
 
-      Something s = Json.ToObject<Something>(u1);
+      Something s = JsonUtil.ToObject<Something>(u1);
       Assert.AreEqual(s.a, "b");
       Assert.AreEqual(s.b, null);
 
-      string ss = Json.ToJson(s);
+      string ss = JsonUtil.ToJson(s);
 
       Assert.AreEqual(ss, "{\"a\":\"b\",\"b\":null}");
 
-      Something s2 = Json.ToObject<Something>(ss);
+      Something s2 = JsonUtil.ToObject<Something>(ss);
 
       Assert.AreEqual(s2.a, "b");
       Assert.AreEqual(s2.b, null);
@@ -345,17 +345,17 @@ namespace UnitTest.Base.Util.JsonTest {
       string appleJson = "{\"fruitType\":0,\"height\":1.2,\"radius\":7}";
       string raspberryJson = "{\"fruitType\":1,\"numBulbs\":27}";
 
-      Fruit apple = Json.ToObject<Fruit>(appleJson);
-      Fruit raspberry = Json.ToObject<Fruit>(raspberryJson);
+      Fruit apple = JsonUtil.ToObject<Fruit>(appleJson);
+      Fruit raspberry = JsonUtil.ToObject<Fruit>(raspberryJson);
 
       CheckApple((Apple)apple);
       CheckRaspberry((Raspberry)raspberry);
 
-      string sa = Json.ToJson(apple);
-      string sr = Json.ToJson(raspberry);
+      string sa = JsonUtil.ToJson(apple);
+      string sr = JsonUtil.ToJson(raspberry);
 
-      Fruit apple2 = Json.ToObject<Fruit>(sa);
-      Fruit raspberry2 = Json.ToObject<Fruit>(sr);
+      Fruit apple2 = JsonUtil.ToObject<Fruit>(sa);
+      Fruit raspberry2 = JsonUtil.ToObject<Fruit>(sr);
 
       CheckApple((Apple)apple2);
       CheckRaspberry((Raspberry)raspberry2);
@@ -377,17 +377,17 @@ namespace UnitTest.Base.Util.JsonTest {
       string mouseMoveJson = "{\"msgType\":\"mouseMove\",\"data\":{\"x\":123,\"y\":456}}";
       string keyDownJson = "{\"msgType\":\"keyDown\",\"data\":{\"keyCode\":789}}";
 
-      Message msg1 = Json.ToObject<Message>(mouseMoveJson);
-      Message msg2 = Json.ToObject<Message>(keyDownJson);
+      Message msg1 = JsonUtil.ToObject<Message>(mouseMoveJson);
+      Message msg2 = JsonUtil.ToObject<Message>(keyDownJson);
 
       CheckMessageDataMouseMove(msg1);
       CheckMessageDataKeyDown(msg2);
 
-      string s1 = Json.ToJson(msg1);
-      string s2 = Json.ToJson(msg2);
+      string s1 = JsonUtil.ToJson(msg1);
+      string s2 = JsonUtil.ToJson(msg2);
 
-      Message msg12 = Json.ToObject<Message>(s1);
-      Message msg22 = Json.ToObject<Message>(s2);
+      Message msg12 = JsonUtil.ToObject<Message>(s1);
+      Message msg22 = JsonUtil.ToObject<Message>(s2);
 
       CheckMessageDataMouseMove(msg12);
       CheckMessageDataKeyDown(msg22);
@@ -401,8 +401,8 @@ namespace UnitTest.Base.Util.JsonTest {
       animals[0] = da;
       animals[1] = ca;
 
-      string animalsJson = Json.ToJson(animals, true);
-      Animal[] ani = Json.ToObject<Animal[]>(animalsJson);
+      string animalsJson = JsonUtil.ToJson(animals, true);
+      Animal[] ani = JsonUtil.ToObject<Animal[]>(animalsJson);
 
       Assert.AreEqual(((Dog)ani[0]).barkiness, 123);
       Assert.AreEqual(((Cat)ani[1]).stealthiness, "super");
@@ -445,25 +445,25 @@ namespace UnitTest.Base.Util.JsonTest {
       string jc = "{\"cmd\":\"update\",\"id\":789,\"data\":{\"cmd\":\"launch\",\"data\":{}}}";
       string jd = "{\"cmd\":\"update\",\"id\":101112,\"data\":{\"cmd\":\"die\",\"data\":{\"killer\":\"jill\",\"crash\":true}}}";
 
-      MessageToClient ma = Json.ToObject<MessageToClient>(ja);
-      MessageToClient mb = Json.ToObject<MessageToClient>(jb);
-      MessageToClient mc = Json.ToObject<MessageToClient>(jc);
-      MessageToClient md = Json.ToObject<MessageToClient>(jd);
+      MessageToClient ma = JsonUtil.ToObject<MessageToClient>(ja);
+      MessageToClient mb = JsonUtil.ToObject<MessageToClient>(jb);
+      MessageToClient mc = JsonUtil.ToObject<MessageToClient>(jc);
+      MessageToClient md = JsonUtil.ToObject<MessageToClient>(jd);
 
       CheckMessageSetColor(ma);
       CheckMessageSetName(mb);
       CheckMessageLaunch(mc);
       CheckMessageDie(md);
 
-      string sa = Json.ToJson(ma);
-      string sb = Json.ToJson(mb);
-      string sc = Json.ToJson(mc);
-      string sd = Json.ToJson(md);
+      string sa = JsonUtil.ToJson(ma);
+      string sb = JsonUtil.ToJson(mb);
+      string sc = JsonUtil.ToJson(mc);
+      string sd = JsonUtil.ToJson(md);
 
-      MessageToClient ma2 = Json.ToObject<MessageToClient>(sa);
-      MessageToClient mb2 = Json.ToObject<MessageToClient>(sb);
-      MessageToClient mc2 = Json.ToObject<MessageToClient>(sc);
-      MessageToClient md2 = Json.ToObject<MessageToClient>(sd);
+      MessageToClient ma2 = JsonUtil.ToObject<MessageToClient>(sa);
+      MessageToClient mb2 = JsonUtil.ToObject<MessageToClient>(sb);
+      MessageToClient mc2 = JsonUtil.ToObject<MessageToClient>(sc);
+      MessageToClient md2 = JsonUtil.ToObject<MessageToClient>(sd);
 
       CheckMessageSetColor(ma2);
       CheckMessageSetName(mb2);
@@ -511,15 +511,15 @@ namespace UnitTest.Base.Util.JsonTest {
     public void RoundTrip01Test() {
       string j = "{\"cmd\":\"update\",\"id\":123,\"data\":{\"cmd\":\"setColor\",\"data\":{\"color\":\"red\",\"style\":\"bold\"}}}";
 
-      Dictionary<string, object> data1 = Json.ToObject<Dictionary<string, object>>(j);
+      Dictionary<string, object> data1 = JsonUtil.ToObject<Dictionary<string, object>>(j);
 
-      string newJ = Json.ToJson(data1);
+      string newJ = JsonUtil.ToJson(data1);
 
-      Dictionary<string, object> data2 = Json.ToObject<Dictionary<string, object>>(newJ);
+      Dictionary<string, object> data2 = JsonUtil.ToObject<Dictionary<string, object>>(newJ);
 
       Assert.IsTrue(DictionariesAreSame(data1, data2));
 
-      string anotherJ = Json.ToJson(data2);
+      string anotherJ = JsonUtil.ToJson(data2);
       Assert.AreEqual(newJ, anotherJ);    //  this assumes given the same data we'll get the same string with fields in the same order
     }
 
@@ -532,13 +532,13 @@ namespace UnitTest.Base.Util.JsonTest {
     public void StructTest01() {
       string j = "{\"x\":1.2,\"y\":3.4}";
 
-      Vector2 v = Json.ToObject<Vector2>(j);
+      Vector2 v = JsonUtil.ToObject<Vector2>(j);
       Assert.AreEqual(v.x, 1.2f);
       Assert.AreEqual(v.y, 3.4f);
 
-      string newJ = Json.ToJson(v);
+      string newJ = JsonUtil.ToJson(v);
 
-      Vector2 v2 = Json.ToObject<Vector2>(newJ);
+      Vector2 v2 = JsonUtil.ToObject<Vector2>(newJ);
 
       Assert.AreEqual(v2.x, v.x);
       Assert.AreEqual(v2.y, v.y);
@@ -548,16 +548,16 @@ namespace UnitTest.Base.Util.JsonTest {
     public void StructTest02() {
       string j = "[{\"x\":1.2,\"y\":3.4},{\"x\":5.6,\"y\":7.8}]";
 
-      Vector2[] v = Json.ToObject<Vector2[]>(j);
+      Vector2[] v = JsonUtil.ToObject<Vector2[]>(j);
       Assert.AreEqual(v.Length, 2);
       Assert.AreEqual(v[0].x, 1.2f);
       Assert.AreEqual(v[0].y, 3.4f);
       Assert.AreEqual(v[1].x, 5.6f);
       Assert.AreEqual(v[1].y, 7.8f);
 
-      string newJ = Json.ToJson(v);
+      string newJ = JsonUtil.ToJson(v);
 
-      Vector2[] v2 = Json.ToObject<Vector2[]>(newJ);
+      Vector2[] v2 = JsonUtil.ToObject<Vector2[]>(newJ);
 
       Assert.AreEqual(v2.Length, 2);
       Assert.AreEqual(v2[0].x, v[0].x);
@@ -577,11 +577,11 @@ namespace UnitTest.Base.Util.JsonTest {
       s.someProp = 123;
       HasStatic.someStaticProp = 456;
 
-      string json = Json.ToJson(s);
+      string json = JsonUtil.ToJson(s);
       Assert.That(json, Is.Not.Contains("someStaticProp"));
 
       string j = "{\"someProp\":123,\"someStaticProp\":789}";
-      HasStatic s2 = Json.ToObject<HasStatic>(j);
+      HasStatic s2 = JsonUtil.ToObject<HasStatic>(j);
       Assert.AreEqual(s2.someProp, 123);
       Assert.AreEqual(HasStatic.someStaticProp, 456);
     }
@@ -623,8 +623,8 @@ namespace UnitTest.Base.Util.JsonTest {
       p.someint = 12;
       p.somebool = false;
 
-      string json = Json.ToJson(p);
-      Primitives p2 = Json.ToObject<Primitives>(json);
+      string json = JsonUtil.ToJson(p);
+      Primitives p2 = JsonUtil.ToObject<Primitives>(json);
 
       Assert.AreEqual(p.someBoolean, p2.someBoolean);
       Assert.AreEqual(p.someByte, p2.someByte);
@@ -661,8 +661,8 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void EnumTest() {
       Car a = new Car(CarType.Chevy);
-      string json = Json.ToJson(a);
-      Car b = Json.ToObject<Car>(json);
+      string json = JsonUtil.ToJson(a);
+      Car b = JsonUtil.ToObject<Car>(json);
 
       string expected = "{\"type\":\"Chevy\"}";
       Assert.AreEqual(json, expected);
@@ -687,16 +687,16 @@ namespace UnitTest.Base.Util.JsonTest {
       ThingWithClass[] arr = new ThingWithClass[2];
       arr[0] = twc;
       arr[1] = twc;
-      string json = Json.ToJson(arr);
+      string json = JsonUtil.ToJson(arr);
       string expected = "[{\"inner\":{\"stuff\":[123,456,789]}},{\"inner\":{\"stuff\":[123,456,789]}}]";
       Assert.AreEqual(expected, json);
 
-      object temp = Json.ToObject<object>(json);
+      object temp = JsonUtil.ToObject<object>(json);
       Assert.AreEqual(typeof(List<object>), temp.GetType());
-      string json2 = Json.ToJson(temp);
+      string json2 = JsonUtil.ToJson(temp);
       Assert.AreEqual(json, json2);
 
-      ThingWithClass[] n = Json.ToObject<ThingWithClass[]>(json2);
+      ThingWithClass[] n = JsonUtil.ToObject<ThingWithClass[]>(json2);
       Assert.AreEqual(n.Length, arr.Length);
       Assert.AreEqual(n[0].inner.stuff[0], arr[0].inner.stuff[0]);
       Assert.AreEqual(n[0].inner.stuff[1], arr[0].inner.stuff[1]);
@@ -709,10 +709,10 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void ObjectTest() {
       Car a = new Car(CarType.Chevy);
-      string json = Json.ToJson(a);
-      object o = Json.ToObject<object>(json);
-      string json2 = Json.ToJson(o);
-      Car b = Json.ToObject<Car>(json2);
+      string json = JsonUtil.ToJson(a);
+      object o = JsonUtil.ToObject<object>(json);
+      string json2 = JsonUtil.ToJson(o);
+      Car b = JsonUtil.ToObject<Car>(json2);
       string expected = "{\"type\":\"Chevy\"}";
       Assert.AreEqual(json, expected);
       Assert.AreEqual(a.type, b.type);
@@ -730,12 +730,12 @@ namespace UnitTest.Base.Util.JsonTest {
 
       var m = new MSD();
       m.abc = 123;
-      string json = Json.ToJson(m);
-      Dictionary<string, object> dict = Json.ToObject<Dictionary<string, object>>(json);
+      string json = JsonUtil.ToJson(m);
+      Dictionary<string, object> dict = JsonUtil.ToObject<Dictionary<string, object>>(json);
       Assert.IsTrue(dict.ContainsKey("abc"));
       Assert.AreEqual(Convert.ToInt32(dict["abc"]), 123);
-      json = Json.ToJson(dict);
-      var m2 = Json.ToObject<MSD>(json);
+      json = JsonUtil.ToJson(dict);
+      var m2 = JsonUtil.ToObject<MSD>(json);
       Assert.AreEqual(m2.abc, m.abc);
     }
 
@@ -756,8 +756,8 @@ namespace UnitTest.Base.Util.JsonTest {
       b2.z = 78;
       fl.g.Add(b1);
       fl.g.Add(b2);
-      string json = Json.ToJson(fl);
-      FooList fl2 = Json.ToObject<FooList>(json);
+      string json = JsonUtil.ToJson(fl);
+      FooList fl2 = JsonUtil.ToObject<FooList>(json);
       Assert.AreEqual(fl2.x, fl.x);
       Assert.AreEqual(fl2.y, fl.y);
       Assert.AreEqual(fl2.g.Count, fl.g.Count);
@@ -785,8 +785,8 @@ namespace UnitTest.Base.Util.JsonTest {
       fl.g["def"] = b2;
       fl.h[246] = b3;
       fl.h[357] = b4;
-      string json = Json.ToJson(fl);
-      FooDict fl2 = Json.ToObject<FooDict>(json);
+      string json = JsonUtil.ToJson(fl);
+      FooDict fl2 = JsonUtil.ToObject<FooDict>(json);
       Assert.AreEqual(fl2.x, fl.x);
       Assert.AreEqual(fl2.y, fl.y);
       Assert.AreEqual(fl2.g.Count, fl.g.Count);
@@ -828,8 +828,8 @@ namespace UnitTest.Base.Util.JsonTest {
     [Test]
     public void ClassWithPrivateFields() {
       var p = new PrivateFields(123, "abc");
-      string json = Json.ToJson(p, false, true);
-      PrivateFields p2 = Json.ToObject<PrivateFields>(json);
+      string json = JsonUtil.ToJson(p, false, true);
+      PrivateFields p2 = JsonUtil.ToObject<PrivateFields>(json);
       Assert.AreEqual(p2.Num, p.Num);
       Assert.AreEqual(p2.Str, p.Str);
     }
@@ -860,8 +860,8 @@ namespace UnitTest.Base.Util.JsonTest {
       var valueP = new PropertyTestClass() { name = "TestClass", value = 5, porpertySet = subP };
       p.Add("Property", valueP);
 
-      var json = Json.ToJson(new ReadOnlyPropertySet(p));
-      var checkP = Json.ToObject<PropertySet>(json);
+      var json = JsonUtil.ToJson(new ReadOnlyPropertySet(p));
+      var checkP = JsonUtil.ToObject<PropertySet>(json);
 
       var checkValueP = checkP["Property"] as PropertyTestClass;
       Assert.IsNotNull(checkValueP);
@@ -882,8 +882,8 @@ namespace UnitTest.Base.Util.JsonTest {
         intData[i] = Rand.Default.RandInt();
       }
       var bitField = new BitField(intData);
-      var json = Json.ToJson(bitField);
-      var checkBitField = Json.ToObject<BitField>(json);
+      var json = JsonUtil.ToJson(bitField);
+      var checkBitField = JsonUtil.ToObject<BitField>(json);
       Assert.IsTrue(bitField.Equals(checkBitField));
     }
 
@@ -900,8 +900,8 @@ namespace UnitTest.Base.Util.JsonTest {
       var list = new List<object>();
       list.Add(1);
       list.Add(2);
-      var node = Json.ToJson(list);
-      Json.MergeObject(node, list);
+      var node = JsonUtil.ToJson(list);
+      JsonUtil.MergeObject(node, list);
       Assert.AreEqual(list.Count, 4);
       Assert.AreEqual(list[0], 1);
       Assert.AreEqual(list[1], 2);
@@ -911,8 +911,8 @@ namespace UnitTest.Base.Util.JsonTest {
       var intList = new List<int>();
       intList.Add(1);
       intList.Add(2);
-      node = Json.ToJson(intList);
-      Json.MergeObject(node, intList);
+      node = JsonUtil.ToJson(intList);
+      JsonUtil.MergeObject(node, intList);
       Assert.AreEqual(intList.Count, 4);
       Assert.AreEqual(intList[0], 1);
       Assert.AreEqual(intList[1], 2);
@@ -921,8 +921,8 @@ namespace UnitTest.Base.Util.JsonTest {
 
 
       var array = new int[] { 1, 2 };
-      node = Json.ToJson(array);
-      array = (int[])Json.MergeObject(node, array);
+      node = JsonUtil.ToJson(array);
+      array = (int[])JsonUtil.MergeObject(node, array);
       Assert.AreEqual(array.Length, 4);
       Assert.AreEqual(array[0], 1);
       Assert.AreEqual(array[1], 2);
@@ -935,8 +935,8 @@ namespace UnitTest.Base.Util.JsonTest {
       var dict2 = new Dictionary<string, object>();
       dict2.Add("3", 3);
       dict2.Add("4", 4);
-      node = Json.ToJson(dict1);
-      Json.MergeObject(node, dict2);
+      node = JsonUtil.ToJson(dict1);
+      JsonUtil.MergeObject(node, dict2);
       Assert.AreEqual(dict2.Count, 4);
       Assert.AreEqual(dict2["1"], 1);
       Assert.AreEqual(dict2["2"], 2);
@@ -949,8 +949,8 @@ namespace UnitTest.Base.Util.JsonTest {
       var intDict2 = new Dictionary<string, int>();
       intDict2.Add("3", 3);
       intDict2.Add("4", 4);
-      node = Json.ToJson(intDict1);
-      Json.MergeObject(node, intDict2);
+      node = JsonUtil.ToJson(intDict1);
+      JsonUtil.MergeObject(node, intDict2);
       Assert.AreEqual(intDict2.Count, 4);
       Assert.AreEqual(intDict2["1"], 1);
       Assert.AreEqual(intDict2["2"], 2);
@@ -962,19 +962,19 @@ namespace UnitTest.Base.Util.JsonTest {
       mergeValue.Field = 1;
 
       string jsonString = @"{ ""Property"": 2 }";
-      mergeValue = (MergeClass)Json.MergeObject(jsonString, mergeValue);
+      mergeValue = (MergeClass)JsonUtil.MergeObject(jsonString, mergeValue);
       Assert.AreEqual(mergeValue, temp);
       Assert.AreEqual(mergeValue.Field, 1);
       Assert.AreEqual(mergeValue.Property, 2);
 
       jsonString = @"{ ""Field"": 3 }";
-      Json.MergeObject(jsonString, mergeValue);
+      JsonUtil.MergeObject(jsonString, mergeValue);
       Assert.AreEqual(mergeValue, temp);
       Assert.AreEqual(mergeValue.Field, 3);
       Assert.AreEqual(mergeValue.Property, 2);
 
       jsonString = @"{ ""AddValue"": 3 }";
-      Json.MergeObject(jsonString, mergeValue);
+      JsonUtil.MergeObject(jsonString, mergeValue);
       Assert.AreEqual(mergeValue, temp);
       Assert.AreEqual(mergeValue.Field, 6);
       Assert.AreEqual(mergeValue.Property, 2);
