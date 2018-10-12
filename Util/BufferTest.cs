@@ -137,7 +137,8 @@ namespace UnitTest.Base.Util {
         Assert.AreEqual(buffer.ReadByte(i), (byte)i);
       }
 
-      var blockBuffer = buffer.ToBlock();
+      var blockBuffer = new BlockBuffer();
+      blockBuffer.Add(buffer);
       tempBuffer = blockBuffer.ToBuffer();
       checkBufferNotEmpty(ref tempBuffer, null, 0, buffer.Count);
       Assert.IsTrue(tempBuffer.CheckPtr(ref buffer));

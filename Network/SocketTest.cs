@@ -119,7 +119,7 @@ namespace UnitTest.Base.Network {
       Assert.IsFalse(msg.IsEmpty);
       Assert.IsNotNull(data);
 
-      var reader = msg.BufferReader;
+      var reader = msg.GetBufferReader();
       Assert.IsNotNull(reader);
       int count = (int)reader.ReadVarint32();
       Assert.Less(count, 128);
@@ -197,7 +197,7 @@ namespace UnitTest.Base.Network {
       Assert.IsNotNull(data);
       Message msg = new Message(8192);
       int count = Rand.Default.RandInt(128);
-      var writer = msg.BufferWriter;
+      var writer = msg.GetBufferWriter();
       writer.WriteVarint32((uint)count);
       for (int i = 0; i < count; i++) {
         int index = Rand.Default.RandInt(data.Count);
@@ -639,7 +639,7 @@ namespace UnitTest.Base.Network {
 
       string hello = "Hello";
       var helloMessage = new Message(16);
-      var writer = helloMessage.BufferWriter;
+      var writer = helloMessage.GetBufferWriter();
       writer.WriteString(hello);
       helloMessage.Resize(writer.Position);
 
@@ -656,7 +656,7 @@ namespace UnitTest.Base.Network {
         Assert.Less(0, msg.RouteId);
         Assert.IsFalse(clientIdSet.Contains(msg.RouteId));
         clientIdSet.Add(msg.RouteId);
-        var reader = msg.BufferReader;
+        var reader = msg.GetBufferReader();
         var value = reader.ReadString();
         Assert.AreEqual(value, hello);
       }
@@ -712,7 +712,7 @@ namespace UnitTest.Base.Network {
 
       string hello = "Hello";
       var helloMessage = new Message(16);
-      var writer = helloMessage.BufferWriter;
+      var writer = helloMessage.GetBufferWriter();
       writer.WriteString(hello);
       helloMessage.Resize(writer.Position);
 
@@ -729,7 +729,7 @@ namespace UnitTest.Base.Network {
         Assert.Less(0, msg.RouteId);
         Assert.IsFalse(clientIdSet.Contains(msg.RouteId));
         clientIdSet.Add(msg.RouteId);
-        var reader = msg.BufferReader;
+        var reader = msg.GetBufferReader();
         var value = reader.ReadString();
         Assert.AreEqual(value, hello);
       }
