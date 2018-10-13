@@ -4,6 +4,9 @@ using Soyo.Base.Proto;
 
 namespace Soyo.Proto {
   class Soyo_Proto_ProtoTestBase_Serializer: IProtoSerializer<Soyo.Proto.ProtoTestBase> {
+    public static void Initialize() {
+      ProtoConvert.Register(new Soyo_Proto_ProtoTestBase_Serializer());
+    }
     public Soyo.Proto.ProtoTestBase Merge(ProtoReader input, Soyo.Proto.ProtoTestBase value) {
       int oldLimit = input.ReadClassBegin();
       while (input.HasField) {
@@ -148,51 +151,51 @@ namespace Soyo.Proto {
       if (value.uintUintDictionary != basevalue.uintUintDictionary) output.WriteDictionary(42, value.uintUintDictionary);
       output.WriteClassEnd();
     }
-    public int Size(Soyo.Proto.ProtoTestBase value) {
-      int size = 0;
-      size += ProtoSerializer.Size(value.byteValue);
-      size += ProtoSerializer.Size(value.sbyteValue);
-      size += ProtoSerializer.Size(value.shortValue);
-      size += ProtoSerializer.Size(value.ushortValue);
-      size += ProtoSerializer.Size(value.intValue);
-      size += ProtoSerializer.Size(value.uintValue);
-      size += ProtoSerializer.Size(value.longValue);
-      size += ProtoSerializer.Size(value.ulongValue);
-      size += ProtoSerializer.Size(value.floatValue);
-      size += ProtoSerializer.Size(value.doubleValue);
-      size += ProtoSerializer.Size((int)value.enumValue);
-      size += ProtoSerializer.Size(value.stringValue);
-      size += ProtoSerializer.Size(value.bufferValue);
-      size += ProtoSerializer.Size(value.byteArrayValue);
-      size += ProtoSerializer.Size(value.byteNullValue);
-      size += ProtoSerializer.Size(value.sbyteNullValue);
-      size += ProtoSerializer.Size(value.shortNullValue);
-      size += ProtoSerializer.Size(value.ushortNullValue);
-      size += ProtoSerializer.Size(value.intNullValue);
-      size += ProtoSerializer.Size(value.uintNullValue);
-      size += ProtoSerializer.Size(value.longNullValue);
-      size += ProtoSerializer.Size(value.ulongNullValue);
-      size += ProtoSerializer.Size(value.floatNullValue);
-      size += ProtoSerializer.Size(value.doubleNullValue);
-      size += ProtoSerializer.Size(value.bufferNullValue);
-      size += ProtoSerializer.ArraySize(value.boolListValue);
-      size += ProtoSerializer.ArraySize(value.byteListValue);
-      size += ProtoSerializer.ArraySize(value.sbyteListValue);
-      size += ProtoSerializer.ArraySize(value.shortListValue);
-      size += ProtoSerializer.ArraySize(value.ushortListValue);
-      size += ProtoSerializer.ArraySize(value.intListValue);
-      size += ProtoSerializer.ArraySize(value.uintListValue);
-      size += ProtoSerializer.ArraySize(value.longListValue);
-      size += ProtoSerializer.ArraySize(value.ulongListValue);
-      size += ProtoSerializer.ArraySize(value.floatListValue);
-      size += ProtoSerializer.ArraySize(value.doubleListValue);
-      size += ProtoSerializer.ArraySize(value.stringListValue);
-      size += ProtoSerializer.ArraySize(value.bufferListValue);
-      size += ProtoSerializer.ArraySize(value.byteArrayListValue);
-      size += ProtoSerializer.Size(value.boolValue);
-      size += ProtoSerializer.Size(value.boolNullValue);
-      size += ProtoSerializer.DictionarySize(value.uintUintDictionary);
-      return size;
+    public int Capacity(Soyo.Proto.ProtoTestBase value) {
+      int capacity = 0;
+      capacity += ProtoSerializer.Capacity(value.byteValue);
+      capacity += ProtoSerializer.Capacity(value.sbyteValue);
+      capacity += ProtoSerializer.Capacity(value.shortValue);
+      capacity += ProtoSerializer.Capacity(value.ushortValue);
+      capacity += ProtoSerializer.Capacity(value.intValue);
+      capacity += ProtoSerializer.Capacity(value.uintValue);
+      capacity += ProtoSerializer.Capacity(value.longValue);
+      capacity += ProtoSerializer.Capacity(value.ulongValue);
+      capacity += ProtoSerializer.Capacity(value.floatValue);
+      capacity += ProtoSerializer.Capacity(value.doubleValue);
+      capacity += ProtoSerializer.Capacity((int)value.enumValue);
+      capacity += ProtoSerializer.Capacity(value.stringValue);
+      capacity += ProtoSerializer.Capacity(value.bufferValue);
+      capacity += ProtoSerializer.Capacity(value.byteArrayValue);
+      capacity += ProtoSerializer.Capacity(value.byteNullValue);
+      capacity += ProtoSerializer.Capacity(value.sbyteNullValue);
+      capacity += ProtoSerializer.Capacity(value.shortNullValue);
+      capacity += ProtoSerializer.Capacity(value.ushortNullValue);
+      capacity += ProtoSerializer.Capacity(value.intNullValue);
+      capacity += ProtoSerializer.Capacity(value.uintNullValue);
+      capacity += ProtoSerializer.Capacity(value.longNullValue);
+      capacity += ProtoSerializer.Capacity(value.ulongNullValue);
+      capacity += ProtoSerializer.Capacity(value.floatNullValue);
+      capacity += ProtoSerializer.Capacity(value.doubleNullValue);
+      capacity += ProtoSerializer.Capacity(value.bufferNullValue);
+      capacity += ProtoSerializer.ArrayCapacity(value.boolListValue);
+      capacity += ProtoSerializer.ArrayCapacity(value.byteListValue);
+      capacity += ProtoSerializer.ArrayCapacity(value.sbyteListValue);
+      capacity += ProtoSerializer.ArrayCapacity(value.shortListValue);
+      capacity += ProtoSerializer.ArrayCapacity(value.ushortListValue);
+      capacity += ProtoSerializer.ArrayCapacity(value.intListValue);
+      capacity += ProtoSerializer.ArrayCapacity(value.uintListValue);
+      capacity += ProtoSerializer.ArrayCapacity(value.longListValue);
+      capacity += ProtoSerializer.ArrayCapacity(value.ulongListValue);
+      capacity += ProtoSerializer.ArrayCapacity(value.floatListValue);
+      capacity += ProtoSerializer.ArrayCapacity(value.doubleListValue);
+      capacity += ProtoSerializer.ArrayCapacity(value.stringListValue);
+      capacity += ProtoSerializer.ArrayCapacity(value.bufferListValue);
+      capacity += ProtoSerializer.ArrayCapacity(value.byteArrayListValue);
+      capacity += ProtoSerializer.Capacity(value.boolValue);
+      capacity += ProtoSerializer.Capacity(value.boolNullValue);
+      capacity += ProtoSerializer.DictionaryCapacity(value.uintUintDictionary);
+      return capacity;
     }
     public Soyo.Proto.ProtoTestBase DeepCopy(Soyo.Proto.ProtoTestBase dst, Soyo.Proto.ProtoTestBase src) {
       dst.byteValue = src.byteValue;
@@ -242,6 +245,9 @@ namespace Soyo.Proto {
   }
   
   class Soyo_Proto_ProtoTestClass_Serializer: IProtoSerializer<Soyo.Proto.ProtoTestClass> {
+    public static void Initialize() {
+      ProtoConvert.Register(new Soyo_Proto_ProtoTestClass_Serializer());
+    }
     public Soyo.Proto.ProtoTestClass Merge(ProtoReader input, Soyo.Proto.ProtoTestClass value) {
       int oldLimit = input.ReadClassBegin();
       while (input.HasField) {
@@ -266,11 +272,11 @@ namespace Soyo.Proto {
       if (value.items != basevalue.items) output.WriteArray(2, value.items);
       output.WriteClassEnd();
     }
-    public int Size(Soyo.Proto.ProtoTestClass value) {
-      int size = 0;
-      size += ProtoSerializer.Size(value.id);
-      size += ProtoSerializer.ArraySize(value.items);
-      return size;
+    public int Capacity(Soyo.Proto.ProtoTestClass value) {
+      int capacity = 0;
+      capacity += ProtoSerializer.Capacity(value.id);
+      capacity += ProtoSerializer.ArrayCapacity(value.items);
+      return capacity;
     }
     public Soyo.Proto.ProtoTestClass DeepCopy(Soyo.Proto.ProtoTestClass dst, Soyo.Proto.ProtoTestClass src) {
       dst.id = src.id;
@@ -279,10 +285,4 @@ namespace Soyo.Proto {
     }
   }
   
-  public static class ProtoTest {
-    public static void Initialize() {
-      ProtoConvert.Register(new Soyo_Proto_ProtoTestBase_Serializer());
-      ProtoConvert.Register(new Soyo_Proto_ProtoTestClass_Serializer());
-    }
-  }
 }

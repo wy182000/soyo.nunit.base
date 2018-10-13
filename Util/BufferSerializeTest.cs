@@ -93,6 +93,33 @@ namespace UnitTest.Base.Util.Serialize {
       checkSerializeValue<object>(nullValue);
     }
 
+    private void checkSerializeArray<T>(T[] value) {
+      var writer = new ByteBufferWriter(BufferSerializer.Size(value));
+      value.BufferWrite(writer);
+      var valueSerialized = BufferSerializer.Read<T[]>(writer.GetBufferReader());
+      for (int i = 0; i < value.Length; i++) {
+        Assert.AreEqual(value[i], valueSerialized[i], $"check serialize read failed, value: {value[i]}, serialized value: {valueSerialized[i]}");
+      }
+
+      valueSerialized = BufferSerializer.Merge(writer.GetBufferReader(), default(T[]));
+      for (int i = 0; i < value.Length; i++) {
+        Assert.AreEqual(value[i], valueSerialized[i], $"check serialize merge failed, value: {value[i]}, serialized value: {valueSerialized[i]}");
+      }
+
+      writer = new ByteBufferWriter(BufferSerializer.Size<object>(value));
+      BufferSerializer.Write<object>(writer, value);
+      valueSerialized = (T[])BufferSerializer.Read<object>(writer.GetBufferReader());
+      for (int i = 0; i < value.Length; i++) {
+        Assert.AreEqual(value[i], valueSerialized[i], $"check serialize object read failed, value: {value[i]}, serialized value: {valueSerialized[i]}");
+      }
+
+      BufferSerializer.Write<object>(writer, value);
+      valueSerialized = (T[])BufferSerializer.Merge<object>(writer.GetBufferReader(), default(T[]));
+      for (int i = 0; i < value.Length; i++) {
+        Assert.AreEqual(value[i], valueSerialized[i], $"check serialize object merge failed, value: {value[i]}, serialized value: {valueSerialized[i]}");
+      }
+    }
+
     private void checkSerializeCollection<T, CollectionType>(CollectionType value) where CollectionType : ICollection<T> {
       var writer = new ByteBufferWriter(BufferSerializer.Size(value));
       value.BufferWrite(writer);
@@ -153,6 +180,23 @@ namespace UnitTest.Base.Util.Serialize {
 
     [Test]
     public void TestSerializeCollection() {
+      var intArray = new int[Rand.Default.Range(100, 200)];
+      for (int i = 0; i < intArray.Length; i++) {
+        intArray[i] = Rand.Default.RandInt();
+      }
+      checkSerializeArray(intArray);
+      checkSerializeArray(intArray);
+
+      var objectArray = new object[Rand.Default.Range(100, 200)];
+      for (int i = 0; i < objectArray.Length; i++) {
+        objectArray[i] = Rand.Default.RandInt();
+      }
+      checkSerializeArray(objectArray);
+      checkSerializeArray(objectArray);
+
+      checkSerializeValue<int[]>(null);
+      checkSerializeValue<object[]>(null);
+
       var intList = new List<int>();
       for (int i = 0; i < Rand.Default.Range(100, 200); i++) {
         intList.Add(Rand.Default.RandInt());
@@ -167,6 +211,11 @@ namespace UnitTest.Base.Util.Serialize {
       checkSerializeCollection<object, List<object>>(objectList);
       checkSerializeCollection<object, ICollection<object>>(objectList);
 
+      checkSerializeValue<List<int>>(null);
+      checkSerializeValue<ICollection<int>>(null);
+      checkSerializeValue<List<object>>(null);
+      checkSerializeValue<ICollection<object>>(null);
+
       var intDictionary = new Dictionary<int, int>();
       for (int i = 0; i < Rand.Default.Range(100, 200); i++) {
         intDictionary.Add(i, Rand.Default.RandInt());
@@ -180,11 +229,6 @@ namespace UnitTest.Base.Util.Serialize {
       }
       checkSerializeDictionary<object, object, Dictionary<object, object>>(objectDictionary);
       checkSerializeDictionary<object, object, IDictionary<object, object>>(objectDictionary);
-
-      checkSerializeValue<List<int>>(null);
-      checkSerializeValue<ICollection<int>>(null);
-      checkSerializeValue<List<object>>(null);
-      checkSerializeValue<ICollection<object>>(null);
 
       checkSerializeValue<Dictionary<int, int>>(null);
       checkSerializeValue<IDictionary<int, int>>(null);

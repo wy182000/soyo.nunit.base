@@ -341,7 +341,6 @@ namespace UnitTest.Base.Util {
 
     [Test]
     public void TestSerialize() {
-      Soyo.Proto.ProtoTest.Initialize();
       Rand.Default.Seed = (int)Clock.NowSeconds;
       var count = Rand.Default.RandInt(checkCount) + 1;
       Assert.Less(0, count);
