@@ -88,6 +88,9 @@ namespace UnitTest.Base.Util.Serialize {
 
       CheckEnum enumValue = (CheckEnum)Rand.Default.Range((int)CheckEnum.begin, (int)CheckEnum.end);
       checkSerializeValue(enumValue);
+
+      object nullValue = null;
+      checkSerializeValue<object>(nullValue);
     }
 
     private void checkSerializeCollection<T, CollectionType>(CollectionType value) where CollectionType : ICollection<T> {
@@ -177,6 +180,16 @@ namespace UnitTest.Base.Util.Serialize {
       }
       checkSerializeDictionary<object, object, Dictionary<object, object>>(objectDictionary);
       checkSerializeDictionary<object, object, IDictionary<object, object>>(objectDictionary);
+
+      checkSerializeValue<List<int>>(null);
+      checkSerializeValue<ICollection<int>>(null);
+      checkSerializeValue<List<object>>(null);
+      checkSerializeValue<ICollection<object>>(null);
+
+      checkSerializeValue<Dictionary<int, int>>(null);
+      checkSerializeValue<IDictionary<int, int>>(null);
+      checkSerializeValue<Dictionary<object, object>>(null);
+      checkSerializeValue<IDictionary<object, object>>(null);
     }
 
     private interface ICheckInt {
@@ -306,6 +319,11 @@ namespace UnitTest.Base.Util.Serialize {
       checkSerializeClass<CheckStructObject>(objectStruct);
       checkSerializeClass<object>(objectStruct);
       checkSerializeInterface<ICheckObject>(objectStruct);
+
+      checkSerializeValue<CheckClassInt>(null);
+      checkSerializeValue<CheckClassObject>(null);
+      checkSerializeValue<ICheckInt>(null);
+      checkSerializeValue<ICheckObject>(null);
     }
 
     private class CheckAttribute {
