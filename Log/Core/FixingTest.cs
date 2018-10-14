@@ -94,7 +94,7 @@ namespace UnitTest.Base.Log {
 
     private static LogObjectData BuildStandardEventData() {
       LogObjectData loggingEventData = new LogObjectData();
-      loggingEventData.LoggerName = typeof(FixingTest).FullName;
+      loggingEventData.LoggerName = Soyo.Base.SystemInfo.TypeName<FixingTest>();
       loggingEventData.Level = Level.Warn;
       loggingEventData.Message = "Logging event works";
       loggingEventData.Domain = "ReallySimpleApp";
