@@ -12,6 +12,8 @@ using Soyo.Base.LogBase;
 using NUnit.Framework;
 using System.Globalization;
 
+#pragma warning disable 0219
+
 namespace UnitTest.Base.Log {
   [TestFixture]
   public class RollingFileAppenderTest {

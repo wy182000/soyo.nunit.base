@@ -7,6 +7,8 @@ using Soyo.Base.Serialize;
 
 using NUnit.Framework;
 
+#pragma warning disable 0649
+
 namespace UnitTest.Base.Util.Serialize {
   [TestFixture]
   [Category("Soyo.Base")]
