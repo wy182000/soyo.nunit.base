@@ -37,11 +37,19 @@ namespace UnitTest.Base.Util {
       func.Invoke(testClass);
       Assert.AreEqual(testClass.Value, 1);
 
+      testClass.Value = 0;
+      Reflection.Invoke(testClassType, "Func", testClass);
+      Assert.AreEqual(testClass.Value, 1);
+
       Action sfunc;
       rt = Reflection.GetMethod(testClassType, "SFunc", out sfunc);
       Assert.IsTrue(rt);
 
       sfunc.Invoke();
+      Assert.AreEqual(TestClass.SValue, 2);
+
+      TestClass.SValue = 0;
+      Reflection.Invoke(testClassType, "SFunc", null);
       Assert.AreEqual(TestClass.SValue, 2);
 
       Func<object, object> rfunc;
@@ -52,12 +60,20 @@ namespace UnitTest.Base.Util {
       int value = (int)rfunc.Invoke(testClass);
       Assert.AreEqual(testClass.Value, value);
 
+      testClass.Value = Rand.Default.RandInt();
+      value = (int)Reflection.Invoke(testClassType, "RFunc", testClass);
+      Assert.AreEqual(testClass.Value, value);
+
       Func<object> srfunc;
       rt = Reflection.GetMethod(testClassType, "SRFunc", out srfunc);
       Assert.IsTrue(rt);
 
       TestClass.SValue = Rand.Default.RandInt();
       value = (int)srfunc.Invoke();
+      Assert.AreEqual(TestClass.SValue, value);
+
+      TestClass.SValue = Rand.Default.RandInt();
+      value = (int)Reflection.Invoke(testClassType, "SRFunc", null);
       Assert.AreEqual(TestClass.SValue, value);
 
       dynamic pfunc;
@@ -67,15 +83,6 @@ namespace UnitTest.Base.Util {
       int pvalue = Rand.Default.RandInt();
       value = ((Func<object, int, int>)pfunc).Invoke(testClass, pvalue);
       Assert.AreEqual(testClass.Value, pvalue);
-      Assert.AreEqual(value, pvalue);
-
-      dynamic spfunc;
-      rt = Reflection.GetMethod(testClassType, "SPFunc", out spfunc);
-      Assert.IsTrue(rt);
-
-      pvalue = Rand.Default.RandInt();
-      value = ((Func<int, int>)spfunc).Invoke(pvalue);
-      Assert.AreEqual(TestClass.SValue, pvalue);
       Assert.AreEqual(value, pvalue);
 
       Delegate pd;
@@ -92,6 +99,20 @@ namespace UnitTest.Base.Util {
       Assert.AreEqual(testClass.Value, pvalue);
       Assert.AreEqual(value, pvalue);
 
+      pvalue = Rand.Default.RandInt();
+      value = (int)Reflection.Invoke(testClassType, "PFunc", testClass, pvalue);
+      Assert.AreEqual(testClass.Value, pvalue);
+      Assert.AreEqual(value, pvalue);
+
+      dynamic spfunc;
+      rt = Reflection.GetMethod(testClassType, "SPFunc", out spfunc);
+      Assert.IsTrue(rt);
+
+      pvalue = Rand.Default.RandInt();
+      value = ((Func<int, int>)spfunc).Invoke(pvalue);
+      Assert.AreEqual(TestClass.SValue, pvalue);
+      Assert.AreEqual(value, pvalue);
+
       Delegate spd;
       rt = Reflection.GetMethod(testClassType, "SPFunc", out spd);
       Assert.IsTrue(rt);
@@ -104,11 +125,6 @@ namespace UnitTest.Base.Util {
       pvalue = Rand.Default.RandInt();
       value = (int)((Func<object, object>)spd).Invoke(pvalue);
       Assert.AreEqual(TestClass.SValue, pvalue);
-      Assert.AreEqual(value, pvalue);
-
-      pvalue = Rand.Default.RandInt();
-      value = (int)Reflection.Invoke(testClassType, "PFunc", testClass, pvalue);
-      Assert.AreEqual(testClass.Value, pvalue);
       Assert.AreEqual(value, pvalue);
 
       pvalue = Rand.Default.RandInt();
