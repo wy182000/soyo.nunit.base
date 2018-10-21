@@ -20,9 +20,7 @@ namespace UnitTest.Base.Profiler {
 
     [Test]
     public void TestProfiler() {
-#if !PROFILER
-      return;
-#endif
+#if PROFILER
       Assert.IsTrue(ProfilerManger.Enable, "profiler should be enable.");
       Assert.IsNotNull(ProfilerManger.Storage, "profiler storage should not be null.");
 
@@ -90,6 +88,7 @@ namespace UnitTest.Base.Profiler {
       Assert.Less(0, timing.DurationTicks, "step duration should more than be 0");
       Assert.AreEqual(1, timing.TotalCount, "step total count should more than be 0");
       Assert.Less(0, timing.TotalDuration, "step total durationi should more than be 0");
+#endif
     }
   }
 }
