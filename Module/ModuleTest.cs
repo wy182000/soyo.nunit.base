@@ -12,7 +12,7 @@ namespace UnitTest.Base.Module {
     public static long update = 0;
     public static int checkValue = 0;
 
-    protected override void processData(object data, Mail mail) {
+    protected override void processData(object data, uint source, int session, object state) {
       var value = (int)data;
       Assert.Less(0, value);
       checkValue += value;
@@ -80,14 +80,11 @@ namespace UnitTest.Base.Module {
       ModuleCheck.checkValue = 0;
       for (int i = 1; i <= checkCount; i++) {
         var value = i;
-        switch (i % 3) {
+        switch (i % 2) {
           case 0:
             Thread.WorkThread.Post(() => Module.Send("."+name, MailType.Data, value, 0, 0));
             break;
           case 1:
-            Thread.WorkThread.Post(() => Module.Send(":"+handle, MailType.Data, value, 0, 0));
-            break;
-          case 2:
             Thread.WorkThread.Post(() => Module.Send(handle, MailType.Data, value, 0, 0));
             break;
         }

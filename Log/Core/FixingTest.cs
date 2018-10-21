@@ -37,6 +37,7 @@ namespace UnitTest.Base.Log {
 
     [Test]
     public void TestUnfixedValues() {
+      LocationInfo.SKIP_LOGGER = false;
       LogObjectData loggingEventData = BuildStandardEventData();
 
       LogObject loggingEvent = new LogObject(
@@ -50,10 +51,12 @@ namespace UnitTest.Base.Log {
       AssertExpectedLoggingEvent(loggingEvent, loggingEventData);
 
       Assert.AreEqual(FixFlags.None, loggingEvent.Fix, "Fixed Fields is incorrect");
+      LocationInfo.SKIP_LOGGER = true;
     }
 
     [Test]
     public void TestAllFixedValues() {
+      LocationInfo.SKIP_LOGGER = false;
       LogObjectData loggingEventData = BuildStandardEventData();
 
       // LoggingEvents occur at distinct points in time
@@ -70,10 +73,12 @@ namespace UnitTest.Base.Log {
       loggingEvent.Fix = FixFlags.All;
 
       Assert.AreEqual(FixFlags.Location | FixFlags.Identity | FixFlags.Partial | FixFlags.Message | FixFlags.ThreadName | FixFlags.Exception | FixFlags.Domain | FixFlags.PropertySet, loggingEvent.Fix, "Fixed Fields is incorrect");
+      LocationInfo.SKIP_LOGGER = true;
     }
 
     [Test]
     public void TestNoFixedValues() {
+      LocationInfo.SKIP_LOGGER = false;
       LogObjectData loggingEventData = BuildStandardEventData();
 
       // LoggingEvents occur at distinct points in time
@@ -90,6 +95,7 @@ namespace UnitTest.Base.Log {
       loggingEvent.Fix = FixFlags.None;
 
       Assert.AreEqual(FixFlags.None, loggingEvent.Fix, "Fixed Fields is incorrect");
+      LocationInfo.SKIP_LOGGER = true;
     }
 
     private static LogObjectData BuildStandardEventData() {
