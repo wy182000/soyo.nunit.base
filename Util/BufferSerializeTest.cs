@@ -58,7 +58,7 @@ namespace UnitTest.Base.Util.Serialize {
       sbyte sbyteValue = (sbyte)Rand.Default.RandByte();
       checkSerializeValue(sbyteValue);
 
-      char charValue = (char)Rand.Default.RandByte();
+      char charValue = (char)Rand.Default.RandShort();
       checkSerializeValue(charValue);
 
       short shortValue = Rand.Default.RandShort();

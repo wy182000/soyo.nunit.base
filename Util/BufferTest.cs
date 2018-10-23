@@ -785,7 +785,7 @@ namespace UnitTest.Base.Util {
       Assert.IsNotNull(reader);
       Assert.IsNotNull(data);
       int count = 0;
-      while (reader.Position < reader.Size) {
+      while (reader.Position < reader.Limit) {
         int index = (int)reader.ReadVarint32();
         object value = null;
         switch (index) {
@@ -848,7 +848,7 @@ namespace UnitTest.Base.Util {
       writer.WriteBlock(block, size);
       var blockWrite = writer.ToBlock();
       reader = new BlockBufferReader(blockWrite);
-      Assert.AreEqual(reader.Size, size);
+      Assert.AreEqual(reader.Limit, size);
       var checkBlock = new BlockBuffer();
       Assert.AreEqual(reader.ReadBlock(checkBlock), size);
       Assert.IsTrue(reader.IsEnd);
