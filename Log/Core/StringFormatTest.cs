@@ -105,7 +105,7 @@ namespace UnitTest.Base.Log {
 
       // ***
       log1.Debug("TestMessage", new Exception("Exception message"));
-      Assert.AreEqual("DEBUG:TestMessageSystem.Exception: Exception message" + Environment.NewLine, stringAppender.GetString(), "Test simple DEBUG event 3");
+      Assert.AreEqual("DEBUG:TestMessageException: e: Exception message" + Environment.NewLine + "System.Exception: Exception message" + Environment.NewLine, stringAppender.GetString(), "Test simple DEBUG event 3");
       stringAppender.Reset();
 
       // ***
@@ -221,7 +221,7 @@ namespace UnitTest.Base.Log {
 
       // ***
       log1.Info("TestMessage", new Exception("Exception message"));
-      Assert.AreEqual("INFO:TestMessageSystem.Exception: Exception message" + Environment.NewLine, stringAppender.GetString(), "Test simple INFO event 3");
+      Assert.AreEqual("INFO:TestMessageException: e: Exception message" + Environment.NewLine + "System.Exception: Exception message" + Environment.NewLine, stringAppender.GetString(), "Test simple INFO event 3");
       stringAppender.Reset();
 
       // ***
@@ -337,7 +337,7 @@ namespace UnitTest.Base.Log {
 
       // ***
       log1.Warn("TestMessage", new Exception("Exception message"));
-      Assert.AreEqual("WARN:TestMessageSystem.Exception: Exception message" + Environment.NewLine, stringAppender.GetString(), "Test simple WARN event 3");
+      Assert.AreEqual("WARN:TestMessageException: e: Exception message" + Environment.NewLine + "System.Exception: Exception message" + Environment.NewLine, stringAppender.GetString(), "Test simple WARN event 3");
       stringAppender.Reset();
 
       // ***
@@ -453,7 +453,7 @@ namespace UnitTest.Base.Log {
 
       // ***
       log1.Error("TestMessage", new Exception("Exception message"));
-      Assert.AreEqual("ERROR:TestMessageSystem.Exception: Exception message" + Environment.NewLine, stringAppender.GetString(), "Test simple ERROR event 3");
+      Assert.AreEqual("ERROR:TestMessageException: e: Exception message" + Environment.NewLine + "System.Exception: Exception message" + Environment.NewLine, stringAppender.GetString(), "Test simple ERROR event 3");
       stringAppender.Reset();
 
       // ***
@@ -568,7 +568,7 @@ namespace UnitTest.Base.Log {
 
       // ***
       log1.Assert("TestMessage", new Exception("Exception message"));
-      Assert.AreEqual("ASSERT:TestMessageSystem.Exception: Exception message" + Environment.NewLine, stringAppender.GetString(), "Test simple ASSERT event 3");
+      Assert.AreEqual("ASSERT:TestMessageException: e: Exception message" + Environment.NewLine + "System.Exception: Exception message" + Environment.NewLine, stringAppender.GetString(), "Test simple ASSERT event 3");
       stringAppender.Reset();
 
       // ***
@@ -683,7 +683,7 @@ namespace UnitTest.Base.Log {
 
       // ***
       log1.Exception("TestMessage", new Exception("Exception message"));
-      Assert.AreEqual("EXCEPTION:TestMessageSystem.Exception: Exception message" + Environment.NewLine, stringAppender.GetString(), "Test simple EXCEPTION event 3");
+      Assert.AreEqual("EXCEPTION:TestMessageException: e: Exception message" + Environment.NewLine + "System.Exception: Exception message" + Environment.NewLine, stringAppender.GetString(), "Test simple EXCEPTION event 3");
       stringAppender.Reset();
 
       // ***

@@ -43,7 +43,7 @@ namespace UnitTest.Base.Util {
         for (int n = 0; n < checkCount; n++) {
           var queue = queueSet[i];
           var value = n;
-          threadPool.Post(() => queue.Send(value));
+          threadPool.Post(() => queue.Recv(value));
         }
       }
 
