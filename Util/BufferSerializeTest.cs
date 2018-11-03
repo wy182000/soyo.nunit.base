@@ -14,7 +14,7 @@ namespace UnitTest.Base.Util.Serialize {
   [Category("Soyo.Base")]
   internal class BufferSerializeTest {
     private void checkSerializeValue<T>(T value) {
-      var writer = new ByteBufferWriter(BufferSerializer.Size(value));
+      var writer = new ByteBufferWriter(BufferSerializer.Capacity(value));
       value.BufferWrite(writer);
       T valueSerialized = BufferSerializer.Read<T>(writer.GetBufferReader());
       Assert.AreEqual(value, valueSerialized, $"check serialize read failed, value: {value}, serialized value: {valueSerialized}");
@@ -22,7 +22,7 @@ namespace UnitTest.Base.Util.Serialize {
       valueSerialized = BufferSerializer.Merge<T>(writer.GetBufferReader(), default(T));
       Assert.AreEqual(value, valueSerialized, $"check serialize merge failed, value: {value}, serialized value: {valueSerialized}");
 
-      writer = new ByteBufferWriter(BufferSerializer.Size<object>(value));
+      writer = new ByteBufferWriter(BufferSerializer.Capacity<object>(value));
       BufferSerializer.Write<object>(writer, value);
       valueSerialized = (T)BufferSerializer.Read<object>(writer.GetBufferReader());
       Assert.AreEqual(value, valueSerialized, $"check serialize object read failed, value: {value}, serialized value: {valueSerialized}");
@@ -96,7 +96,7 @@ namespace UnitTest.Base.Util.Serialize {
     }
 
     private void checkSerializeArray<T>(T[] value) {
-      var writer = new ByteBufferWriter(BufferSerializer.Size(value));
+      var writer = new ByteBufferWriter(BufferSerializer.Capacity(value));
       value.BufferWrite(writer);
       var valueSerialized = BufferSerializer.Read<T[]>(writer.GetBufferReader());
       for (int i = 0; i < value.Length; i++) {
@@ -108,7 +108,7 @@ namespace UnitTest.Base.Util.Serialize {
         Assert.AreEqual(value[i], valueSerialized[i], $"check serialize merge failed, value: {value[i]}, serialized value: {valueSerialized[i]}");
       }
 
-      writer = new ByteBufferWriter(BufferSerializer.Size<object>(value));
+      writer = new ByteBufferWriter(BufferSerializer.Capacity<object>(value));
       BufferSerializer.Write<object>(writer, value);
       valueSerialized = (T[])BufferSerializer.Read<object>(writer.GetBufferReader());
       for (int i = 0; i < value.Length; i++) {
@@ -123,7 +123,7 @@ namespace UnitTest.Base.Util.Serialize {
     }
 
     private void checkSerializeCollection<T, CollectionType>(CollectionType value) where CollectionType : ICollection<T> {
-      var writer = new ByteBufferWriter(BufferSerializer.Size(value));
+      var writer = new ByteBufferWriter(BufferSerializer.Capacity(value));
       value.BufferWrite(writer);
       CollectionType valueSerialized = BufferSerializer.Read<CollectionType>(writer.GetBufferReader());
       foreach (var i in value) {
@@ -135,7 +135,7 @@ namespace UnitTest.Base.Util.Serialize {
         Assert.IsTrue(valueSerialized.Contains(i), $"check serialize merge failed, value: {i}");
       }
 
-      writer = new ByteBufferWriter(BufferSerializer.Size<object>(value));
+      writer = new ByteBufferWriter(BufferSerializer.Capacity<object>(value));
       BufferSerializer.Write<object>(writer, value);
       valueSerialized = (CollectionType)BufferSerializer.Read<object>(writer.GetBufferReader());
       foreach (var i in value) {
@@ -150,7 +150,7 @@ namespace UnitTest.Base.Util.Serialize {
     }
 
     private void checkSerializeDictionary<Key, Value, DictionaryType>(DictionaryType value) where DictionaryType : IDictionary<Key, Value> {
-      var writer = new ByteBufferWriter(BufferSerializer.Size(value));
+      var writer = new ByteBufferWriter(BufferSerializer.Capacity(value));
       value.BufferWrite(writer);
       DictionaryType valueSerialized = BufferSerializer.Read<DictionaryType>(writer.GetBufferReader());
       foreach (var i in value) {
@@ -164,7 +164,7 @@ namespace UnitTest.Base.Util.Serialize {
         Assert.AreEqual(value[i.Key], valueSerialized[i.Key], $"check serialize merge failed, value: {value[i.Key]}, serialized value: {valueSerialized[i.Key]}");
       }
 
-      writer = new ByteBufferWriter(BufferSerializer.Size<object>(value));
+      writer = new ByteBufferWriter(BufferSerializer.Capacity<object>(value));
       BufferSerializer.Write<object>(writer, value);
       valueSerialized = (DictionaryType)BufferSerializer.Read<object>(writer.GetBufferReader());
       foreach (var i in value) {
@@ -336,7 +336,7 @@ namespace UnitTest.Base.Util.Serialize {
     }
 
     private void checkSerializeInterface<T>(dynamic value) {
-      var writer = new ByteBufferWriter(BufferSerializer.Size<T>(value));
+      var writer = new ByteBufferWriter(BufferSerializer.Capacity<T>(value));
       BufferSerializer.Write<T>(writer, value);
       dynamic valueSerialized = BufferSerializer.Read<T>(writer.GetBufferReader());
       checkInterfaceValue(value, valueSerialized);
@@ -346,7 +346,7 @@ namespace UnitTest.Base.Util.Serialize {
     }
 
     private void checkSerializeClass<T>(dynamic value) {
-      var writer = new ByteBufferWriter(BufferSerializer.Size<T>(value));
+      var writer = new ByteBufferWriter(BufferSerializer.Capacity<T>(value));
       BufferSerializer.Write<T>(writer, value);
       dynamic valueSerialized = BufferSerializer.Read<T>(writer.GetBufferReader());
       checkClassValue(value, valueSerialized);
@@ -356,7 +356,7 @@ namespace UnitTest.Base.Util.Serialize {
     }
 
     private void checkSerializeClassSub<T>(dynamic value) {
-      var writer = new ByteBufferWriter(BufferSerializer.Size<T>(value));
+      var writer = new ByteBufferWriter(BufferSerializer.Capacity<T>(value));
       BufferSerializer.Write<T>(writer, value);
       dynamic valueSerialized = BufferSerializer.Read<T>(writer.GetBufferReader());
       checkClassValue(value, valueSerialized);
@@ -368,7 +368,7 @@ namespace UnitTest.Base.Util.Serialize {
     }
 
     private void checkSerializeGenericMul<T>(dynamic value) {
-      var writer = new ByteBufferWriter(BufferSerializer.Size<T>(value));
+      var writer = new ByteBufferWriter(BufferSerializer.Capacity<T>(value));
       BufferSerializer.Write<T>(writer, value);
       dynamic valueSerialized = BufferSerializer.Read<T>(writer.GetBufferReader());
       checkClassValue(value.ClassGeneric, valueSerialized.ClassGeneric);
@@ -455,7 +455,7 @@ namespace UnitTest.Base.Util.Serialize {
       value.C = Rand.Default.RandInt();
       value.c = Rand.Default.RandInt();
 
-      var writer = new ByteBufferWriter(BufferSerializer.Size(value));
+      var writer = new ByteBufferWriter(BufferSerializer.Capacity(value));
       value.BufferWrite(writer);
       var valueSerialized = BufferSerializer.Read<CheckAttribute>(writer.GetBufferReader());
       Assert.AreNotEqual(value.A, valueSerialized.A, $"check serialize skip failed, value A: {value.A}, serialized value A: {valueSerialized.A}");
