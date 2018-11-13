@@ -145,7 +145,7 @@ namespace UnitTest.Base {
   internal class ServiceTest {
     [OneTimeSetUp]
     public void Init() {
-      Service.RetireAll();
+      Service.RetireInstanceAll();
     }
 
     [Test]
@@ -169,81 +169,105 @@ namespace UnitTest.Base {
       Assert.IsFalse(ret, "IClass is instance of type null");
 
       // class
-      var iClass = Service.Get<IClass>();
+      var iClass = Service<IClass>.Get();
       Assert.IsNotNull(iClass, "service IClass attribute get null");
 
       var value = iClass.get();
       Assert.AreEqual(value, 2, "service IClass get is not 2");
 
-      ret = Service.Has<IClass>();
+      ret = Service<IClass>.Has();
       Assert.IsTrue(ret, "service IClass has is not true");
 
-      Service.Retire<IClass>();
+      Service<IClass>.RetireInstance();
 
-      ret = Service.Has<IClass>();
+      ret = Service<IClass>.Has();
       Assert.IsFalse(ret, "service IClass has is not false");
 
       // retire and get will recreate from service base data
-      iClass = Service.Get<IClass>();
+      iClass = Service<IClass>.Get();
       Assert.IsNotNull(iClass, "service IClass is null");
 
       value = iClass.get();
       Assert.AreEqual(value, 2, "service IClass get is not 2");
 
-      ret = Service.Has<IClass>();
+      ret = Service<IClass>.Has();
       Assert.IsTrue(ret, "service IClass has is not true");
 
-      Service.Register<IClass>(null);
+      Service<IClass>.RegisterInstance((IClass)null);
 
-      ret = Service.Has<IClass>();
+      ret = Service<IClass>.Has();
       Assert.IsFalse(ret, "service IClass has is not false");
 
       // register null and get will get cache null
-      iClass = Service.Get<IClass>();
+      iClass = Service<IClass>.Get();
       Assert.IsNull(iClass, "service IClass is not null");
 
-      Service.Register<IClass>(new ClassInstance());
+      Service<IClass>.RegisterInstance(new ClassInstance());
 
-      ret = Service.Has<IClass>();
+      ret = Service<IClass>.Has();
       Assert.IsTrue(ret, "service IClass has is not true");
 
-      iClass = Service.Get<IClass>();
+      iClass = Service<IClass>.Get();
       Assert.IsNotNull(iClass, "service IClass is null");
 
       value = iClass.get();
       Assert.AreEqual(value, 2, "service IClass get is not 2");
 
-      var iClassA = Service.Get<IClassA>();
+      var iClassA = Service<IClassA>.Get();
       Assert.IsNull(iClassA, "service IClassA attribute get not null");
 
       ret = Service.Has<IClassA>();
       Assert.IsFalse(ret, "service IClass has is not false");
 
-      Service.Register<IClassA>(new ClassInstance());
+      Service.RegisterInstance(typeof(IClassA), new ClassInstance());
+      iClass = Service<IClass>.Get();
+      Assert.IsNotNull(iClass, "service IClass is null");
+
+      value = iClass.get();
+      Assert.AreEqual(value, 2, "service IClass get is not 2");
+
+      Service<IClass>.Retire();
+
+      ret = Service<IClass>.Has();
+      Assert.IsFalse(ret, "service IClass has is not false");
+
+      iClass = Service<IClass>.Get();
+      Assert.IsNull(iClass, "service IClass is not null");
+
+      Service<IClass>.RegisterType<ClassInstance>();
+
+      ret = Service<IClass>.Has();
+      Assert.IsFalse(ret, "service IClass has is not false");
+
+      iClass = Service<IClass>.Get();
+      Assert.IsNotNull(iClass, "service IClass is null");
+
+      value = iClass.get();
+      Assert.AreEqual(value, 2, "service IClass get is not 2");
 
       // register error class and get null
-      iClassA = Service.Get<IClassA>();
+      iClassA = Service<IClassA>.Get();
       Assert.IsNull(iClassA, "service IClassA attribute get not null");
 
-      Service.Register<IClassA>(new ClassInstanceAA());
+      Service<IClassA>.RegisterInstance(new ClassInstanceAA());
 
-      iClassA = Service.Get<IClassA>();
+      iClassA = Service<IClassA>.Get();
       Assert.IsNotNull(iClassA, "service IClassA attribute get null");
 
       value = iClassA.get();
       Assert.AreEqual(value, 22, "service IClassA get is not 22");
 
-      Service.Retire<IClassA>();
+      Service<IClassA>.RetireInstance();
 
-      ret = Service.Has<IClassA>();
+      ret = Service<IClassA>.Has();
       Assert.IsFalse(ret, "service IClassA has is not false");
 
       // retire and get will recreate but has no service base data
-      iClassA = Service.Get<IClassA>();
+      iClassA = Service<IClassA>.Get();
       Assert.IsNull(iClassA, "service IClassA is not null");
 
       // class singleton
-      var iClassS = Service.Get<IClassS>();
+      var iClassS = Service<IClassS>.Get();
       Assert.IsNotNull(iClassS, "service IClassS is not null");
 
       value = iClassS.get();
@@ -252,47 +276,85 @@ namespace UnitTest.Base {
       Assert.AreSame(iClassS, ClassInstanceS.Instance, "service IClassS is not same as singleton");
 
       // assembly
-      var iAssembly = Service.Get<IAssembly>();
+      var iAssembly = Service<IAssembly>.Get();
       Assert.IsNotNull(iAssembly, "service IAssembly get null");
 
       value = iAssembly.get();
       Assert.AreEqual(value, 1, "service IAssembly get is not 1");
 
       // assembly attribute must be full type name, like "UnitTest.Base.IAssembly"
-      var iAssemblyA = Service.Get<IAssemblyA>();
+      var iAssemblyA = Service<IAssemblyA>.Get();
       Assert.IsNull(iAssemblyA, "service IAssemblyA get not null");
 
       // constructor
-      var iConstructor = Service.Get<IConstructor>();
+      var iConstructor = Service<IConstructor>.Get();
       Assert.IsNotNull(iConstructor, "service IConstructor get null");
 
       value = iConstructor.get();
       Assert.AreEqual(value, 3, "service IConstructor get is not 3");
 
-      var iConstructorA = Service.Get<IConstructorA>();
+      var iConstructorA = Service<IConstructorA>.Get();
       Assert.IsNotNull(iConstructorA, "service IConstructorA get null");
 
       value = iConstructorA.get();
       Assert.AreEqual(value, 31, "service IConstructorA get is not 31");
 
-      var iConstructorB = Service.Get<IConstructorB>();
+      var iConstructorB = Service<IConstructorB>.Get();
       Assert.IsNull(iConstructorB, "service IConstructorB attribute get not null");
 
-      Service.Register<IConstructorB>(new ConstructorInstanceB());
+      Service<IConstructorB>.RegisterInstance(new ConstructorInstanceB());
 
-      iConstructorB = Service.Get<IConstructorB>();
+      iConstructorB = Service<IConstructorB>.Get();
       Assert.IsNotNull(iConstructorB, "service IConstructorB get null");
 
       value = iConstructorB.get();
       Assert.AreEqual(value, 32, "service IConstructorA get is not 32");
 
-      Service.Retire<IConstructorB>();
+      Service<IConstructorB>.RetireInstance();
 
-      iConstructorB = Service.Get<IConstructorB>();
+      iConstructorB = Service<IConstructorB>.Get();
       Assert.IsNull(iConstructorB, "service IConstructorB attribute get not null");
 
-      var iSelector = Service.Get<ISelector>();
+      Service<IConstructorA>.Retire();
+
+      ret = Service<IConstructorA>.Has();
+      Assert.IsFalse(ret, "service IConstructorA has is not false");
+
+      iConstructorA = Service<IConstructorA>.Get();
+      Assert.IsNull(iConstructorA, "service IConstructorA is not null");
+
+      Service<IConstructorA>.RegisterConstructor(ConstructorInstanceA.create);
+
+      ret = Service<IConstructorA>.Has();
+      Assert.IsTrue(ret, "service IConstructorA has is not true");
+
+      iConstructorA = Service<IConstructorA>.Get();
+      Assert.IsNotNull(iConstructorA, "service IConstructorA is null");
+
+      value = iConstructorA.get();
+      Assert.AreEqual(value, 31, "service IConstructorA get is not 31");
+
+      var iSelector = Service<ISelector>.Get();
       Assert.IsNotNull(iSelector, "service ISelector get null");
+
+      value = iSelector.get();
+      Assert.AreEqual(value, 4, "service ISelector get is not 4");
+
+      Service<ISelector>.Retire();
+
+      ret = Service<ISelector>.Has();
+      Assert.IsFalse(ret, "service ISelector has is not false");
+
+      iSelector = Service<ISelector>.Get();
+      Assert.IsNull(iSelector, "service ISelector is not null");
+
+      Service<ISelector>.RegisterSelector(SelectorInstance.selector);
+
+      ret = Service<ISelector>.Has();
+      Assert.IsFalse(ret, "service ISelector has is not false");
+
+      iSelector = Service<ISelector>.Get();
+      Assert.IsNotNull(iSelector, "service ISelector is null");
 
       value = iSelector.get();
       Assert.AreEqual(value, 4, "service ISelector get is not 4");
