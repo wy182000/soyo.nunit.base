@@ -633,7 +633,7 @@ namespace UnitTest.Base {
       var rc = Service<IInvoke>.RegisterType<Invoke>();
       Assert.IsTrue(rc);
       var hook = new Hook();
-      rc = Service<IInvoke>.RegisterProxy(hook);
+      rc = Service<IInvoke>.RegisterHook(hook);
       Assert.IsTrue(rc);
       var value = Service<IInvoke>.New();
       value.Test11();
@@ -656,7 +656,7 @@ namespace UnitTest.Base {
       Assert.AreEqual(hook.checkException, 1);
 
       hook = new HookSkip();
-      rc = Service<IInvoke>.RegisterProxy(hook);
+      rc = Service<IInvoke>.RegisterHook(hook);
       Assert.IsTrue(rc);
       value = Service<IInvoke>.New();
       value.Test11();
