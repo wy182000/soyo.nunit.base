@@ -10,8 +10,8 @@ namespace UnitTest.Base.Util {
     public void TestListener() {
       IListener listener = new Listener();
       int check = 0;
-      Func<object, bool> func;
-      func = (data) => {
+      Func<IListen, object, bool> func;
+      func = (l, data) => {
         check += (int)data;
         return true;
       };
@@ -60,7 +60,7 @@ namespace UnitTest.Base.Util {
       Assert.AreEqual(listen.Callback, func);
       Assert.AreEqual(listener.Count, 3);
 
-      func = (data) => {
+      func = (l, data) => {
         check += (int)data;
         return false;
       };
