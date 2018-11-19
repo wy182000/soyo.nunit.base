@@ -628,6 +628,7 @@ namespace UnitTest.Base {
       Assert.AreEqual(value, 4, "service ISelector get is not 4");
     }
 
+#if !UNITY_2017_1_OR_NEWER
     [Test]
     public void TestServiceProxy() {
       var rc = Service<IInvoke>.RegisterType<Invoke>();
@@ -678,5 +679,6 @@ namespace UnitTest.Base {
       Assert.AreEqual(hook.checkAfter, 15);
       Assert.AreEqual(hook.checkException, 0);
     }
+#endif // !UNITY_2017_1_OR_NEWER
   }
 }
