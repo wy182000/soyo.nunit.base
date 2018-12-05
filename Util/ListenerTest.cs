@@ -10,13 +10,40 @@ namespace UnitTest.Base.Util {
     public void TestListener() {
       IListener listener = new Listener();
       int check = 0;
-      Func<IListen, object, bool> func;
-      func = (l, data) => {
-        check += (int)data;
-        return true;
-      };
       IListen listen;
-      var rc = listener.On(func, out listen);
+
+      Action action;
+      action = () => {
+        check += 1;
+      };
+
+      var rc = listener.On(action, out listen);
+      Assert.IsTrue(rc);
+      Assert.Greater(listen.Id, -1);
+      Assert.AreEqual(listen.Callback, action);
+      Assert.AreEqual(listener.Count, 1);
+
+      rc = listener.Emit();
+      Assert.IsTrue(rc);
+      Assert.AreEqual(check, 1);
+      Assert.AreEqual(listener.Count, 1);
+
+      rc = listener.Emit(1);
+      Assert.IsFalse(rc);
+      Assert.AreEqual(check, 1);
+      Assert.AreEqual(listener.Count, 1);
+
+      listener.Remove(listen.Id);
+      Assert.AreEqual(listener.Count, 0);
+
+      check = 0;
+
+      Action<int> func;
+      func = (data) => {
+        check += data;
+      };
+
+      rc = listener.On(func, out listen);
       Assert.IsTrue(rc);
       Assert.Greater(listen.Id, -1);
       Assert.AreEqual(listen.Callback, func);
@@ -60,11 +87,6 @@ namespace UnitTest.Base.Util {
       Assert.AreEqual(listen.Callback, func);
       Assert.AreEqual(listener.Count, 3);
 
-      func = (l, data) => {
-        check += (int)data;
-        return false;
-      };
-
       rc = listener.On(func, out listen);
       Assert.IsTrue(rc);
       Assert.Greater(listen.Id, -1);
@@ -72,12 +94,12 @@ namespace UnitTest.Base.Util {
       Assert.AreEqual(listener.Count, 4);
 
       rc = listener.Emit(1);
-      Assert.IsFalse(rc);
+      Assert.IsTrue(rc);
       Assert.AreEqual(check, 12);
       Assert.AreEqual(listener.Count, 3);
 
       rc = listener.Emit(1);
-      Assert.IsFalse(rc);
+      Assert.IsTrue(rc);
       Assert.AreEqual(check, 15);
       Assert.AreEqual(listener.Count, 3);
 
