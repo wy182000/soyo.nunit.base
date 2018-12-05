@@ -150,6 +150,7 @@ namespace UnitTest.Base.Util {
       Assert.IsFalse(task.IsFaulted);
       Assert.AreEqual(count, 6);
 
+#if !UNITY_2017_1_OR_NEWER
       action = () => throw new Exception("Test Send");
       task = scheduler.Post(action);
       Assert.IsNotNull(task);
@@ -162,6 +163,7 @@ namespace UnitTest.Base.Util {
       Assert.IsNotNull(task);
       Assert.IsFalse(task.IsCompleted);
       Assert.IsFalse(task.IsFaulted);
+#endif // !UNITY_2017_1_OR_NEWER
 
       scheduler.Step();
 
@@ -253,6 +255,7 @@ namespace UnitTest.Base.Util {
       Assert.IsFalse(task.IsFaulted);
       Assert.AreEqual(count, 3);
 
+#if !UNITY_2017_1_OR_NEWER
       action = () => throw new Exception("Test Send");
       task = scheduler.Post(action);
       rc = task.Wait(1000);
@@ -260,6 +263,7 @@ namespace UnitTest.Base.Util {
       Assert.IsNotNull(task);
       Assert.IsTrue(task.IsCompleted);
       Assert.IsTrue(task.IsFaulted);
+#endif // !UNITY_2017_1_OR_NEWER
 
       Func<int> func = () => count++;
       ITask<int> taskInt = scheduler.Post(func);
@@ -312,11 +316,13 @@ namespace UnitTest.Base.Util {
       Assert.IsFalse(task.IsFaulted);
       Assert.AreEqual(count, 3);
 
+#if !UNITY_2017_1_OR_NEWER
       action = () => throw new Exception("Test Send");
       task = scheduler.Send(action);
       Assert.IsNotNull(task);
       Assert.IsTrue(task.IsCompleted);
       Assert.IsTrue(task.IsFaulted);
+#endif // !UNITY_2017_1_OR_NEWER
 
       Func<int> func = () => count++;
       ITask<int> taskInt = scheduler.Send(func);
@@ -361,11 +367,14 @@ namespace UnitTest.Base.Util {
       Assert.IsFalse(task.IsFaulted);
       Assert.AreEqual(count, 3);
 
+
+#if !UNITY_2017_1_OR_NEWER
       action = () => throw new Exception("Test Send");
       task = scheduler.Send(action);
       Assert.IsNotNull(task);
       Assert.IsTrue(task.IsCompleted);
       Assert.IsTrue(task.IsFaulted);
+#endif // !UNITY_2017_1_OR_NEWER
 
       Func<int> func = () => count++;
       ITask<int> taskInt = scheduler.Send(func);
