@@ -195,15 +195,14 @@ namespace UnitTest.Base.Network {
 
     private Message generateMessage(List<object> data) {
       Assert.IsNotNull(data);
-      Message msg = new Message(8192);
+      var writer = new ByteBufferWriter(8192);
       int count = Rand.Default.RandInt(128);
-      var writer = msg.GetBufferWriter();
       writer.WriteVarint32((uint)count);
       for (int i = 0; i < count; i++) {
         int index = Rand.Default.RandInt(data.Count);
         writeMessage(writer, index, data[index]);
       }
-      msg.Resize(writer.Position);
+      Message msg = new Message(writer);
       return msg;
     }
 
@@ -638,11 +637,9 @@ namespace UnitTest.Base.Network {
       Assert.IsTrue(rc);
 
       string hello = "Hello";
-      var helloMessage = new Message(16);
-      var writer = helloMessage.GetBufferWriter();
+      var writer = new ByteBufferWriter(16);
       writer.WriteString(hello);
-      helloMessage.Resize(writer.Position);
-
+      var helloMessage = new Message(writer);
       for (int i = 0; i < clientCount; i++) {
         rc = clientSet[i].TrySend(ref helloMessage, 1000);
         Assert.IsTrue(rc);
@@ -711,11 +708,9 @@ namespace UnitTest.Base.Network {
       Assert.IsTrue(rc);
 
       string hello = "Hello";
-      var helloMessage = new Message(16);
-      var writer = helloMessage.GetBufferWriter();
+      var writer = new ByteBufferWriter(16);
       writer.WriteString(hello);
-      helloMessage.Resize(writer.Position);
-
+      var helloMessage = new Message(writer);
       for (int i = 0; i < clientCount; i++) {
         rc = clientSet[i].TrySend(ref helloMessage, 1000);
         Assert.IsTrue(rc);
