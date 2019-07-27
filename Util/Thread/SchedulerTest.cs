@@ -67,7 +67,7 @@ namespace UnitTest.Base.Util {
         Assert.AreEqual(checkCount, 10);
         scheduler.Stop(true);
       } else {
-        scheduler.Post(postUpdateFunc, scheduler, true);
+        scheduler.Post(postUpdateFunc, scheduler);
       }
     }
 
@@ -119,7 +119,7 @@ namespace UnitTest.Base.Util {
       Assert.IsFalse(task.IsFaulted);
       Assert.AreEqual(count, 1);
 
-      task = scheduler.Post(action, true);
+      task = scheduler.Post(action);
       Assert.IsNotNull(task);
       Assert.IsFalse(task.IsCompleted);
       Assert.IsFalse(task.IsFaulted);
@@ -138,7 +138,7 @@ namespace UnitTest.Base.Util {
       Assert.IsFalse(task.IsFaulted);
       Assert.AreEqual(count, 4);
 
-      task = scheduler.Post(actionObject, 2, true);
+      task = scheduler.Post(actionObject, 2);
       Assert.IsNotNull(task);
       Assert.IsFalse(task.IsCompleted);
       Assert.IsFalse(task.IsFaulted);
@@ -159,7 +159,7 @@ namespace UnitTest.Base.Util {
 
 
       action = () => throw new Exception("Test Send");
-      task = scheduler.Post(action, true);
+      task = scheduler.Post(action);
       Assert.IsNotNull(task);
       Assert.IsFalse(task.IsCompleted);
       Assert.IsFalse(task.IsFaulted);
@@ -178,7 +178,7 @@ namespace UnitTest.Base.Util {
       Assert.AreEqual(taskInt.Result, 6);
       Assert.AreEqual(count, 7);
 
-      taskInt = scheduler.Post(func, true);
+      taskInt = scheduler.Post(func);
       Assert.IsNotNull(task);
       Assert.IsFalse(taskInt.IsCompleted);
       Assert.IsFalse(taskInt.IsFaulted);
@@ -200,7 +200,7 @@ namespace UnitTest.Base.Util {
       Assert.AreEqual(taskInt.Result, 10);
       Assert.AreEqual(count, 10);
 
-      taskInt = scheduler.Post(funcObject, 2,  true);
+      taskInt = scheduler.Post(funcObject, 2);
       Assert.IsNotNull(task);
       Assert.IsFalse(taskInt.IsCompleted);
       Assert.IsFalse(taskInt.IsFaulted);

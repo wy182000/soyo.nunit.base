@@ -59,7 +59,7 @@ namespace UnitTest.Base.Util {
         Assert.AreEqual(checkCount, 10);
         Thread.StopThread(thread);
       } else {
-        thread.Post(postUpdateFunc, thread, true);
+        thread.Post(postUpdateFunc, thread);
       }
     }
 

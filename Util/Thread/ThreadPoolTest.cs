@@ -28,7 +28,7 @@ namespace UnitTest.Base.Util {
       if (checkCount >= 10) {
         Assert.AreEqual(checkCount, 10);
       } else {
-        pool.Post(postUpdateFunc, pool, true);
+        pool.Post(postUpdateFunc, pool);
       }
     }
 
