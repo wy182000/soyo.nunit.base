@@ -87,29 +87,28 @@ namespace UnitTest.Base.Util {
       rc = coroutine.MoveNext();
       Assert.IsTrue(rc);
       Assert.AreEqual(checkString, "testEnumerator1");
-      enumerator = coroutine.Current as IEnumerator;
-      Assert.IsNotNull(enumerator);
-      Assert.AreEqual(enumerator.Current, 1);
+      var co = coroutine.Current as IEnumerator;
+      Assert.IsNotNull(co);
+      Assert.AreEqual(co.Current, 1);
 
       rc = coroutine.MoveNext();
       Assert.IsTrue(rc);
       Assert.AreEqual(checkString, "testEnumerator2");
-      enumerator = coroutine.Current as IEnumerator;
-      Assert.IsNotNull(enumerator);
-      Assert.AreEqual(enumerator.Current, true);
+      co = coroutine.Current as IEnumerator;
+      Assert.IsNotNull(co);
+      Assert.AreEqual(co.Current, true);
 
       rc = coroutine.MoveNext();
       Assert.IsTrue(rc);
       Assert.AreEqual(checkString, "testEnumerator3");
-      enumerator = coroutine.Current as IEnumerator;
-      Assert.IsNotNull(enumerator);
-      Assert.AreEqual(enumerator.Current, "end");
+      co = coroutine.Current as IEnumerator;
+      Assert.IsNotNull(co);
+      Assert.AreEqual(co.Current, "end");
 
-      // checkString = testEnumerator4 run, but replace by next routine 
       rc = coroutine.MoveNext();
       Assert.IsTrue(rc);
       Assert.AreEqual(checkString, "nestEnumerator3");
-      var co = coroutine.Current as Coroutine;
+      co = coroutine.Current as Coroutine;
       Assert.IsNotNull(co);
       Assert.IsNull(co.Current);
 
@@ -134,7 +133,7 @@ namespace UnitTest.Base.Util {
       Assert.IsNotNull(co);
       Assert.AreEqual(co.Current, "end");
 
-      // checkString = testEnumerator4 run, but replace by next routine 
+
       rc = coroutine.MoveNext();
       Assert.IsFalse(rc);
       Assert.AreEqual(checkString, "nestEnumerator4");
@@ -187,54 +186,16 @@ namespace UnitTest.Base.Util {
       Assert.IsNull(enumerator.Current);
 
       CoroutineManager.Instance.UpdateCocroutine();
-      Assert.AreEqual(checkString, "testEnumerator1");
-      enumerator = coroutine.Current as IEnumerator;
-      Assert.IsNotNull(enumerator);
-      Assert.AreEqual(enumerator.Current, 1);
-
-      CoroutineManager.Instance.UpdateCocroutine();
-      Assert.AreEqual(checkString, "testEnumerator2");
-      enumerator = coroutine.Current as IEnumerator;
-      Assert.IsNotNull(enumerator);
-      Assert.AreEqual(enumerator.Current, true);
-
-      CoroutineManager.Instance.UpdateCocroutine();
-      Assert.AreEqual(checkString, "testEnumerator3");
-      enumerator = coroutine.Current as IEnumerator;
-      Assert.IsNotNull(enumerator);
-      Assert.AreEqual(enumerator.Current, "end");
-
-      // checkString = testEnumerator4 run, but replace by next routine 
-      CoroutineManager.Instance.UpdateCocroutine();
       Assert.AreEqual(checkString, "nestEnumerator3");
       var co = coroutine.Current as Coroutine;
       Assert.IsNotNull(co);
       Assert.IsNull(co.Current);
 
       CoroutineManager.Instance.UpdateCocroutine();
-      Assert.AreEqual(checkString, "testEnumerator1");
-      co = coroutine.Current as Coroutine;
-      Assert.IsNotNull(co);
-      Assert.AreEqual(co.Current, 1);
-
-      CoroutineManager.Instance.UpdateCocroutine();
-      Assert.AreEqual(checkString, "testEnumerator2");
-      co = coroutine.Current as Coroutine;
-      Assert.IsNotNull(co);
-      Assert.AreEqual(co.Current, true);
-
-      CoroutineManager.Instance.UpdateCocroutine();
-      Assert.AreEqual(checkString, "testEnumerator3");
-      co = coroutine.Current as Coroutine;
-      Assert.IsNotNull(co);
-      Assert.AreEqual(co.Current, "end");
-
-      // checkString = testEnumerator4 run, but replace by next routine 
-      CoroutineManager.Instance.UpdateCocroutine();
       Assert.AreEqual(checkString, "nestEnumerator4");
       co = coroutine.Current as Coroutine;
       Assert.IsNotNull(co);
-      Assert.AreEqual(co.Current, "end");
+      Assert.IsNull(co.Current);
     }
   }
 }
