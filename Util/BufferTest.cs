@@ -496,9 +496,11 @@ namespace UnitTest.Base.Util {
 
       while (offset < data.Length) {
         int size = Rand.Default.RandInt(data.Length - offset + 1);
-        var unit = new ByteBufferNode(data, offset, size);
-        offset += size;
-        block.Add(unit);
+        if (size > 0) {
+          var unit = new ByteBufferNode(data, offset, size);
+          offset += size;
+          block.Add(unit);
+        }
       }
 
       Assert.IsFalse(block.IsEmpty);

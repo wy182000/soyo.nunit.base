@@ -27,6 +27,7 @@ namespace UnitTest.Base.Util.Serialize {
       valueSerialized = (T)BufferSerializer.Read<object>(writer.GetBufferReader());
       Assert.AreEqual(value, valueSerialized, $"check serialize object read failed, value: {value}, serialized value: {valueSerialized}");
 
+      writer = new ByteBufferWriter(BufferSerializer.Capacity<object>(value));
       BufferSerializer.Write<object>(writer, value);
       valueSerialized = (T)BufferSerializer.Merge<object>(writer.GetBufferReader(), default(T));
       Assert.AreEqual(value, valueSerialized, $"check serialize object merge failed, value: {value}, serialized value: {valueSerialized}");
@@ -115,6 +116,7 @@ namespace UnitTest.Base.Util.Serialize {
         Assert.AreEqual(value[i], valueSerialized[i], $"check serialize object read failed, value: {value[i]}, serialized value: {valueSerialized[i]}");
       }
 
+      writer = new ByteBufferWriter(BufferSerializer.Capacity<object>(value));
       BufferSerializer.Write<object>(writer, value);
       valueSerialized = (T[])BufferSerializer.Merge<object>(writer.GetBufferReader(), default(T[]));
       for (int i = 0; i < value.Length; i++) {
@@ -142,6 +144,7 @@ namespace UnitTest.Base.Util.Serialize {
         Assert.IsTrue(valueSerialized.Contains(i), $"check serialize object read failed, value: {i}");
       }
 
+      writer = new ByteBufferWriter(BufferSerializer.Capacity<object>(value));
       BufferSerializer.Write<object>(writer, value);
       valueSerialized = (CollectionType)BufferSerializer.Merge<object>(writer.GetBufferReader(), default(CollectionType));
       foreach (var i in value) {
