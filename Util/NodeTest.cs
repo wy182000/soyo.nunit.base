@@ -9,6 +9,74 @@ namespace UnitTest.Base.Util {
   [TestFixture]
   [Category("Soyo.Base")]
   internal class NodeTest {
+    public class INodeHook : InvokeHook {
+      public class NodeInfo {
+        public int parentChangedCount = 0;
+        public int addChildCount = 0;
+        public int removeChildCount = 0;
+
+        public void Reset() {
+          parentChangedCount = 0;
+          addChildCount = 0;
+          removeChildCount = 0;
+        }
+      }
+
+      public Dictionary<INode, NodeInfo> nodeInfoSet_ = new Dictionary<INode, NodeInfo>();
+
+      public NodeInfo GetNodeInfo(INode node) {
+        if (node == null) return null;
+        NodeInfo info;
+        nodeInfoSet_.TryGetValue(node, out info);
+        return info;
+      }
+
+      public void RemoveNode(INode node) {
+        nodeInfoSet_.Remove(node);
+      }
+
+      public void ResetNode(INode node) {
+        var info = GetNodeInfo(node);
+        info?.Reset();
+      }
+
+      public void Clear() {
+        nodeInfoSet_.Clear();
+      }
+
+      public override void InvokeAfter(IInvokeInfo info, object returnValue, params object[] args) {
+        Assert.IsNotNull(info);
+        var nodeInfo = getNodeInfo((INode)info.Target);
+        Assert.IsNotNull(nodeInfo);
+        base.InvokeAfter(info, returnValue, args);
+        switch (info.Name) {
+          case "OnParentChanged":
+            nodeInfo.parentChangedCount++;
+            break;
+
+          case "OnChildAdd":
+            nodeInfo.addChildCount++;
+            break;
+
+          case "OnChildRemove":
+            nodeInfo.removeChildCount++;
+            break;
+        }
+      }
+
+      private NodeInfo getNodeInfo(INode node) {
+        if (node == null) return null;
+
+        NodeInfo info;
+        if (nodeInfoSet_.TryGetValue(node, out info) == false) {
+          info = new NodeInfo();
+          nodeInfoSet_.Add(node, info);
+        }
+        return info;
+      }
+
+    }
+
     [OneTimeSetUp]
     public void Init() {
     }
@@ -18,12 +86,6 @@ namespace UnitTest.Base.Util {
       Assert.IsNull(node.Parent);
       Assert.IsNotNull(node.ChildSet);
       Assert.AreEqual(node.ChildCount, 0);
-    }
-
-    private INode createNode() {
-      var node =  new Node();
-      checkInitialize(node);
-      return node;
     }
 
     private void checkParent(INode child, INode parent) {
@@ -111,74 +173,6 @@ namespace UnitTest.Base.Util {
       checkInitialize(parent);
       checkNodeInfo(node, hook, 8, 0, 0);
       checkNodeInfo(parent, hook, 0, 4, 4);
-    }
-
-    public class INodeHook : InvokeHook {
-      public class NodeInfo {
-        public int parentChangedCount = 0;
-        public int addChildCount = 0;
-        public int removeChildCount = 0;
-
-        public void Reset() {
-          parentChangedCount = 0;
-          addChildCount = 0;
-          removeChildCount = 0;
-        }
-      }
-
-      public Dictionary<INode, NodeInfo> nodeInfoSet_ = new Dictionary<INode, NodeInfo>();
-
-      public NodeInfo GetNodeInfo(INode node) {
-        if (node == null) return null;
-        NodeInfo info;
-        nodeInfoSet_.TryGetValue(node, out info);
-        return info;
-      }
-
-      public void RemoveNode(INode node) {
-        nodeInfoSet_.Remove(node);
-      }
-
-      public void ResetNode(INode node) {
-        var info = GetNodeInfo(node);
-        info?.Reset();
-      }
-
-      public void Clear() {
-        nodeInfoSet_.Clear();
-      }
-
-      public override void InvokeAfter(IInvokeInfo info, object returnValue, params object[] args) {
-        Assert.IsNotNull(info);
-        var nodeInfo = getNodeInfo((INode)info.Target);
-        Assert.IsNotNull(nodeInfo);
-        base.InvokeAfter(info, returnValue, args);
-        switch (info.Name) {
-          case "OnParentChanged":
-            nodeInfo.parentChangedCount++;
-            break;
-
-          case "OnChildAdd":
-            nodeInfo.addChildCount++;
-            break;
-
-          case "OnChildRemove":
-            nodeInfo.removeChildCount++;
-            break;
-        }
-      }
-
-      private NodeInfo getNodeInfo(INode node) {
-        if (node == null) return null;
-
-        NodeInfo info;
-        if (nodeInfoSet_.TryGetValue(node, out info) == false) {
-          info = new NodeInfo();
-          nodeInfoSet_.Add(node, info);
-        }
-        return info;
-      }
-
     }
 
     [Test]
