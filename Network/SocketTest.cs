@@ -525,7 +525,8 @@ namespace UnitTest.Base.Network {
         });
       }
 
-      Thread.Wait(() => result == clientCount * checkCount, -1);
+      var ret = Thread.Wait(() => result == clientCount * checkCount, 10000);
+      Assert.IsTrue(ret);
 
       threadPool.Dispose();
       Assert.AreEqual(result, clientCount * checkCount);
@@ -597,7 +598,8 @@ namespace UnitTest.Base.Network {
         });
       }
 
-      Thread.Wait(() => result == clientCount * checkCount * serverCount, -1);
+      bool ret = Thread.Wait(() => result == clientCount * checkCount * serverCount, 10000);
+      Assert.IsTrue(ret);
 
       threadPool.Dispose();
       Assert.AreEqual(result, clientCount * checkCount * serverCount);

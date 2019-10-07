@@ -69,7 +69,9 @@ namespace UnitTest.Base.Util {
       checkCount++;
       var pool = state as ThreadPool;
       Assert.IsNotNull(pool);
-      pool.Post(new Task(postTaskAddFunc, pool));
+      if (checkCount < 10) {
+        pool.Post(new Task(postTaskAddFunc, pool));
+      }
     }
 
     [Test]

@@ -203,7 +203,9 @@ namespace UnitTest.Base.Util {
       checkCount++;
       var scheduler = state as Scheduler;
       Assert.IsNotNull(scheduler);
-      scheduler.Post(new Task(postTaskAddFunc, scheduler));
+      if (checkCount < 10) {
+        scheduler.Post(new Task(postTaskAddFunc, scheduler));
+      }
     }
 
     [Test]

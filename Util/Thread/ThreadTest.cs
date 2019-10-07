@@ -101,7 +101,9 @@ namespace UnitTest.Base.Util {
       checkCount++;
       var thread = state as Thread;
       Assert.IsNotNull(thread);
-      thread.Post(new Task(postAddFunc, thread));
+      if (checkCount < 10) {
+        thread.Post(new Task(postAddFunc, thread));
+      }
     }
 
     [Test]

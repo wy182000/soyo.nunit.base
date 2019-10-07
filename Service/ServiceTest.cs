@@ -158,13 +158,13 @@ namespace UnitTest.Base {
   }
 
   public class Invoke : IInvoke {
-    public bool Pass11 { get; private set; } = false;
-    public bool Pass21 { get; private set; } = false;
-    public bool Pass31 { get; private set; } = false;
-    public bool Pass12 { get; private set; } = false;
-    public bool Pass22 { get; private set; } = false;
-    public bool Pass32 { get; private set; } = false;
-    public bool TestProperty { get; set; }
+    public virtual bool Pass11 { get; private set; } = false;
+    public virtual bool Pass21 { get; private set; } = false;
+    public virtual bool Pass31 { get; private set; } = false;
+    public virtual bool Pass12 { get; private set; } = false;
+    public virtual bool Pass22 { get; private set; } = false;
+    public virtual bool Pass32 { get; private set; } = false;
+    public virtual bool TestProperty { get; set; }
 
     public virtual void Test11() {
       Pass11 = true;
@@ -173,22 +173,22 @@ namespace UnitTest.Base {
       Pass21 = true;
       return 2;
     }
-    public string Test31() {
+    public virtual string Test31() {
       Pass31 = true;
       return "3";
     }
-    public void Test12(int i, string s) {
+    public virtual void Test12(int i, string s) {
       Pass12 = true;
     }
-    public int Test22(int i, string s) {
+    public virtual int Test22(int i, string s) {
       Pass22 = true;
       return 2;
     }
-    public string Test32(int i, string s) {
+    public virtual string Test32(int i, string s) {
       Pass32 = true;
       return "3";
     }
-    public void TestException() {
+    public virtual void TestException() {
       throw new Exception("test exception");
     }
   }
@@ -626,6 +626,10 @@ namespace UnitTest.Base {
 
       value = iSelector.get();
       Assert.AreEqual(value, 4, "service ISelector get is not 4");
+    }
+
+    IInvoke invokeFactory() {
+      return new Invoke();
     }
 
 #if !UNITY_2017_1_OR_NEWER
