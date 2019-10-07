@@ -83,9 +83,21 @@ namespace UnitTest.Base.Util {
 
     private void checkInitialize(INode node) {
       Assert.IsNotNull(node);
+      Assert.IsNull(node.Owner);
+      Assert.IsNull(node.State);
       Assert.IsNull(node.Parent);
       Assert.IsNotNull(node.ChildSet);
       Assert.AreEqual(node.ChildCount, 0);
+    }
+
+    private void checkOwner(INode child, object owner) {
+      Assert.IsNotNull(child);
+      Assert.AreEqual(child.Owner, owner);
+    }
+
+    private void checkState(INode child, object state) {
+      Assert.IsNotNull(child);
+      Assert.AreEqual(child.State, state);
     }
 
     private void checkParent(INode child, INode parent) {
@@ -123,6 +135,20 @@ namespace UnitTest.Base.Util {
       checkInitialize(child);
       T parent = Service<T>.New();
       checkInitialize(parent);
+
+      var owner = new object();
+      var state = new object();
+      child.SetOwner(owner);
+      checkOwner(child, owner);
+      child.SetOwner(null);
+      checkOwner(child, null);
+      checkInitialize(child);
+
+      child.State = state;
+      checkState(child, state);
+      child.State = null;
+      checkState(child, null);
+      checkInitialize(child);
 
       child.SetParent(parent);
       checkParent(child, parent);
@@ -216,7 +242,7 @@ namespace UnitTest.Base.Util {
       Assert.IsTrue(rc);
       checkParent(child, parent);
       checkNodeInfo(child, hook, 1, 0, 0);
-      Thread.Wait(() => parent.State == NodeAsyncState.Idle, 1000);
+      Thread.Wait(() => parent.Status == NodeAsyncState.Idle, 1000);
       checkChild(parent, child);
       checkNodeInfo(parent, hook, 0, 1, 0);
 
@@ -227,7 +253,7 @@ namespace UnitTest.Base.Util {
       checkParent(child, null);
       checkInitialize(child);
       checkNodeInfo(child, hook, 2, 0, 0);
-      Thread.Wait(() => parent.State == NodeAsyncState.Idle, 1000);
+      Thread.Wait(() => parent.Status == NodeAsyncState.Idle, 1000);
       checkNotChild(parent, child);
       checkInitialize(parent);
       checkNodeInfo(parent, hook, 0, 1, 1);
@@ -238,7 +264,7 @@ namespace UnitTest.Base.Util {
       Assert.IsTrue(rc);
       checkChild(parent, child);
       checkNodeInfo(parent, hook, 0, 2, 1);
-      Thread.Wait(() => child.State == NodeAsyncState.Idle, 1000);
+      Thread.Wait(() => child.Status == NodeAsyncState.Idle, 1000);
       checkParent(child, parent);
       checkNodeInfo(child, hook, 3, 0, 0);
 
@@ -249,7 +275,7 @@ namespace UnitTest.Base.Util {
       checkNotChild(parent, child);
       checkInitialize(parent);
       checkNodeInfo(parent, hook, 0, 2, 2);
-      Thread.Wait(() => child.State == NodeAsyncState.Idle, 1000);
+      Thread.Wait(() => child.Status == NodeAsyncState.Idle, 1000);
       checkParent(child, null);
       checkInitialize(child);
       checkNodeInfo(child, hook, 4, 0, 0);
@@ -260,7 +286,7 @@ namespace UnitTest.Base.Util {
       Assert.IsTrue(rc);
       checkParent(child, parent);
       checkNodeInfo(child, hook, 5, 0, 0);
-      Thread.Wait(() => parent.State == NodeAsyncState.Idle, 1000);
+      Thread.Wait(() => parent.Status == NodeAsyncState.Idle, 1000);
       checkChild(parent, child);
       checkNodeInfo(parent, hook, 0, 3, 2);
 
@@ -271,7 +297,7 @@ namespace UnitTest.Base.Util {
       checkParent(child, null);
       checkInitialize(child);
       checkNodeInfo(child, hook, 6, 0, 0);
-      Thread.Wait(() => parent.State == NodeAsyncState.Idle, 1000);
+      Thread.Wait(() => parent.Status == NodeAsyncState.Idle, 1000);
       checkNotChild(parent, child);
       checkInitialize(parent);
       checkNodeInfo(parent, hook, 0, 3, 3);
@@ -282,7 +308,7 @@ namespace UnitTest.Base.Util {
       Assert.IsTrue(rc);
       checkChild(parent, child);
       checkNodeInfo(parent, hook, 0, 4, 3);
-      Thread.Wait(() => child.State == NodeAsyncState.Idle, 1000);
+      Thread.Wait(() => child.Status == NodeAsyncState.Idle, 1000);
       checkParent(child, parent);
       checkNodeInfo(child, hook, 7, 0, 0);
 
@@ -305,7 +331,7 @@ namespace UnitTest.Base.Util {
       checkNotChild(parent, child);
       checkInitialize(parent);
       checkNodeInfo(parent, hook, 0, 4, 4);
-      Thread.Wait(() => child.State == NodeAsyncState.Idle, 1000);
+      Thread.Wait(() => child.Status == NodeAsyncState.Idle, 1000);
       checkParent(child, null);
       checkNotChild(child, subChild);
       checkInitialize(child);
