@@ -86,6 +86,40 @@ namespace UnitTest.Base.Util {
       Assert.AreEqual(checkCount, 10);
     }
 
+    void postTaskUpdateFunc(object state) {
+      var thread = state as Thread;
+      Assert.IsNotNull(thread);
+      if (checkCount >= 10) {
+        Assert.AreEqual(checkCount, 10);
+        Thread.StopThread(thread);
+      } else {
+        thread.Post(new Task(postUpdateFunc, thread));
+      }
+    }
+
+    void postTaskAddFunc(object state) {
+      checkCount++;
+      var thread = state as Thread;
+      Assert.IsNotNull(thread);
+      thread.Post(new Task(postAddFunc, thread));
+    }
+
+    [Test]
+    public void TestTaskPost() {
+      var thread = Thread.CreateThread();
+      Assert.IsNotNull(thread);
+      checkCount = 0;
+      thread.Post(new Task(postTaskUpdateFunc, thread));
+      thread.Post(new Task(postTaskAddFunc, thread));
+
+      var failed = false;
+      thread.Post(() => { failed = true; Thread.StopThread(thread); }, 1000);
+
+      thread.Join();
+      Assert.IsFalse(failed);
+      Assert.AreEqual(checkCount, 10);
+    }
+
     [Test]
     public void TestSend() {
       var thread = Thread.CreateThread();
@@ -95,6 +129,24 @@ namespace UnitTest.Base.Util {
       thread.Post(() => { failed = true; Thread.StopThread(thread); }, 1000);
       for (int i = 0; i < 10; i++) {
         thread.Send(() => checkCount++);
+        Assert.AreEqual(checkCount, i + 1);
+      }
+      thread.Send(() => thread.Stop());
+      Assert.IsFalse(thread.IsRunning);
+      thread.Join();
+      Assert.IsFalse(failed);
+      Assert.AreEqual(checkCount, 10);
+    }
+
+    [Test]
+    public void TestTaskSend() {
+      var thread = Thread.CreateThread();
+      Assert.IsNotNull(thread);
+      checkCount = 0;
+      var failed = false;
+      thread.Post(() => { failed = true; Thread.StopThread(thread); }, 1000);
+      for (int i = 0; i < 10; i++) {
+        thread.Send(new Task(() => checkCount++));
         Assert.AreEqual(checkCount, i + 1);
       }
       thread.Send(() => thread.Stop());
