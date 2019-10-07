@@ -114,65 +114,208 @@ namespace UnitTest.Base.Util {
       Assert.AreEqual(info.removeChildCount, removeChildCount);
     }
 
-    private void checkApi(INodeHook hook) {
-      INode node = Service<INode>.New();
-      INode parent = Service<INode>.New();
+    private void checkINodeApi<T>() where T : class, INode {
+      var hook = new INodeHook();
+      var rc = Service<T>.RegisterHook(hook);
+      Assert.IsTrue(rc);
 
-      node.SetParent(parent);
-      checkParent(node, parent);
-      checkChild(parent, node);
-      checkNodeInfo(node, hook, 1, 0, 0);
+      T child = Service<T>.New();
+      checkInitialize(child);
+      T parent = Service<T>.New();
+      checkInitialize(parent);
+
+      child.SetParent(parent);
+      checkParent(child, parent);
+      checkChild(parent, child);
+      checkNodeInfo(child, hook, 1, 0, 0);
       checkNodeInfo(parent, hook, 0, 1, 0);
 
-      node.SetParent(null);
-      checkParent(node, null);
-      checkNotChild(parent, node);
-      checkInitialize(node);
+      child.SetParent(null);
+      checkParent(child, null);
+      checkNotChild(parent, child);
+      checkInitialize(child);
       checkInitialize(parent);
-      checkNodeInfo(node, hook, 2, 0, 0);
+      checkNodeInfo(child, hook, 2, 0, 0);
       checkNodeInfo(parent, hook, 0, 1, 1);
 
-      parent.AddChild(node);
-      checkParent(node, parent);
-      checkChild(parent, node);
-      checkNodeInfo(node, hook, 3, 0, 0);
+      parent.AddChild(child);
+      checkParent(child, parent);
+      checkChild(parent, child);
+      checkNodeInfo(child, hook, 3, 0, 0);
       checkNodeInfo(parent, hook, 0, 2, 1);
 
-      parent.RemoveChild(node);
-      checkParent(node, null);
-      checkNotChild(parent, node);
-      checkInitialize(node);
+      parent.RemoveChild(child);
+      checkParent(child, null);
+      checkNotChild(parent, child);
+      checkInitialize(child);
       checkInitialize(parent);
-      checkNodeInfo(node, hook, 4, 0, 0);
+      checkNodeInfo(child, hook, 4, 0, 0);
       checkNodeInfo(parent, hook, 0, 2, 2);
 
-      node.SetParent(parent);
-      checkParent(node, parent);
-      checkChild(parent, node);
-      checkNodeInfo(node, hook, 5, 0, 0);
+      child.SetParent(parent);
+      checkParent(child, parent);
+      checkChild(parent, child);
+      checkNodeInfo(child, hook, 5, 0, 0);
       checkNodeInfo(parent, hook, 0, 3, 2);
 
-      node.Clear();
-      checkParent(node, null);
-      checkNotChild(parent, node);
-      checkInitialize(node);
+      child.Clear();
+      checkParent(child, null);
+      checkNotChild(parent, child);
+      checkInitialize(child);
       checkInitialize(parent);
-      checkNodeInfo(node, hook, 6, 0, 0);
+      checkNodeInfo(child, hook, 6, 0, 0);
       checkNodeInfo(parent, hook, 0, 3, 3);
 
-      parent.AddChild(node);
-      checkParent(node, parent);
-      checkChild(parent, node);
-      checkNodeInfo(node, hook, 7, 0, 0);
+      parent.AddChild(child);
+      checkParent(child, parent);
+      checkChild(parent, child);
+      checkNodeInfo(child, hook, 7, 0, 0);
       checkNodeInfo(parent, hook, 0, 4, 3);
 
+      T subNode = Service<T>.New();
+      checkInitialize(subNode);
+
+      child.AddChild(subNode);
+      checkParent(subNode, child);
+      checkChild(child, subNode);
+      checkNodeInfo(subNode, hook, 1, 0, 0);
+      checkNodeInfo(child, hook, 7, 1, 0);
+
       parent.Clear();
-      checkParent(node, null);
-      checkNotChild(parent, node);
-      checkInitialize(node);
+      checkParent(child, null);
+      checkParent(subNode, null);
+      checkNotChild(parent, child);
+      checkNotChild(child, subNode);
+      checkInitialize(child);
       checkInitialize(parent);
-      checkNodeInfo(node, hook, 8, 0, 0);
+      checkInitialize(subNode);
+      checkNodeInfo(child, hook, 8, 1, 1);
       checkNodeInfo(parent, hook, 0, 4, 4);
+      checkNodeInfo(subNode, hook, 2, 0, 0);
+    }
+
+    private void checkINodeAsyncApi<T>() where T : class, INodeAsync, IThreadObject {
+      var childThread = Thread.CreateThread();
+      var parentThread = Thread.CreateThread();
+
+      var hook = new INodeHook();
+      var rc = Service<T>.RegisterHook(hook);
+      Assert.IsTrue(rc);
+
+      T child = Service<T>.New();
+      checkInitialize(child);
+      child.Attach(childThread);
+
+      T parent = Service<T>.New();
+      checkInitialize(parent);
+      parent.Attach(parentThread);
+
+      var task = child.SetParentAsync(parent);
+      Assert.IsNotNull(task);
+      rc = task.Wait(1000);
+      Assert.IsTrue(rc);
+      checkParent(child, parent);
+      checkNodeInfo(child, hook, 1, 0, 0);
+      Thread.Wait(() => parent.State == NodeAsyncState.Idle, 1000);
+      checkChild(parent, child);
+      checkNodeInfo(parent, hook, 0, 1, 0);
+
+      task = child.SetParentAsync(null);
+      Assert.IsNotNull(task);
+      rc = task.Wait(1000);
+      Assert.IsTrue(rc);
+      checkParent(child, null);
+      checkInitialize(child);
+      checkNodeInfo(child, hook, 2, 0, 0);
+      Thread.Wait(() => parent.State == NodeAsyncState.Idle, 1000);
+      checkNotChild(parent, child);
+      checkInitialize(parent);
+      checkNodeInfo(parent, hook, 0, 1, 1);
+
+      task = parent.AddChildAsync(child);
+      Assert.IsNotNull(task);
+      rc = task.Wait(1000);
+      Assert.IsTrue(rc);
+      checkChild(parent, child);
+      checkNodeInfo(parent, hook, 0, 2, 1);
+      Thread.Wait(() => child.State == NodeAsyncState.Idle, 1000);
+      checkParent(child, parent);
+      checkNodeInfo(child, hook, 3, 0, 0);
+
+      task = parent.RemoveChildAsync(child);
+      Assert.IsNotNull(task);
+      rc = task.Wait(1000);
+      Assert.IsTrue(rc);
+      checkNotChild(parent, child);
+      checkInitialize(parent);
+      checkNodeInfo(parent, hook, 0, 2, 2);
+      Thread.Wait(() => child.State == NodeAsyncState.Idle, 1000);
+      checkParent(child, null);
+      checkInitialize(child);
+      checkNodeInfo(child, hook, 4, 0, 0);
+
+      task = child.SetParentAsync(parent);
+      Assert.IsNotNull(task);
+      rc = task.Wait(1000);
+      Assert.IsTrue(rc);
+      checkParent(child, parent);
+      checkNodeInfo(child, hook, 5, 0, 0);
+      Thread.Wait(() => parent.State == NodeAsyncState.Idle, 1000);
+      checkChild(parent, child);
+      checkNodeInfo(parent, hook, 0, 3, 2);
+
+      task = child.ClearAsync();
+      Assert.IsNotNull(task);
+      rc = task.Wait(1000);
+      Assert.IsTrue(rc);
+      checkParent(child, null);
+      checkInitialize(child);
+      checkNodeInfo(child, hook, 6, 0, 0);
+      Thread.Wait(() => parent.State == NodeAsyncState.Idle, 1000);
+      checkNotChild(parent, child);
+      checkInitialize(parent);
+      checkNodeInfo(parent, hook, 0, 3, 3);
+
+      task = parent.AddChildAsync(child);
+      Assert.IsNotNull(task);
+      rc = task.Wait(1000);
+      Assert.IsTrue(rc);
+      checkChild(parent, child);
+      checkNodeInfo(parent, hook, 0, 4, 3);
+      Thread.Wait(() => child.State == NodeAsyncState.Idle, 1000);
+      checkParent(child, parent);
+      checkNodeInfo(child, hook, 7, 0, 0);
+
+      T subChild = Service<T>.New();
+      checkInitialize(subChild);
+
+      task = child.AddChildAsync(subChild);
+      Assert.IsNotNull(task);
+      rc = task.Wait(1000);
+      Assert.IsTrue(rc);
+      checkChild(child, subChild);
+      checkNodeInfo(child, hook, 7, 1, 0);
+      checkParent(subChild, child);
+      checkNodeInfo(subChild, hook, 1, 0, 0);
+
+      task = parent.ClearAsync();
+      Assert.IsNotNull(task);
+      rc = task.Wait(1000);
+      Assert.IsTrue(rc);
+      checkNotChild(parent, child);
+      checkInitialize(parent);
+      checkNodeInfo(parent, hook, 0, 4, 4);
+      Thread.Wait(() => child.State == NodeAsyncState.Idle, 1000);
+      checkParent(child, null);
+      checkNotChild(child, subChild);
+      checkInitialize(child);
+      checkNodeInfo(child, hook, 8, 1, 1);
+      checkParent(subChild, null);
+      checkInitialize(subChild);
+      checkNodeInfo(subChild, hook, 2, 0, 0);
+
+      childThread.Stop();
+      parentThread.Stop();
     }
 
     [Test]
@@ -180,11 +323,13 @@ namespace UnitTest.Base.Util {
       var rc = Service<INode>.RegisterType<Node>();
       Assert.IsTrue(rc);
 
-      var hook = new INodeHook();
-      rc = Service<INode>.RegisterHook(hook);
+      checkINodeApi<INode>();
+
+      rc = Service<INodeAsync>.RegisterType<NodeAsync>();
       Assert.IsTrue(rc);
 
-      checkApi(hook);
+      checkINodeApi<INodeAsync>();
+      checkINodeAsyncApi<INodeAsync>();
     }
   }
 }
